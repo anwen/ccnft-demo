@@ -37,6 +37,8 @@ export default function Home() {
       }
       return item
     }))
+    console.log(items)
+    items.reverse()
     setNfts(items)
     setLoadingState('loaded') 
   }
