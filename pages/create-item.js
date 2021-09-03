@@ -16,8 +16,11 @@ import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
+  const [afile, setAFile] = useState(null)
+  // const [fileName, setFileName] = useState(null)
+  // const [fileType, setFileType] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '',
-   filetype: '', tags: '', names: ''
+    tags: '', names: ''
   })
   const router = useRouter()
 
@@ -31,18 +34,28 @@ export default function CreateItem() {
         }
       )
       const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      // added.size
       console.log(url)
       console.log(added)
       console.log(file)
+      // file.name file.type "image/png"  added.size file.size
       setFileUrl(url)
+      setAFile(file)
+      // setFileName(file.name)
+      // setFileType(file.type)
     } catch (error) {
       console.log('Error uploading file: ', error)
     }  
   }
   async function createMarket() {
-    const { name, description, filetype, tags, names, price } = formInput
-    if (!name || !description || !price || !fileUrl || !filetype || !tags|| !names) {
-      alert("name,description,filetype,tags,price,authors is not optional")
+    const { name, description, tags, names, price } = formInput
+    const _filename = afile.name.split('.')
+    console.log(afile.type, _filename[_filename.length - 1])
+    const filetype = afile.type
+    const filesize = afile.size
+    const filename = afile.name
+    if (!name || !description || !price || !fileUrl || !tags|| !names) {
+      alert("name, description, tags, price, authors is not optional")
       return
     }
     /* first, upload to IPFS */
@@ -57,6 +70,7 @@ export default function CreateItem() {
     const data = JSON.stringify({
       name, description, image: fileUrl,
       license, license_url,
+      filesize, filename,
       filetype, l_tags, authors
     })
     try {
@@ -129,11 +143,6 @@ export default function CreateItem() {
           placeholder="Asset Description (You can use Markdown too)"
           className="mt-2 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
-        />
-        <input 
-          placeholder="Asset filetype"
-          className="mt-8 border rounded p-4"
-          onChange={e => updateFormInput({ ...formInput, filetype: e.target.value })}
         />
         <input 
           placeholder="Asset Tags (Seperate tags by Space)"

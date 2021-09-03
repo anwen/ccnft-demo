@@ -27,6 +27,7 @@ export default function Home() {
     const items = await Promise.all(data.map(async i => {
       const tokenUri = await tokenContract.tokenURI(i.tokenId)
       const meta = await axios.get(tokenUri)
+      console.log(i.price.toString(), 'raw price')
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
         price,
@@ -37,10 +38,11 @@ export default function Home() {
         name: meta.data.name,
         description: meta.data.description,
       }
+      console.log(price)
       return item
     }))
     console.log(items)
-    items.reverse()
+    // items.reverse()
     setNfts(items)
     setLoadingState('loaded') 
   }
@@ -50,8 +52,13 @@ export default function Home() {
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
     const contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
-
+    console.log(nft.price.toString())
     const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+    // const price = "0.0001"
+    // const price = nft.price.toString()
+    console.log(price)
+    console.log(nftaddress)
+    console.log(nft.tokenId)
     const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
       value: price
     })
