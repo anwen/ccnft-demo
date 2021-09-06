@@ -20,7 +20,7 @@ export default function MyAssets() {
     const web3Modal = new Web3Modal({
       // network: "mainnet",
       // network: "mumbai",
-      // cacheProvider: true,
+      cacheProvider: true,
     })
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)

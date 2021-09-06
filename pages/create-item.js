@@ -26,6 +26,8 @@ export default function CreateItem() {
 
   async function onChange(e) {
     const file = e.target.files[0]
+    console.log(file)
+    alert('file is uploading')
     try {
       const added = await client.add(
         file,
@@ -34,10 +36,10 @@ export default function CreateItem() {
         }
       )
       const url = `https://ipfs.infura.io/ipfs/${added.path}`
+      alert('file is uploaded!')
       // added.size
       console.log(url)
       console.log(added)
-      console.log(file)
       // file.name file.type "image/png"  added.size file.size
       setFileUrl(url)
       setAFile(file)
@@ -49,6 +51,9 @@ export default function CreateItem() {
   }
   async function createMarket() {
     const { name, description, tags, names, price } = formInput
+    if (!afile) {
+      alert('Please upload file')
+    }
     const _filename = afile.name.split('.')
     console.log(afile.type, _filename[_filename.length - 1])
     const filetype = afile.type
@@ -163,7 +168,7 @@ export default function CreateItem() {
         />
         {
           fileUrl && (
-            <img className="rounded mt-4" width="350" src={fileUrl} />
+            <img src={fileUrl} className="rounded mt-4" width="350" />
           )
         }
         <input 

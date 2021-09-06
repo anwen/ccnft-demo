@@ -21,7 +21,7 @@ export default function CreatorDashboard() {
     const web3Modal = new Web3Modal({
       // network: "mainnet",
       // network: "mumbai",
-      // cacheProvider: true,
+      cacheProvider: true,
     })
     // const connection = await web3Modal.connect("https://rpc-mumbai.matic.today")
     const connection = await web3Modal.connect()
