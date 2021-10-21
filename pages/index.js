@@ -16,8 +16,8 @@ export default function Home() {
   useEffect(() => {
     loadNFTs()
   }, [])
-  async function loadNFTs() {    
-    setLoadingState('loaded') 
+  async function loadNFTs() {
+    setLoadingState('loaded')
   }
 
   return (

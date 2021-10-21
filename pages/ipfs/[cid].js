@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
 import { useRouter } from 'next/router'
+import matter from 'gray-matter'
+// import ReactMarkdown from "react-markdown"
+import ReactMarkdown from 'react-markdown/react-markdown.min';
 
 import {
   nftmarketaddress, nftaddress
@@ -45,6 +48,12 @@ export default function MyAssets() {
     console.log(ret);
     // authors[0].name
     if ('data' in ret) {
+      // const { data, content } = matter(ret.data.description)
+      // console.log('data, content')
+      // console.log(data, content)
+      // const result = await remark().use(html).process(content);
+      // ret.data.description = result.toString();
+      console.log(ret.data.description)
       setNft(ret.data)
       console.log('aname', ret.data.authors[0].name)
     }
@@ -57,17 +66,15 @@ export default function MyAssets() {
     <h1 className="py-10 px-20 text-3xl">No creation</h1>
   )
   return (
-    <div className="flex justify-center">
+    <>
       <div className="p-4">
-        <div>
               <div className="border shadow rounded-xl overflow-hidden">
                 <img src={nft.image} className="rounded" />
                 <div className="p-4">
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
-                  <p className="text-2xl font-semibold">
-                  {nft.description}
-                  </p>
-
+                  <div className="markdown">
+                  <ReactMarkdown escapeHtml={true} children={nft.description} />
+                  </div>
                   <p>By: 
                   <a href={"/author/"+nft.authors[0].wallet.eth} >{nft.authors[0].name}</a>
                   </p>
@@ -75,10 +82,8 @@ export default function MyAssets() {
                   Tags: {nft.tags}
                 </div>
               </div>
-        </div>
       </div>
-    </div>
-
+    </>
 
 
   )
