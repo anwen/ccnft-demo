@@ -1,109 +1,32 @@
-## Full stack NFT marketplace built with Polygon, Solidity, IPFS, & Next.js
+# Creative Comomons NFT Playground
 
-![Header](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pfofv47dooojerkmfgr4.png)
+## Tips
+- Every NFT is Creative Comomons licensed and publicly accessed.
+- Buying Creative Comomons NFT is only for donate tokens to the NFT minter(maybe the author).   You cannot sell it to others.
+- Please don't mint anything which is not belong to you.
 
-### Running this project
+## Design
+## 设计
+- 1 人类：理想情况下，高质量知识应该免费公开传播 
+- 2 作者：作者需要生存
+- 3 读者：读者面对众多作品，注意力有限，难以高效分辨作品质量是否符合自己的需求
+- 4 市场：如果一个作品能被多次交易，容易让人陷入炒作而非关注作品本身；但部分读者有实力支持作者
+- 为了让以上4者更好的共存，提供一个作品发布工具，作品均以CC-BY-SA分享（满足1），无付费墙和传播墙；可选制作为NFT，购买NFT的主要作用是捐赠作者，即使不购买NFT也可以直接给作者捐赠（满足2）； 捐赠也帮助增加作品的影响力，用于3次方投票；读者可自由参考3次方投票辅助选择作品，多了一个选择的维度（满足3）；单个作品只能被购买一次（满足4）
 
-#### Gitpod
+## 博弈分析
+- 问题1 作者会考虑自己开多个账号自己买自己的作品来增加影响力。每个策展平台自由选择影响因子算法；而3次方投票仅为其中一个影响因子
+- 问题2 作品均可以免费查看，无需NFT，只需给作者捐赠就好。是的，这只是一个用于支持Creative Comomons内容的NFT实验，nft-for-fun
+- 问题3 作者可能会重复发自己的作品赚取费用，由于信息公开可查，检测应该不难
+- 问题4 NFT流动性差。我们不在乎NFT的流动性
 
-To deploy this project to Gitpod, follow these steps:
 
-1. Click this link to deploy
+## 名词解释
+- CC-BY-SA 知识共享-署名-相同方式共享  (属于自由文化许可协议)
+- DwebVerse Marketplace
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#github.com/dabit3/polygon-ethereum-nextjs-marketplace)
 
-2. In __pages/index.js__, pass in the RPC address given to you by GitPod to the call to `JsonRpcProvider` function:
-
-```javascript
-/* update this: */
-const provider = new ethers.providers.JsonRpcProvider()
-
-/* to this: */
-const provider = new ethers.providers.JsonRpcProvider("https://8545-youendpoint.gitpod.io/")
-```
-
-3. Import the RPC address given to you by GitPod into your MetaMask wallet
-
-![MetaMask RPC Import](wallet.png)
-
-#### Local setup
-
-To run this project locally, follow these steps.
-
-1. Clone the project locally, change into the directory, and install the dependencies:
-
-```sh
-git clone https://github.com/dabit3/polygon-ethereum-nextjs-marketplace.git
-
-cd polygon-ethereum-nextjs-marketplace
-
-# install using NPM or Yarn
-npm install
-
-# or
-
-yarn
-```
-
-2. Start the local Hardhat node
-
-```sh
-npx hardhat node
-```
-
-3. With the network running, deploy the contracts to the local network in a separate terminal window
-
-```sh
-npx hardhat run scripts/deploy.js --network localhost
-```
-
-4. Start the app
-
-```
-npm run dev
-```
-
-### Configuration
-
-To deploy to Polygon test or main networks, update the configurations located in __hardhat.config.js__ to use a private key and, optionally, deploy to a private RPC like Infura.
-
-```javascript
-require("@nomiclabs/hardhat-waffle");
-const fs = require('fs');
-const privateKey = fs.readFileSync(".secret").toString().trim() || "01234567890123456789";
-
-// infuraId is optional if you are using Infura RPC
-const infuraId = fs.readFileSync(".infuraid").toString().trim() || "";
-
-module.exports = {
-  defaultNetwork: "hardhat",
-  networks: {
-    hardhat: {
-      chainId: 1337
-    },
-    mumbai: {
-      // Infura
-      // url: `https://polygon-mumbai.infura.io/v3/${infuraId}`
-      url: "https://rpc-mumbai.matic.today",
-      accounts: [privateKey]
-    },
-    matic: {
-      // Infura
-      // url: `https://polygon-mainnet.infura.io/v3/${infuraId}`,
-      url: "https://rpc-mainnet.maticvigil.com",
-      accounts: [privateKey]
-    }
-  },
-  solidity: {
-    version: "0.8.4",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 200
-      }
-    }
-  }
-};
-```
-
-If using Infura, update __.infuraid__ with your [Infura](https://infura.io/) project ID.
+## 使用方法
+- step1: 发布metadata信息，信息存在dweb search engine等开放接口的引擎里。信息公开
+- step2: mint 只需要支付不到1分钱的gas费用，但作品没有被发到NFT market
+- step3: 将NFT发到市场上，可在市场公开查看，需要支付不到1分钱的gas费
+- step4: 买家买走

@@ -43,4 +43,7 @@ node_modules
 cache
 artifacts
 
+# contract type generation
+/contracts/types
+
 *_raw
