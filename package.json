@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "export PORT=3006 next start",
+    "start": "export PORT=4006 next start",
     "lint": "next lint"
   },
   "dependencies": {
