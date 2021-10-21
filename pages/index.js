@@ -25,7 +25,7 @@ export default function Home() {
       <h2 className="px-20 py-10 text-3xl">Tips</h2>
       <ul className="px-20 py-2">
         <li>🌏 Every NFT is Creative Comomons licensed and worldwide publicly accessed! 🅭</li>
-        <li>🎁 Buying NFT is used for donating tokens to the NFT minter(maybe the author). You can&apos;t sell it to others. </li>
+        <li>🎁 Buying NFT is used for donating tokens to the NFT minter(maybe the author). You can&apos;t sell it to others.</li>
         <li>🎓 Please don't mint anything which is not belong to you. </li>
       </ul>
     </div>
