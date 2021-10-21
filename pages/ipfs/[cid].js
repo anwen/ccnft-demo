@@ -73,7 +73,7 @@ export default function MyAssets() {
                 <div className="p-4">
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                   <div className="markdown">
-                  <ReactMarkdown escapeHtml={true} children={nft.description} />
+                  <ReactMarkdown escapeHtml={true}>{nft.description}</ReactMarkdown>
                   </div>
                   <p>By: 
                   <a href={"/author/"+nft.authors[0].wallet.eth} >{nft.authors[0].name}</a>
