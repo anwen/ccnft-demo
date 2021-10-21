@@ -20,8 +20,9 @@ export default function CreateItem() {
     s_tags: '', names: ''
   })
   const router = useRouter()
-
-  ethAccount = localStorage.getItem("ethAccount");
+  if (typeof window !== 'undefined') {
+      ethAccount = localStorage.getItem("ethAccount");
+  }
   console.log(ethAccount);
 
   async function onChange(e) {

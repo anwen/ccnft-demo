@@ -17,7 +17,11 @@ export default function MyAssets() {
   // },[]);
   const router = useRouter()
   console.log(router.query)
-  ethAccount = localStorage.getItem("ethAccount");
+
+  if (typeof window !== 'undefined') {
+      ethAccount = localStorage.getItem("ethAccount");
+  }
+
   useEffect(() => {
     loadNFTs()
   }, [])

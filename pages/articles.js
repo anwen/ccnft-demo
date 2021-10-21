@@ -20,10 +20,11 @@ export default function MyAssets() {
   if ('author' in router.query){
     ethAccount = router.query.author
     if (ethAccount=='me'){
-      ethAccount = localStorage.getItem("ethAccount");
+      if (typeof window !== 'undefined') {
+          ethAccount = localStorage.getItem("ethAccount");
+      }
     }
   } else if (typeof window !== 'undefined') {
-      // ethAccount = localStorage.getItem("ethAccount");
       ethAccount = '*'
   }
   useEffect(() => {
