@@ -30,15 +30,15 @@ export default function MyAssets() {
       createSale(url)
     } catch (error) {
       console.log('Error uploading file: ', error)
-    }  
+    }
   }
 
   async function createSale(url) {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)    
+    const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    
+
     /* next, create the item */
     let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
     console.log(nftaddress)
@@ -50,7 +50,7 @@ export default function MyAssets() {
     let transaction = await contract.createToken(url)
     console.log(transaction)
     let tx = await transaction.wait()
-    
+
     let event = tx.events[0]
     console.log(tx)
     console.log(event)
@@ -59,7 +59,6 @@ export default function MyAssets() {
     // console.log(event.getTransactionReceipt())
     let value = event.args[2]
     let tokenId = value.toNumber()
-
 
     const price = ethers.utils.parseUnits(1, 'ether')
     /* then list the item for sale on the marketplace */
@@ -75,12 +74,11 @@ export default function MyAssets() {
       console.log('myethAccount', myethAccount)
   }
 
-
   const router = useRouter()
   console.log(router.query)
   console.log(nft)
   console.log(loadingState != 'loaded', !nft)
-  
+
   // const { cid } = router.query
   // console.log(cid)
   if (loadingState != 'loaded' && !('name' in nft)) {
@@ -104,20 +102,21 @@ export default function MyAssets() {
     }
     const ipfs_gateway_url = `https://ipfs.infura.io/ipfs/${cid}`
     const ret = await axios.get(ipfs_gateway_url) // TODO
-    console.log(ret);
+    console.log(ret)
     // authors[0].name
     if ('data' in ret) {
       // const { data, content } = matter(ret.data.description)
       // console.log('data, content')
       // console.log(data, content)
       // const result = await remark().use(html).process(content);
-      // ret.data.description = result.toString();
+      // ret.data.description = result.toString()
       console.log(ret.data.description)
       setNft(ret.data)
       console.log('aname', ret.data.authors[0].name)
     }
     setLoadingState('loaded')
   }
+
   if (loadingState != 'loaded' && !('name' in nft)) return (
     <h1 className="py-10 px-20 text-3xl"></h1>
   )
@@ -150,7 +149,6 @@ export default function MyAssets() {
               </div>
       </div>
     </div>
-
 
   )
 
