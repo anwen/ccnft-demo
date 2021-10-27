@@ -17,15 +17,16 @@ import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 let ethAccount
 let myethAccount
 let cid
+let nft = {}
 export default function MyAssets() {
-  // const [nfts, setNfts] = useState([])
-  const [nft, setNft] = useState({})
+  // const [nft, setNft] = useState({})
   const [loadingState, setLoadingState] = useState('not-loaded')
 
   async function createMint() {
     /* first, upload to IPFS */
     try {
-      const url = `https://ipfs.infura.io/ipfs/${nft.path}`
+      const url = `https://ipfs.infura.io/ipfs/${cid}`
+      console.log('!nft.minted', !nft.minted)
       /* after file is uploaded to IPFS, pass the URL to save it on Polygon */
       createSale(url)
     } catch (error) {
@@ -41,12 +42,10 @@ export default function MyAssets() {
 
     /* next, create the item */
     let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
-    console.log(nftaddress)
     console.log(NFT.abi)
     console.log(signer)
     console.log("signer")
     console.log(contract)
-    console.log(url)
     let transaction = await contract.createToken(url)
     console.log(transaction)
     let tx = await transaction.wait()
@@ -60,7 +59,7 @@ export default function MyAssets() {
     let value = event.args[2]
     let tokenId = value.toNumber()
 
-    const price = ethers.utils.parseUnits(1, 'ether')
+    const price = ethers.utils.parseUnits('1', 'ether')
     /* then list the item for sale on the marketplace */
     contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
     let listingPrice = await contract.getListingPrice()
@@ -111,7 +110,9 @@ export default function MyAssets() {
       // const result = await remark().use(html).process(content);
       // ret.data.description = result.toString()
       console.log(ret.data.description)
-      setNft(ret.data)
+      // useEffect(() => { setNft(ret.data) }, [])
+      nft = ret.data
+      console.log('nft.minted', nft.minted)
       console.log('aname', ret.data.authors[0].name)
     }
     setLoadingState('loaded')
@@ -139,8 +140,7 @@ export default function MyAssets() {
 
                   <p>Tags: {nft.tags}</p>
                   <p>License: <a href={nft.license_url}>{nft.license}</a></p>
-                  
-                  {!nft.minted &&
+                  {!('minted' in nft) && (nft.authors[0].wallet.eth==myethAccount) &&
                     <button onClick={createMint} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
                       Mint
                     </button>
