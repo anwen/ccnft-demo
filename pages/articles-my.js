@@ -50,11 +50,11 @@ export default function MyAssets() {
               <div key={i} className="border shadow rounded-xl overflow-hidden">
                 <img src={nft.image} className="rounded" />
                 <div className="p-4">
-                  <a href={"/ipfs/"+nft.path} >
+                  <a href={"/article?cid="+nft.path} >
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                   </a>
                   <p className="text-2xl font-semibold">By: 
-                  <a href={"/author/"+nft.eth} >{nft.authors}</a>
+                  <a href={"/articles?author="+nft.eth} >{nft.authors}</a>
                   </p>
                 </div>
               </div>

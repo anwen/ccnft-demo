@@ -19,28 +19,29 @@ export default function MyAssets() {
   console.log(router.query)
   if ('author' in router.query){
     ethAccount = router.query.author
+    console.log('~~~', ethAccount)
     if (ethAccount=='me'){
       if (typeof window !== 'undefined') {
           ethAccount = localStorage.getItem("ethAccount");
       }
     }
-  } else if (typeof window !== 'undefined') {
-      ethAccount = '*'
   }
   useEffect(() => {
     loadNFTs()
   }, [])
   // loadNFTs()
   async function loadNFTs() {
-    const dweb_search_url = `https://dweb-search-api.anwen.cc/get_meta?eth=${ethAccount}`
-    console.log(dweb_search_url)
-    const ret = await axios.get(dweb_search_url) // TODO
-    console.log(ret);
-    // setNfts(items)
-    if ("data" in ret.data){
-      setNfts(ret.data.data)
+    if (ethAccount) {
+      const dweb_search_url = `https://dweb-search-api.anwen.cc/get_meta?eth=${ethAccount}`
+      console.log(dweb_search_url, '222')
+      const ret = await axios.get(dweb_search_url) // TODO
+      console.log(ret);
+      // setNfts(items)
+      if ("data" in ret.data){
+        setNfts(ret.data.data)
+      }
+      setLoadingState('loaded')
     }
-    setLoadingState('loaded')
   }
   if (loadingState === 'loaded' && !nfts.length) return (
     <h1 className="py-10 px-20 text-3xl">No creations</h1>
@@ -55,11 +56,11 @@ export default function MyAssets() {
               <div key={i} className="border shadow rounded-xl overflow-hidden">
                 <img src={nft.image} className="rounded" />
                 <div className="p-4">
-                  <a href={"/ipfs/"+nft.path} >
+                  <a href={"/article?cid="+nft.path} >
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
                   </a>
                   <p className="text-2xl font-semibold">By: 
-                  <a href={"/author/"+nft.eth} >{nft.authors}</a>
+                  <a href={"/articles?author="+nft.eth} >{nft.authors}</a>
                   </p>
                 </div>
               </div>
