@@ -125,6 +125,21 @@ function getBrief(astr) {
               All Articles
             </a>
           </Link>
+          <Link href="/my-nfts">
+            <a className="mr-4 text-pink-500">
+              My NFTs
+            </a>
+          </Link>
+          <Link href="/my-collections">
+            <a className="mr-4 text-pink-500">
+              My Collections
+            </a>
+          </Link>
+          <Link href="/nft-market">
+            <a className="mr-4 text-pink-500">
+              NFT Market
+            </a>
+          </Link>
         </div>
         <button style={{display: Logined?"none": "block"}} onClick={ConnectWallet}  className="font-bold mt-2 bg-pink-500 rounded p-2">
           ConnectWallet
