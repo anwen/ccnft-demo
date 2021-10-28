@@ -18,7 +18,8 @@ contract NFT is ERC721URIStorage {
     mapping (uint256 => string) private _tokenURIs;
     // constructor() ERC721("DwebNFT", "DNFT") {}
     // constructor(address marketplaceAddress) ERC721("Metaverse", "METT") {
-    constructor(address marketplaceAddress) ERC721("DwebVerse", "DWV") {
+    // constructor(address marketplaceAddress) ERC721("DwebVerse", "DWV") {
+    constructor(address marketplaceAddress) ERC721("CC1", "CC1") {
         contractAddress = marketplaceAddress;
     }
 
