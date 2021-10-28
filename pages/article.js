@@ -142,7 +142,7 @@ export default function MyAssets() {
                   <p>License: <a href={nft.license_url}>{nft.license}</a></p>
                   {!('minted' in nft) && (nft.authors[0].wallet.eth==myethAccount) &&
                     <button onClick={createMint} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-                      Mint
+                      Mint (Will sign 2 times. Be patient...)
                     </button>
                   }
                 </div>
