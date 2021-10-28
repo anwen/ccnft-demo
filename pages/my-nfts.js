@@ -37,6 +37,7 @@ export default function CreatorDashboard() {
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       console.log('meta', meta)
+      console.log('i', i)
       let item = {
         price,
         tokenId: i.tokenId.toNumber(),
@@ -51,16 +52,18 @@ export default function CreatorDashboard() {
     }))
     /* create a filtered array of items that have been sold */
     const soldItems = items.filter(i => i.sold)
+    const unsoldItems = items.filter(i => !i.sold)
     setSold(soldItems)
-    setNfts(items)
+    setNfts(unsoldItems)
     console.log('items', items)
     setLoadingState('loaded') 
   }
-  if (loadingState === 'loaded' && !nfts.length) return (<h1 className="py-10 px-20 text-3xl">No CC-NFT created by me in market</h1>)
+  if (loadingState === 'loaded' && !(nfts.length+sold.length)) return (<h1 className="py-10 px-20 text-3xl">No CC-NFT created by me in market</h1>)
   return (
     <div>
       <div className="p-4">
-        <h2 className="text-2xl py-2">CC-NFT created by me (still in market)</h2>
+        <h1 className="text-3xl py-2">CC-NFT created by me</h1>
+        <h2 className="text-2xl py-2">Still in market</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
             nfts.map((nft, i) => (
