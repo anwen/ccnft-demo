@@ -39,7 +39,7 @@ export default function Home() {
       <h2 className="px-20 py-10 text-3xl">(O_O)? Question?</h2>
       <ul className="px-20 py-2">
         <li>🌏 You can join <a href="https://discord.gg/QaEwmJMDJ2">Dweb Lab Discord</a></li>
-        <li>🌃 There is also a ipfs version: ipfs://QmVXcwVatu9GM92NzNqR4sR7b9yc2pXW9MViDAxVvrNfdk </li>
+        <li>🌃 There is also a ipfs version: ipfs://QmSp1Y8TJLQ2dJyYd5uZS7iqGDLPChf2rSsK1R8KkTgY2i </li>
       </ul>
 
     </div>
