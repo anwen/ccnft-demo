@@ -24,10 +24,24 @@ export default function Home() {
     <div className="px-4" style={{ maxWidth: '1600px' }}>
       <h2 className="px-20 py-10 text-3xl">Tips</h2>
       <ul className="px-20 py-2">
-        <li>🌏 Every NFT is Creative Comomons licensed and worldwide publicly accessed! 🅭</li>
+        <li>🌏 Every NFT here is licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 🅭</li>
         <li>🎁 Buying NFT is used for donating tokens to the NFT minter(maybe the author). You can&apos;t sell it to others.</li>
         <li>🎓 Please don&apos;t mint anything which is not belong to you. </li>
       </ul>
+
+      <h2 className="px-20 py-10 text-3xl">📢注意</h2>
+      <ul className="px-20 py-2">
+        <li>🌏 这里的所有NFT作品采用<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a>进行许可。 🅭</li>
+        <li>🎁 购买NFT仅仅意味着你向NFT铸造者（可能是作品作者）捐款。你不能将该NFT卖给其他人。</li>
+        <li>🎓 请不要将任何不属于你的作品铸造为NFT。 </li>
+      </ul>
+
+      <h2 className="px-20 py-10 text-3xl">(O_O)? Question?</h2>
+      <ul className="px-20 py-2">
+        <li>🌏 You can join <a href="https://discord.gg/QaEwmJMDJ2">Dweb Lab Discord</a></li>
+        <li>🌃 There is also a ipfs version: ipfs://QmVXcwVatu9GM92NzNqR4sR7b9yc2pXW9MViDAxVvrNfdk </li>
+      </ul>
+
     </div>
 
   )
