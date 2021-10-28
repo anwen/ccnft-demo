@@ -59,7 +59,7 @@ export default function MyAssets() {
     let value = event.args[2]
     let tokenId = value.toNumber()
 
-    const price = ethers.utils.parseUnits('1', 'ether')
+    const price = ethers.utils.parseUnits('0.1', 'ether')
     /* then list the item for sale on the marketplace */
     contract = new ethers.Contract(nftmarketaddress, Market.abi, signer)
     let listingPrice = await contract.getListingPrice()
