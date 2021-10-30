@@ -13,7 +13,9 @@ module.exports = {
       // Infura
       // url: `https://polygon-mumbai.infura.io/v3/${infuraId}`
       // url: "https://rpc-mumbai.matic.today",
-      url: "https://rpc-mumbai.maticvigil.com",
+      // url: "https://rpc-mumbai.maticvigil.com",
+      url: "https://matic-mumbai.chainstacklabs.com",
+      // url: "https://rpc-mumbai.maticvigil.com/v1/35346f853fb4496728602ff72a70eb9a8785064e",
       accounts: [privateKey]
     },
     matic: {

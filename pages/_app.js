@@ -16,6 +16,22 @@ function Marketplace({ Component, pageProps }) {
   const [ethAccount, setethAccount] = useState(null)
   const [Logined, setLogined] = useState(false)
 
+  useEffect(() => {
+
+  if (typeof window !== "undefined") {
+    const aethAccount = localStorage.getItem("ethAccount")
+    if (aethAccount){
+      setethAccount(aethAccount)
+      setLogined(true);
+    }
+  }
+
+
+
+  }, [])
+
+
+
 async function ConnectWallet() {
     // const web3Modal = new Web3Modal()
     // const connection = await web3Modal.connect()
@@ -27,7 +43,6 @@ async function ConnectWallet() {
       disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
     });
     console.log("Web3Modal instance is", web3Modal);
-
     console.log("Opening a dialog", web3Modal);
     try {
       provider = await web3Modal.connect();
@@ -41,9 +56,7 @@ async function ConnectWallet() {
   // const web3 = await web3Modal.connect()
   // const web3 = new ethers.providers.Web3Provider(provider)
   const web3 = new Web3(provider);
-
   console.log("Web3 instance is", web3);
-
   // Get connected chain id from Ethereum node
   const chainId = await web3.eth.getChainId();
   // Load chain information over an HTTP API
@@ -69,7 +82,6 @@ async function ConnectWallet() {
     if (typeof window !== "undefined") {
       localStorage.setItem("ethAccount", accounts[0])
     }
-
 
   }
 }
