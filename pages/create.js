@@ -3,6 +3,7 @@ import { ethers } from 'ethers'
 import { create as ipfsHttpClient } from 'ipfs-http-client'
 import { useRouter } from 'next/router'
 import axios from 'axios'
+import { NFTStorage } from 'nft.storage'
 
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0')
 import {
@@ -77,6 +78,20 @@ export default function CreateItem() {
       filesize, filename,
       filetype, tags, authors
     })
+
+    // const endpoint = 'https://api.nft.storage' // the default
+    const API_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJnaXRodWJ8MTQ3Mjg1MCIsImlzcyI6Im5mdC1zdG9yYWdlIiwiaWF0IjoxNjE4ODQ0ODAwOTgzLCJuYW1lIjoiZGVmYXVsdCJ9.bdDjCtOaANp49ysENB4-4xpVrhDRbdeqV39t5aVYsjo' // your API key from https://nft.storage/manage
+    try {
+      // const store = new NFTStorage({ endpoint, token })
+      const client = new NFTStorage({ token: API_TOKEN })
+      const cid = await client.storeBlob(new Blob([data]))
+      const status = await client.status(cid)
+      console.log(cid)
+      console.log(status)
+    } catch (error) {
+      console.log('Error uploading file to nft.storage: ', error)
+    }
+
     try {
       const added = await client.add(data)
       console.log(added)
@@ -88,7 +103,7 @@ export default function CreateItem() {
       console.log(ret)
       /* after file is uploaded to IPFS, pass the URL to save it on Polygon */
       // createNFT(url)
-      router.push('/')
+      router.push('/articles-my')
     } catch (error) {
       console.log('Error uploading file: ', error)
     }

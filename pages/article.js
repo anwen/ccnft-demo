@@ -14,6 +14,12 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
+import { providers } from "ethers";
+import { init } from "@textile/eth-storage";
+
+
+
+
 let ethAccount
 let myethAccount
 let cid
@@ -32,6 +38,36 @@ export default function MyAssets() {
     } catch (error) {
       console.log('Error uploading file: ', error)
     }
+  }
+
+  async function storeNFTtoFilecoin() {
+    await window.ethereum.enable();
+    const provider = new providers.Web3Provider(window.ethereum);
+    const wallet = provider.getSigner();
+    
+    const storage = await init(wallet);
+    // const blob = new Blob(["Hello, world!"], { type: "text/plain" });
+    const jsonse = JSON.stringify(nft);
+    const blob = new Blob([jsonse], {type: "application/json"});
+    const file = new File([blob], "welcome.txt", {
+      type: "text/plain",
+      lastModified: new Date().getTime()
+    });
+    try{
+      await storage.addDeposit(); // "execution reverted: BridgeProvider: depositee already has deposit"
+    } catch  (error) {
+      console.error(error);
+    }
+
+    const { id, cid } = await storage.store(file);
+    const { request, deals } = await storage.status(id);
+
+    console.log('id, cid, request, deals', id, cid, request, deals)
+    console.log(request.status_code);
+
+    console.log([...deals]);
+    console.log('stored~')
+    alert('Your NFT has been stored on Filecoin Network~')
   }
 
   async function createSale(url) {
@@ -140,11 +176,21 @@ export default function MyAssets() {
 
                   <p>Tags: {nft.tags}</p>
                   <p>License: <a href={nft.license_url}>{nft.license}</a></p>
+                  
+
                   {!('minted' in nft) && (nft.authors[0].wallet.eth==myethAccount) &&
                     <button onClick={createMint} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
                       Mint (Will sign 2 times. Be patient...)
                     </button>
                   }
+
+                  {(nft.authors[0].wallet.eth==myethAccount) &&
+                    <button onClick={storeNFTtoFilecoin} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+                      Store NFT on the Filecoin network(optional)
+                    </button>
+                  }
+
+
                 </div>
               </div>
       </div>

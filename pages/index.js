@@ -10,6 +10,7 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
+
 export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
@@ -22,7 +23,7 @@ export default function Home() {
 
   return (
     <div className="px-4" style={{ maxWidth: '1600px' }}>
-      <h2 className="px-20 py-10 text-3xl">Tips</h2>
+      <h2 className="px-20 py-10 text-3xl">📢Tips</h2>
       <ul className="px-20 py-2">
         <li>🌏 Every NFT here is licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 🅭</li>
         <li>🎁 Buying NFT is used for donating tokens to the NFT minter(maybe the author). You can&apos;t sell it to others.</li>
