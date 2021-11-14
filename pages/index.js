@@ -26,8 +26,8 @@ export default function Home() {
       <h2 className="px-20 py-10 text-3xl">📢Tips</h2>
       <ul className="px-20 py-2">
         <li>🌏 Every NFT here is licensed under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>. 🅭</li>
-        <li>🎁 Buying NFT is used for donating tokens to the NFT minter(maybe the author). You can&apos;t sell it to others.</li>
-        <li>🎓 Please don&apos;t mint anything which is not belong to you. Because we have a <a href="https://discord.gg/QaEwmJMDJ2">Dweb DAO</a> to help check the cheating. (Welcome join us.)</li>
+        <li>🎁 Buying NFT is to donate tokens to the NFT minter(maybe the author). You can&apos;t sell it to others.</li>
+        <li>🎓 Please don&apos;t mint anything which doesn't belong to you, because we have a <a href="https://discord.gg/QaEwmJMDJ2">Dweb DAO</a> to help check the cheating. (Welcome join us.)</li>
       </ul>
 
       <h2 className="px-20 py-10 text-3xl">📢注意</h2>
