@@ -100,6 +100,7 @@ async function DisconnectWallet() {
   }
    setLogined(false);
    setethAccount(null);
+   localStorage.removeItem("ethAccount")
 }
 
 function getBrief(astr) {
