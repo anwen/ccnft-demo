@@ -11,14 +11,13 @@ import {
   nftmarketaddress, nftaddress
 } from '../config'
 
+// const hre = require("hardhat");
+
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 import { providers } from "ethers";
 import { init } from "@textile/eth-storage";
-
-
-
 
 let ethAccount
 let myethAccount
@@ -44,7 +43,7 @@ export default function MyAssets() {
     await window.ethereum.enable();
     const provider = new providers.Web3Provider(window.ethereum);
     const wallet = provider.getSigner();
-    
+
     const storage = await init(wallet);
     // const blob = new Blob(["Hello, world!"], { type: "text/plain" });
     const jsonse = JSON.stringify(nft);
@@ -172,24 +171,23 @@ export default function MyAssets() {
                   </div>
                   <p>By: 
                   <a href={"/articles?author="+nft.authors[0].wallet.eth} >{nft.authors[0].name}</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp;Author-Wallet: {nft.authors[0].wallet.eth}
                   </p>
 
                   <p>Tags: {nft.tags}</p>
                   <p>License: <a href={nft.license_url}>{nft.license}</a></p>
-                  
 
                   {!('minted' in nft) && (nft.authors[0].wallet.eth==myethAccount) &&
                     <button onClick={createMint} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
                       Mint (Will sign 2 times. Be patient...)
                     </button>
                   }
-
+                  <br/>
                   {(nft.authors[0].wallet.eth==myethAccount) &&
                     <button onClick={storeNFTtoFilecoin} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
                       Store NFT on the Filecoin network(optional)
                     </button>
                   }
-
 
                 </div>
               </div>

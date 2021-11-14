@@ -62,8 +62,7 @@ export default function CreatorDashboard() {
   else if (loadingState === 'loaded') {return (
     <div>
       <div className="p-4">
-        <h1 className="text-3xl py-2">CC-NFT created by me</h1>
-        <h2 className="text-2xl py-2">Still in market</h2>
+        <h1 className="text-3xl py-2">CC-NFTs created by me</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {
             nfts.map((nft, i) => (
@@ -71,7 +70,9 @@ export default function CreatorDashboard() {
                 <img src={nft.image} className="rounded" />
 
                 <div className="p-4">
+                  <a href={"/article?cid="+nft.path} >
                   <p style={{ height: '64px' }} className="text-2xl font-semibold">{nft.name}</p>
+                  </a>
                   <div style={{ height: '70px', overflow: 'hidden' }}>
                     <p className="text-gray-400">{nft.description}</p>
                   </div>
