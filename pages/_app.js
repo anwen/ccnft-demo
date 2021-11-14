@@ -85,6 +85,11 @@ async function ConnectWallet() {
 }
 
 async function DisconnectWallet() {
+  if (typeof window !== "undefined") {
+     localStorage.removeItem("ethAccount")
+  }
+  setLogined(false);
+  setethAccount(null);
   console.log("Killing the wallet connection", provider);
   // TODO: Which providers have close method?
   if(provider.close) {
@@ -96,12 +101,6 @@ async function DisconnectWallet() {
     await web3Modal.clearCachedProvider();
     provider = null;
   }
-
-  if (typeof window !== "undefined") {
-     localStorage.removeItem("ethAccount")
-  }
-  setLogined(false);
-  setethAccount(null);
 
 }
 
