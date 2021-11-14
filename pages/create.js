@@ -117,7 +117,7 @@ export default function CreateItem() {
         <h2 className="mt-2">Attention: </h2>
         <p className="mt-2">- All your published data and metadata is open to public and with <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a> License. </p>
         <p className="mt-2">- They will be on IPFS and Dweb Search Engine too.</p>
-        <p className="mt-2">- It's forbidden to mint anything which doesn't belong to you.</p>
+        <p className="mt-2">- It’s forbidden to mint anything which doesn’t belong to you.</p>
         <input 
           placeholder="Title..."
           className="mt-8 border rounded p-4"
