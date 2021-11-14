@@ -59,7 +59,7 @@ export default function CreatorDashboard() {
     setLoadingState('loaded') 
   }
   if (loadingState === 'loaded' && !(nfts.length+sold.length)) {return (<h1 className="py-10 px-20 text-3xl">No CC-NFT created by you in market</h1>)}
-  else {return (
+  else if (loadingState === 'loaded') {return (
     <div>
       <div className="p-4">
         <h1 className="text-3xl py-2">CC-NFT created by me</h1>
