@@ -115,15 +115,16 @@ export default function CreateItem() {
       <div className="w-4/5 flex flex-col pb-12">
 
         <h2 className="mt-2">Attention: </h2>
-        <p className="mt-2">- All your published data and metadata is public and with <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a> License. </p>
-        <p className="mt-2">- They will be on on IPFS and Dweb Search Engine too.</p>
+        <p className="mt-2">- All your published data and metadata is open to public and with <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a> License. </p>
+        <p className="mt-2">- They will be on IPFS and Dweb Search Engine too.</p>
+        <p className="mt-2">- It's forbidden to mint anything which doesn't belong to you.</p>
         <input 
-          placeholder="A Title..."
+          placeholder="Title..."
           className="mt-8 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, name: e.target.value })}
         />
         <textarea
-          placeholder="Your creative works (you can use Markdown)"
+          placeholder="Your creative works (you can use Markdown format)"
           className="mt-2 border rounded p-4 h-80"
           onChange={e => updateFormInput({ ...formInput, description: e.target.value })}
         />
@@ -133,7 +134,7 @@ export default function CreateItem() {
           onChange={e => updateFormInput({ ...formInput, s_tags: e.target.value })}
         />
         
-        <p className="mt-8 p-4"> FEATURED IMAGE </p>
+        <p className="mt-8 p-4"> Featured Image </p>
         <input
           type="file"
           name="Asset"
@@ -146,7 +147,7 @@ export default function CreateItem() {
           )
         }
         <input 
-          placeholder="Author Name (your name)"
+          placeholder="Author Name"
           className="mt-8 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, names: e.target.value })}
         />

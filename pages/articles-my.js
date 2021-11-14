@@ -38,7 +38,7 @@ export default function MyAssets() {
     setLoadingState('loaded')
   }
   if (loadingState === 'loaded' && !nfts.length) return (
-    <h1 className="py-10 px-20 text-3xl">No creations</h1>
+    <h1 className="py-10 px-20 text-3xl">0 Creations</h1>
   )
 
   return (

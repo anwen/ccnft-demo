@@ -58,8 +58,8 @@ export default function CreatorDashboard() {
     console.log('items', items)
     setLoadingState('loaded') 
   }
-  if (loadingState === 'loaded' && !(nfts.length+sold.length)) return (<h1 className="py-10 px-20 text-3xl">No CC-NFT created by me in market</h1>)
-  return (
+  if (loadingState === 'loaded' && !(nfts.length+sold.length)) {return (<h1 className="py-10 px-20 text-3xl">No CC-NFT created by you in market</h1>)}
+  else {return (
     <div>
       <div className="p-4">
         <h1 className="text-3xl py-2">CC-NFT created by me</h1>
@@ -108,4 +108,5 @@ export default function CreatorDashboard() {
         </div>
     </div>
   )
+}
 }
