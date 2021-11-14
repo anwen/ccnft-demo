@@ -26,8 +26,6 @@ function Marketplace({ Component, pageProps }) {
     }
   }
 
-
-
   }, [])
 
 
@@ -98,9 +96,13 @@ async function DisconnectWallet() {
     await web3Modal.clearCachedProvider();
     provider = null;
   }
-   setLogined(false);
-   setethAccount(null);
-   localStorage.removeItem("ethAccount")
+
+  if (typeof window !== "undefined") {
+     localStorage.removeItem("ethAccount")
+  }
+  setLogined(false);
+  setethAccount(null);
+
 }
 
 function getBrief(astr) {
