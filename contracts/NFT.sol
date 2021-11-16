@@ -14,7 +14,7 @@ contract NFT is ERC721URIStorage {
     using Strings for uint256; // uint256 is uint
     mapping (uint256 => string) private _tokenURIs;
 
-    constructor(address marketplaceAddress) ERC721("CC3", "CC3") {
+    constructor(address marketplaceAddress) ERC721("CC4", "CC4") {
         contractAddress = marketplaceAddress;
     }
 

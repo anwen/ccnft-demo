@@ -107,10 +107,11 @@ contract NFTMarket is ReentrancyGuard {
 
     require(msg.value == price, "Please submit the asking price in order to complete the purchase");
 
-    tidToMarketItem[itemId].seller.transfer(msg.value);
+    idToMarketItem[itemId].seller.transfer(msg.value);
     IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
-    tidToMarketItem[itemId].owner = payable(msg.sender);
-    tidToMarketItem[itemId].sold = true;
+    idToMarketItem[itemId].owner = payable(msg.sender);
+    idToMarketItem[itemId].sold = true;
+    // tidToMarketItem
     _itemsSold.increment();
     payable(owner).transfer(listingPrice);
   }
