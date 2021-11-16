@@ -21,6 +21,17 @@ export default function CreateItem() {
     s_tags: '', names: ''
   })
   const router = useRouter()
+  console.log(router)
+  if (router.pathname == '/create') {
+    if (typeof document !== 'undefined') {
+      var els = document.getElementsByClassName("_nav");
+      Array.prototype.forEach.call(els, function(el) {
+          el.classList.remove('current');
+      });
+      document.getElementById("_create").classList.add('current');
+    }
+  }
+
   if (typeof window !== 'undefined') {
       ethAccount = localStorage.getItem("ethAccount");
   }

@@ -2,3 +2,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.current {
+  text-decoration: underline #FF3028;
+  font-weight: bold;
+}

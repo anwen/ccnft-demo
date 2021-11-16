@@ -2,6 +2,7 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
+import { useRouter } from 'next/router'
 
 import {
   nftaddress, nftmarketaddress
@@ -14,6 +15,17 @@ import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 export default function Home() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
+  const router = useRouter()
+  console.log(router) // pathname: '/', route: '/', asPath: '/'
+  if (router.pathname == '/') {
+    if (typeof document !== 'undefined') {
+      var els = document.getElementsByClassName("_nav");
+      Array.prototype.forEach.call(els, function(el) {
+          el.classList.remove('current');
+      });
+      document.getElementById("_home").classList.add('current');
+    }
+  }
   useEffect(() => {
     loadNFTs()
   }, [])

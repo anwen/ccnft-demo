@@ -2,7 +2,6 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
-import { useRouter } from 'next/router'
 
 import {
   nftmarketaddress, nftaddress
@@ -16,10 +15,20 @@ export default function MyAssets() {
   // useEffect(function() {
   // },[]);
   const router = useRouter()
+  console.log(router)
+  if (router.pathname == '/articles') {
+    if (typeof document !== 'undefined') {
+      var els = document.getElementsByClassName("_nav");
+      Array.prototype.forEach.call(els, function(el) {
+          el.classList.remove('current');
+      });
+    }
+  }
+
   console.log(router.query)
   if ('author' in router.query){
     ethAccount = router.query.author
-    console.log('~~~', ethAccount)
+    console.log('ethAccount', ethAccount)
     if (ethAccount=='me'){
       if (typeof window !== 'undefined') {
           ethAccount = localStorage.getItem("ethAccount");

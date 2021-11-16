@@ -12,16 +12,25 @@ let ethAccount
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState('not-loaded')
-
-  // useEffect(function() {
-  // },[]);
   const router = useRouter()
-  console.log(router.query)
+  console.log(router) // pathname: '/', route: '/', asPath: '/'
+  if (router.pathname == '/articles-all') {
+    if (typeof document !== 'undefined') {
+      var els = document.getElementsByClassName("_nav");
+      Array.prototype.forEach.call(els, function(el) {
+          console.log(el.tagName);
+          console.log(el.classList);
+          el.classList.remove('current');
+      });
+      document.getElementById("_articles_all").classList.add('current');
+    }
+  }
+
+  console.log('router.query', router.query)
   ethAccount = '*'
   useEffect(() => {
     loadNFTs()
   }, [])
-  // loadNFTs()
   async function loadNFTs() {
     const dweb_search_url = `https://dweb-search-api.anwen.cc/get_meta?eth=${ethAccount}`
     console.log(dweb_search_url)
