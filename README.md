@@ -1,5 +1,8 @@
 # Creative Comomons NFT Playground
 
+- You can try the demo (matic network until now): https://ccnft-test.dweb-lab.com/
+- Introducing Creative Comomons NFT Playground (video):  https://www.youtube.com/watch?v=kc6-uu1KhKM
+
 ## 📢Tips
 - 🌏 Every NFT here is licensed under Creative Commons Attribution 4.0 International License. 🅭
 - 🎁 Buying NFT is to donate tokens to the NFT minter(maybe the author). You can't sell it to others.
@@ -41,13 +44,12 @@ https://opensource.org/licenses/MIT
 - 问题3 作者可能会重复发自己的作品赚取费用，由于信息公开可查，检测应该不难
 - 问题4 NFT流动性差。我们不在乎NFT的流动性
 
-
 ## 名词解释
 - CC-BY-SA 知识共享-署名-相同方式共享  (属于自由文化许可协议)
 - DwebVerse Marketplace
 
 
-## 使用方法
+## NFT使用方法
 - step1: 发布metadata信息，信息存在dweb search engine等开放接口的引擎里。信息公开
 - step2: mint 只需要支付不到1分钱的gas费用，但作品没有被发到NFT market
 - step3: 将NFT发到市场上，可在市场公开查看，需要支付不到1分钱的gas费
