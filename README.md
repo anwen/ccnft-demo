@@ -1,9 +1,31 @@
 # Creative Comomons NFT Playground
 
-## Tips
-- Every NFT is Creative Comomons licensed and publicly accessed.
-- Buying Creative Comomons NFT is only for donate tokens to the NFT minter(maybe the author).   You cannot sell it to others.
-- Please don't mint anything which is not belong to you.
+## 📢Tips
+- 🌏 Every NFT here is licensed under Creative Commons Attribution 4.0 International License. 🅭
+- 🎁 Buying NFT is to donate tokens to the NFT minter(maybe the author). You can't sell it to others.
+- 🎓 Please don’t mint anything that doesn’t belong to you. We have a Dweb DAO to help check cheating behavious. (Welcome to join the DAO.)
+
+## 📢注意
+- 🌏 这里的所有NFT作品采用知识共享署名-相同方式共享 4.0 国际许可协议进行许可。 🅭
+- 🎁 购买NFT仅仅意味着你向NFT铸造者（可能是作品作者）捐款。你不能将该NFT卖给其他人。
+- 🎓 请不要将任何不属于你的作品铸造为NFT。 我们有一个Dweb DAO帮助检测欺骗行为。（也欢迎加入）
+
+
+## The Features
+- 🌏 All Creative Commons licensed articles will be stored on IPFS and indexed in dweb search engines(such as Dweb Search).
+- 🎁 Authers can mint the articles as NFTs and push them to market with very low gas fee(with Polygon network). Users can buy NFTs (articles) which they like, just for donation.
+- 🎓 The NFTs will be stored both on IPFS and Filecoin with nft.storage and Filecoin-Polygon-Bridge so we can help store valuable data on web permanently.
+
+
+## (O_O)? Question?
+- 🔗 We use mumbai test network. You can add it to your Metamask with Chainlist
+- 🌏 You can join Dweb Lab Discord
+- 🌃 There is also an IPFS version: ipfs://QmSp1Y8TJLQ2dJyYd5uZS7iqGDLPChf2rSsK1R8KkTgY2i
+
+
+## License
+https://opensource.org/licenses/MIT
+
 
 ## Design
 ## 设计
