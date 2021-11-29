@@ -79,7 +79,7 @@ export default function Home() {
     // const price = nft.price.toString()
     console.log(price)
     console.log(nftaddress)
-    console.log(nft.tokenId)
+    console.log(nft, nft.tokenId)
     const transaction = await contract.createMarketSale(nftaddress, nft.tokenId, {
       value: price
     })
