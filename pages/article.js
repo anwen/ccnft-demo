@@ -58,8 +58,8 @@ export default function MyAssets() {
     // const blob = new Blob(["Hello, world!"], { type: "text/plain" });
     const jsonse = JSON.stringify(nft);
     const blob = new Blob([jsonse], {type: "application/json"});
-    const file = new File([blob], "welcome.txt", {
-      type: "text/plain",
+    const file = new File([blob], "metadata.json", {
+      type: "application/json",
       lastModified: new Date().getTime()
     });
     try{
