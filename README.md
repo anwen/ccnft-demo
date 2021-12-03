@@ -29,6 +29,13 @@
 ## License
 https://opensource.org/licenses/MIT
 
+## IPFS/Filecoin
+- Every article is stored as json in ipfs, with IPFS api of infura. code can be found 
+- You can choose to store article data in Filecoin by yourself(click the `Store NFT on the Filecoin` button in article page ). It use filecoin-polygon-bridge in  @textile/eth-storage" package. (We use polygon mumbai testnet, you only need some testcoin.)
+- You can see how to use the site in: Introducing Creative Comomons NFT Playground (video):  https://www.youtube.com/watch?v=kc6-uu1KhKM
+- IPFS code detail is in [pages/create.js](https://github.com/anwen/ccnft-demo/blob/main/pages/create.js)
+- Filecoin code detail is in [pages/article.js](https://github.com/anwen/ccnft-demo/blob/main/pages/article.js)
+
 
 ## Design
 ## 设计
