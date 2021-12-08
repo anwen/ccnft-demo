@@ -116,7 +116,7 @@ function getBrief(astr) {
       </Head>
 
       <nav className="border-b p-6">
-        <p className="text-4xl font-bold">Creative Comomons NFT Playground</p>
+        <p className="text-4xl font-bold">Creative Commons NFT Playground</p>
         <div className="flex mt-4">
           <Link href="/">
             <a className="mr-4 text-pink-500 _nav" id="_home">
