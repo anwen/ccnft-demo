@@ -14,10 +14,12 @@ import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 let ethAccount
-let formdisable = false
+// let formdisable = false
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
   const [afile, setAFile] = useState(null)
+  const [submitted, setSubmitted] = useState(false)
+
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '',
     s_tags: '', names: ''
   })
@@ -37,6 +39,11 @@ export default function CreateItem() {
       ethAccount = localStorage.getItem("ethAccount");
   }
   console.log(ethAccount);
+
+
+
+
+
 
   async function onChange(e) {
     const file = e.target.files[0]
@@ -60,12 +67,18 @@ export default function CreateItem() {
       alert('Error uploading file: ', error)
     }
   }
-  async function PublishIt() {
-    if (formdisable){
-      console.log('formdisable is true')
-      return
+  async function PublishIt(e) {
+    // if (formdisable){
+    //   console.log('formdisable is true')
+    //   return
+    // }
+    // formdisable = true
+    if (submitted) {
+        return;
     }
-    formdisable = true
+    setSubmitted(true)
+    e.preventDefault()
+    console.log('submitted!')
     const { name, description, s_tags, names } = formInput
     if (!afile) {
       alert('Please upload FEATURED IMAGE')
@@ -180,7 +193,7 @@ export default function CreateItem() {
           className="mt-8 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, names: e.target.value })}
         />
-        <button disabled={formdisable} onClick={PublishIt} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+        <button onSubmit={ (e) => PublishIt(e) }  className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
           Publish
         </button>
       </div>
