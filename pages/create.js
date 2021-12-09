@@ -14,7 +14,6 @@ import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 let ethAccount
-// let formdisable = false
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
   const [afile, setAFile] = useState(null)
@@ -40,11 +39,6 @@ export default function CreateItem() {
   }
   console.log(ethAccount);
 
-
-
-
-
-
   async function onChange(e) {
     const file = e.target.files[0]
     console.log(file)
@@ -68,12 +62,8 @@ export default function CreateItem() {
     }
   }
   async function PublishIt(e) {
-    // if (formdisable){
-    //   console.log('formdisable is true')
-    //   return
-    // }
-    // formdisable = true
     if (submitted) {
+        console.log('already submitted')
         return;
     }
     setSubmitted(true)
@@ -144,10 +134,6 @@ export default function CreateItem() {
       console.log('Error uploading to dweb-search: ', error)
       alert("Sorry! Publish failed, server error. we are fixing...")
     }
-
-
-
-
 
   }
 
