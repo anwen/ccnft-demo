@@ -61,6 +61,10 @@ export default function CreateItem() {
     }
   }
   async function PublishIt() {
+    if (formdisable){
+      return
+    }
+    setFormdisable(true)
     const { name, description, s_tags, names } = formInput
     if (!afile) {
       alert('Please upload FEATURED IMAGE')
@@ -74,7 +78,6 @@ export default function CreateItem() {
       alert("Title, Content, Tags, Feature Image, eth-account are not optional")
       return
     }
-    setFormdisable(true)
     /* first, upload metadata to IPFS */
     const license = "CC-BY-SA"
     const license_url = "https://creativecommons.org/licenses/by-sa/4.0/"
