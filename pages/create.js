@@ -14,8 +14,8 @@ import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 let ethAccount
+let formdisable = false
 export default function CreateItem() {
-  const [formdisable, setFormdisable] = useState(false)
   const [fileUrl, setFileUrl] = useState(null)
   const [afile, setAFile] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '',
@@ -62,9 +62,10 @@ export default function CreateItem() {
   }
   async function PublishIt() {
     if (formdisable){
+      console.log('formdisable is true')
       return
     }
-    setFormdisable(true)
+    formdisable = true
     const { name, description, s_tags, names } = formInput
     if (!afile) {
       alert('Please upload FEATURED IMAGE')
@@ -130,6 +131,10 @@ export default function CreateItem() {
       console.log('Error uploading to dweb-search: ', error)
       alert("Sorry! Publish failed, server error. we are fixing...")
     }
+
+
+
+
 
   }
 
