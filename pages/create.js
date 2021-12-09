@@ -179,7 +179,7 @@ export default function CreateItem() {
           className="mt-8 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, names: e.target.value })}
         />
-        <button onSubmit={ (e) => PublishIt(e) }  className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+        <button onClick={ (e) => PublishIt(e) }  className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
           Publish
         </button>
       </div>
