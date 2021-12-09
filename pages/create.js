@@ -15,6 +15,7 @@ import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 let ethAccount
 export default function CreateItem() {
+  const [publishstate, setPublishstate] = useState('')
   const [fileUrl, setFileUrl] = useState(null)
   const [afile, setAFile] = useState(null)
   const [submitted, setSubmitted] = useState(false)
@@ -69,6 +70,7 @@ export default function CreateItem() {
     setSubmitted(true)
     e.preventDefault()
     console.log('submitted!')
+    setPublishstate('ing...')
     const { name, description, s_tags, names } = formInput
     if (!afile) {
       alert('Please upload FEATURED IMAGE')
@@ -180,7 +182,7 @@ export default function CreateItem() {
           onChange={e => updateFormInput({ ...formInput, names: e.target.value })}
         />
         <button onClick={ (e) => PublishIt(e) }  className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
-          Publish
+          Publish{publishstate}
         </button>
       </div>
     </div>
