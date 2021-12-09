@@ -15,6 +15,7 @@ import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
 let ethAccount
 export default function CreateItem() {
+  const [formdisable, setFormdisable] = useState(false)
   const [fileUrl, setFileUrl] = useState(null)
   const [afile, setAFile] = useState(null)
   const [formInput, updateFormInput] = useState({ price: '', name: '', description: '',
@@ -73,6 +74,7 @@ export default function CreateItem() {
       alert("Title, Content, Tags, Feature Image, eth-account are not optional")
       return
     }
+    setFormdisable(true)
     /* first, upload metadata to IPFS */
     const license = "CC-BY-SA"
     const license_url = "https://creativecommons.org/licenses/by-sa/4.0/"
@@ -100,7 +102,7 @@ export default function CreateItem() {
       console.log(cid)
       console.log(status)
     } catch (error) {
-      console.log('Error uploading file to nft.storage: ', error)
+      console.log('Error uploading to nft.storage: ', error)
     }
 
     try {
@@ -112,12 +114,20 @@ export default function CreateItem() {
 
       const ret = await axios.get(dweb_search_url) // TODO
       console.log(ret)
+      if (ret.status==200) {
+        router.push('/articles-my')
+      } else {
+        alert("Sorry! Publish failed, server error. we are fixing")
+
+      }
       /* after file is uploaded to IPFS, pass the URL to save it on Polygon */
       // createNFT(url)
-      router.push('/articles-my')
+      
     } catch (error) {
-      console.log('Error uploading file: ', error)
+      console.log('Error uploading to dweb-search: ', error)
+      alert("Sorry! Publish failed, server error. we are fixing...")
     }
+
   }
 
 
@@ -162,7 +172,7 @@ export default function CreateItem() {
           className="mt-8 border rounded p-4"
           onChange={e => updateFormInput({ ...formInput, names: e.target.value })}
         />
-        <button onClick={PublishIt} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
+        <button disabled={formdisable} onClick={PublishIt} className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg">
           Publish
         </button>
       </div>
