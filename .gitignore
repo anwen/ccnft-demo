@@ -45,8 +45,3 @@ artifacts
 
 # contract type generation
 /contracts/types
-
-*_raw
-
-
-yarn.lock
