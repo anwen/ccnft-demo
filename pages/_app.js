@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Head from "next/head";
 import { useState } from 'react'
 import Web3Modal from 'web3modal'
-// import Web3 from 'web3'
+import { ethers } from 'ethers'
 
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef } from 'react'
@@ -16,93 +16,140 @@ let provider
 function Marketplace({ Component, pageProps }) {
   const [ethAccount, setethAccount] = useState(null)
   const [Logined, setLogined] = useState(false)
+  const [loadingState, setLoadingState] = useState('not-loaded')
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const aethAccount = localStorage.getItem("ethAccount")
       if (aethAccount){
         setethAccount(aethAccount)
+        loginSig()
         setLogined(true);
       }
+    async function listenMMAccount() {
+      window.ethereum.on("accountsChanged", async function() {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        if (accounts[0] != localStorage.getItem("ethAccount")){
+          console.log("Got new ethAccount", accounts[0]);
+          localStorage.setItem("ethAccount", accounts[0])
+          localStorage.removeItem("sig_login")
+          loginSig()
+        }
+      });
+    }
+    listenMMAccount();
     }
   }, [])
 
+  async function loginSig() {
+    // change network and sig login
+    const sig_login = localStorage.getItem("sig_login")
+    if (sig_login){
+      console.log('sig_login already done', sig_login)
+      return
+    }
+    await addPolygonTestnetNetwork()
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    const types = {
+        Message: [
+            { name: 'content', type: 'string' }
+        ]
+    }
+    const domain = {
+        name: 'DwebLab Alpha',
+        version: '1',
+        chainId: 80001,
+    };
+    const message = {
+        content: "Sign this msg to login"  
+    }
+    signer.getAddress().then(walletAddress => {
+        signer._signTypedData(domain, types, message)
+            .then(signature => {
+                let verifiedAddress = ethers.utils.verifyTypedData(domain, types, message, signature)
+                if (verifiedAddress !== walletAddress) {
+                    alert(`Signed by: ${verifiedAddress}\r\nExpected: ${walletAddress}`)
+                } else {
+                    localStorage.setItem("sig_login", signature)
+                }
+                console.log('signature', signature)
+            })
+    })
+    setLoadingState('loaded')
+  }
+
+  async function addPolygonTestnetNetwork(){
+      try {
+          await ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x13881' }], // Hexadecimal version of 80001, prefixed with 0x
+          });
+      } catch (error) {
+          if (error.code === 4902) {
+              try {
+                  await ethereum.request({
+                      method: 'wallet_addEthereumChain',
+                      params: [{ 
+                          chainId: '0x13881', // Hexadecimal version of 80001, prefixed with 0x
+                          chainName: "POLYGON Mumbai",
+                          nativeCurrency: {
+                              name: "MATIC",
+                              symbol: "MATIC",
+                              decimals: 18,
+                          },
+                          rpcUrls: ["https://speedy-nodes-nyc.moralis.io/cebf590f4bcd4f12d78ee1d4/polygon/mumbai"],
+                          blockExplorerUrls: ["https://explorer-mumbai.maticvigil.com/"],
+                          iconUrls: [""],
+                  
+                      }],
+                  });
+              } catch (addError){
+                  console.log('Did not add network');
+              }
+          }
+      }
+  }
+
 async function ConnectWallet() {
-    // const web3Modal = new Web3Modal()
-    // const connection = await web3Modal.connect()
-    // const provider = new ethers.providers.Web3Provider(connection)
-
-    const web3Modal = new Web3Modal({
-      cacheProvider: false, // optional
-      // providerOptions, // required
-      disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
-    });
-    console.log("Web3Modal instance is", web3Modal);
-    console.log("Opening a dialog", web3Modal);
-    try {
-      provider = await web3Modal.connect();
-    } catch(e) {
-      console.log("Could not get a wallet connection", e);
-      return;
-    }
-
-  // Get a Web3 instance for the wallet
-  // const web3 = new Web3(provider);
-  // const web3 = await web3Modal.connect()
-  // const web3 = new ethers.providers.Web3Provider(provider)
-  
-
-  // const web3 = new Web3(provider);
-  const web3 = new ethers.providers.Web3Provider(provider)
-
-
-  console.log("Web3 instance is", web3);
-  // Get connected chain id from Ethereum node
-  const chainId = await web3.eth.getChainId();
-  // Load chain information over an HTTP API
-  // const chainData = evmChains.getChain(chainId);
-  // console.log("chainData is", chainData);
-  console.log("chainId is", chainId);
-
-  // Get list of accounts of the connected wallet
-  const accounts = await web3.eth.getAccounts();
-
-  // MetaMask does not give you all accounts, only the selected account
-  console.log("Got accounts", accounts);
-  if(accounts.length > 0) {
-   setethAccount(accounts[0])
-   setLogined(true);
-   console.log("Got ethAccount", accounts[0]);
-
-    // useEffect(function() {
-    //     // console.log(window.localStorate);
-    //     localStorage.setItem("ethAccount", accounts[0])
-    // },[]);
-
-    if (typeof window !== "undefined") {
-      localStorage.setItem("ethAccount", accounts[0])
-    }
-
+    // if (window.ethereum)
+    await window.ethereum.enable();
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    if(accounts.length > 0) {
+      setethAccount(accounts[0])
+      console.log("Got ethAccount", accounts[0]);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("ethAccount", accounts[0])
+      }
+      loginSig()
+      setLogined(true);
   }
 }
 
 async function DisconnectWallet() {
-  if (typeof window !== "undefined") {
-     localStorage.removeItem("ethAccount")
-  }
   setLogined(false);
   setethAccount(null);
+  // await web3Modal.clearCachedProvider();
   console.log("Killing the wallet connection", provider);
-  // TODO: Which providers have close method?
-  if(provider.close) {
+  if (provider && provider.close) {
     await provider.close();
     // If the cached provider is not cleared,
     // WalletConnect will default to the existing session
     // and does not allow to re-scan the QR code with a new wallet.
     // Depending on your use case you may want or want not his behavir.
-    await web3Modal.clearCachedProvider();
     provider = null;
   }
+
+  // disconnect wallet
+  // const disconnectWallet = async (web3Modal: any) => {
+  //     await web3Modal.clearCachedProvider();
+  // }
+
+  if (typeof window !== "undefined") {
+     localStorage.removeItem("ethAccount")
+     localStorage.removeItem("sig_login")
+  }
+
 
 }
 
