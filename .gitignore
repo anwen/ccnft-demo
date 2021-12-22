@@ -47,3 +47,6 @@ artifacts
 /contracts/types
 
 *_raw
+
+
+yarn.lock
