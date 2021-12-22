@@ -40,7 +40,11 @@ export default function MyAssets() {
   async function createMint() {
     /* first, upload to IPFS */
     try {
-      const url = `https://ipfs.infura.io/ipfs/${cid}`
+      if (cid.startsWith('Qm')) { // v0
+        const url = `https://ipfs.infura.io/ipfs/${cid}`
+      } else { // v1
+        const url = `https://${cid}.ipfs.infura-ipfs.io/`
+      }
       console.log('!nft.minted', !nft.minted)
       /* after file is uploaded to IPFS, pass the URL to save it on Polygon */
       createSale(url)
@@ -134,7 +138,6 @@ export default function MyAssets() {
 
   async function loadNFT() {
     console.log(router.query)
-    // const dweb_search_url = `https://dweb-search-api.anwen.cc/get_meta?cid=${cid}`
     if ('cid' in router.query){
       cid = router.query.cid
       console.log('cid', cid)
@@ -148,13 +151,7 @@ export default function MyAssets() {
     console.log(ret)
     // authors[0].name
     if ('data' in ret) {
-      // const { data, content } = matter(ret.data.description)
-      // console.log('data, content')
-      // console.log(data, content)
-      // const result = await remark().use(html).process(content);
-      // ret.data.description = result.toString()
       console.log(ret.data.description)
-      // useEffect(() => { setNft(ret.data) }, [])
       nft = ret.data
       console.log('nft.minted', nft.minted)
       console.log('aname', ret.data.authors[0].name)
