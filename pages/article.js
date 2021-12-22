@@ -39,11 +39,12 @@ export default function MyAssets() {
 
   async function createMint() {
     /* first, upload to IPFS */
+    let url = ''
     try {
       if (cid.startsWith('Qm')) { // v0
-        const url = `https://ipfs.infura.io/ipfs/${cid}`
+        url = `https://ipfs.infura.io/ipfs/${cid}`
       } else { // v1
-        const url = `https://${cid}.ipfs.infura-ipfs.io/`
+        url = `https://${cid}.ipfs.infura-ipfs.io/`
       }
       console.log('!nft.minted', !nft.minted)
       /* after file is uploaded to IPFS, pass the URL to save it on Polygon */
