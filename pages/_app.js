@@ -18,15 +18,13 @@ function Marketplace({ Component, pageProps }) {
   const [Logined, setLogined] = useState(false)
 
   useEffect(() => {
-
-  if (typeof window !== "undefined") {
-    const aethAccount = localStorage.getItem("ethAccount")
-    if (aethAccount){
-      setethAccount(aethAccount)
-      setLogined(true);
+    if (typeof window !== "undefined") {
+      const aethAccount = localStorage.getItem("ethAccount")
+      if (aethAccount){
+        setethAccount(aethAccount)
+        setLogined(true);
+      }
     }
-  }
-
   }, [])
 
 async function ConnectWallet() {

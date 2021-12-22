@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
 import { useRouter } from 'next/router'
+// import Web3 from 'web3'
 
 import {
   nftaddress, nftmarketaddress
@@ -11,6 +12,11 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
+
+// On production, you should use something like web3Modal
+// to support additional wallet providers, like WalletConnect
+
+let provider
 
 export default function Home() {
   const [nfts, setNfts] = useState([])
@@ -27,11 +33,91 @@ export default function Home() {
     }
   }
   useEffect(() => {
-    loadNFTs()
+    if (typeof window !== "undefined") {
+      const sig_login = localStorage.getItem("sig_login")
+      console.log('sig_login', sig_login)
+      if (!sig_login){
+        loginSig()
+      }
+    }
   }, [])
-  async function loadNFTs() {
+
+  async function addPolygonTestnetNetwork(){
+      try {
+          await ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x13881' }], // Hexadecimal version of 80001, prefixed with 0x
+          });
+      } catch (error) {
+          if (error.code === 4902) {
+              try {
+                  await ethereum.request({
+                      method: 'wallet_addEthereumChain',
+                      params: [{ 
+                          chainId: '0x13881', // Hexadecimal version of 80001, prefixed with 0x
+                          chainName: "POLYGON Mumbai",
+                          nativeCurrency: {
+                              name: "MATIC",
+                              symbol: "MATIC",
+                              decimals: 18,
+                          },
+                          rpcUrls: ["https://speedy-nodes-nyc.moralis.io/cebf590f4bcd4f12d78ee1d4/polygon/mumbai"],
+                          blockExplorerUrls: ["https://explorer-mumbai.maticvigil.com/"],
+                          iconUrls: [""],
+                  
+                      }],
+                  });
+              } catch (addError){
+                  console.log('Did not add network');
+              }
+          }
+      }
+  }
+
+  async function loginSig() {
+    // await window.ethereum.enable();
+    await addPolygonTestnetNetwork()
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = provider.getSigner()
+    // const message = "Sign this message to log in to our app" 
+    // await axios.post('/api/auth/login', {
+    //   address: await web3.getSigner().getAddress(),
+    //   signature: await web3.getSigner().signMessage(message),
+    // })
+    const types = {
+        Message: [
+            { name: 'content', type: 'string' }
+        ]
+    }
+    //   Ballot: [
+    //     { name: 'proposalId', type: 'uint256' },
+    //     { name: 'support', type: 'bool' }
+    //   ]
+    const domain = {
+        name: 'DwebLab Alpha',
+        version: '1',
+        chainId: 80001,
+    };
+    const message = {
+        content: "Sign this msg to login"  
+    } // 'sign for login'
+    // const signature = await web3.getSigner._signTypedData(
+    signer.getAddress().then(walletAddress => {
+        signer._signTypedData(domain, types, message)
+            .then(signature => {
+                let verifiedAddress = ethers.utils.verifyTypedData(domain, types, message, signature)
+                if (verifiedAddress !== walletAddress) {
+                    alert(`Signed by: ${verifiedAddress}\r\nExpected: ${walletAddress}`)
+                } else {
+                    localStorage.setItem("sig_login", signature)
+                }
+                console.log('signature', signature)
+            })
+    })
     setLoadingState('loaded')
   }
+
+
 
   return (
     <div className="px-4" style={{ maxWidth: '1600px' }}>
