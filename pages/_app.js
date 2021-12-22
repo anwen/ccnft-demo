@@ -3,13 +3,15 @@ import '../styles/markdown.css'
 import Link from 'next/link'
 import Head from "next/head";
 import { useState } from 'react'
-import Web3Modal from 'web3modal'
 import { ethers } from 'ethers'
-
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 import { useRouter } from 'next/router'
+
+// On production, you should use something like web3Modal
+// to support additional wallet providers, like WalletConnect
+
 
 let provider
 
@@ -129,28 +131,15 @@ async function ConnectWallet() {
 async function DisconnectWallet() {
   setLogined(false);
   setethAccount(null);
-  // await web3Modal.clearCachedProvider();
   console.log("Killing the wallet connection", provider);
   if (provider && provider.close) {
     await provider.close();
-    // If the cached provider is not cleared,
-    // WalletConnect will default to the existing session
-    // and does not allow to re-scan the QR code with a new wallet.
-    // Depending on your use case you may want or want not his behavir.
     provider = null;
   }
-
-  // disconnect wallet
-  // const disconnectWallet = async (web3Modal: any) => {
-  //     await web3Modal.clearCachedProvider();
-  // }
-
   if (typeof window !== "undefined") {
      localStorage.removeItem("ethAccount")
      localStorage.removeItem("sig_login")
   }
-
-
 }
 
 function getBrief(astr) {

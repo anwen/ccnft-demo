@@ -45,3 +45,5 @@ artifacts
 
 # contract type generation
 /contracts/types
+
+package-lock.json

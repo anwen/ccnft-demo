@@ -3,9 +3,6 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Web3Modal from "web3modal"
 import { useRouter } from 'next/router'
-import matter from 'gray-matter'
-// import ReactMarkdown from "react-markdown"
-// import ReactMarkdown from 'react-markdown/react-markdown.min';
 import ReactMarkdown from 'react-markdown'
 import { CID } from 'multiformats/cid'
 

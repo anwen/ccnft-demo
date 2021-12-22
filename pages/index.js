@@ -1,7 +1,6 @@
 import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Web3Modal from "web3modal"
 import { useRouter } from 'next/router'
 
 import {
@@ -11,9 +10,6 @@ import {
 import NFT from '../artifacts/contracts/NFT.sol/NFT.json'
 import Market from '../artifacts/contracts/Market.sol/NFTMarket.json'
 
-
-// On production, you should use something like web3Modal
-// to support additional wallet providers, like WalletConnect
 
 let provider
 
