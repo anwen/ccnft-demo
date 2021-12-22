@@ -146,7 +146,11 @@ export default function MyAssets() {
     if (!cid) {
       return
     }
-    const ipfs_gateway_url = `https://ipfs.infura.io/ipfs/${cid}`
+    if (cid.startsWith('Qm')) { // v0
+      const ipfs_gateway_url = `https://ipfs.infura.io/ipfs/${cid}`
+    } else { // v1
+      const ipfs_gateway_url = `https://${cid}.ipfs.infura-ipfs.io/`
+    }
     const ret = await axios.get(ipfs_gateway_url) // TODO
     console.log(ret)
     // authors[0].name
