@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Head from "next/head";
 import { useState } from 'react'
 import Web3Modal from 'web3modal'
-import Web3 from 'web3'
+// import Web3 from 'web3'
 
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useRef } from 'react'
@@ -52,7 +52,12 @@ async function ConnectWallet() {
   // const web3 = new Web3(provider);
   // const web3 = await web3Modal.connect()
   // const web3 = new ethers.providers.Web3Provider(provider)
-  const web3 = new Web3(provider);
+  
+
+  // const web3 = new Web3(provider);
+  const web3 = new ethers.providers.Web3Provider(provider)
+
+
   console.log("Web3 instance is", web3);
   // Get connected chain id from Ethereum node
   const chainId = await web3.eth.getChainId();

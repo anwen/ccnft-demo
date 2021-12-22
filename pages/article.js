@@ -5,7 +5,9 @@ import Web3Modal from "web3modal"
 import { useRouter } from 'next/router'
 import matter from 'gray-matter'
 // import ReactMarkdown from "react-markdown"
-import ReactMarkdown from 'react-markdown/react-markdown.min';
+// import ReactMarkdown from 'react-markdown/react-markdown.min';
+import ReactMarkdown from 'react-markdown'
+import { CID } from 'multiformats/cid'
 
 import {
   nftmarketaddress, nftaddress
@@ -161,6 +163,16 @@ export default function MyAssets() {
       nft = ret.data
       console.log('nft.minted', nft.minted)
       console.log('aname', ret.data.authors[0].name)
+
+      if (nft.image.startsWith('https://ipfs.infura.io/ipfs/')) { // v0
+        let acid0 = nft.image.slice(28);
+        console.log('acid0', acid0)
+        const v0 = CID.parse(acid0)
+        const v1 = v0.toV1().toString()
+        nft.image = `https://${v1}.ipfs.infura-ipfs.io/`
+        console.log('nft.image', nft.image)
+      }
+
     }
     setLoadingState('loaded')
   }
