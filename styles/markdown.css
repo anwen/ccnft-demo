@@ -1,7 +1,7 @@
 /* Additional vertical padding used by kbd tag. */
 .py-05 {
-  padding-top: 0.125rem;
-  padding-bottom: 0.125rem;
+  @layer padding-top: 0.125rem;
+  @layer padding-bottom: 0.125rem;
 }
 
 .markdown {

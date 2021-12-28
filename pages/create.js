@@ -37,6 +37,10 @@ export default function CreateItem() {
 
   if (typeof window !== 'undefined') {
       ethAccount = localStorage.getItem("ethAccount");
+      if (!ethAccount) {
+        alert('No ETH Account, Please login')
+        router.push('/articles-all')
+      }
   }
   console.log(ethAccount);
 
@@ -74,14 +78,49 @@ export default function CreateItem() {
     const { name, description, s_tags, names } = formInput
     if (!afile) {
       alert('Please upload FEATURED IMAGE')
+      setPublishstate('')
+      setSubmitted(false)
+      return
     }
     const _filename = afile.name.split('.')
     console.log(afile.type, _filename[_filename.length - 1])
     const filetype = afile.type
     const filesize = afile.size
     const filename = afile.name
-    if (!name || !description || !s_tags || !fileUrl || !ethAccount) {
-      alert("Title, Content, Tags, Feature Image, eth-account are not optional")
+    if (!name ) {
+      alert("Title is not optional")
+      setPublishstate('')
+      setSubmitted(false)
+      return
+    }
+    if (!description ) {
+      alert("Content is not optional")
+      setPublishstate('')
+      setSubmitted(false)
+      return
+    }
+    if (!s_tags ) {
+      alert("Tags is not optional")
+      setPublishstate('')
+      setSubmitted(false)
+      return
+    }
+    if (!fileUrl ) {
+      alert("Feature Image is not optional")
+      setPublishstate('')
+      setSubmitted(false)
+      return
+    }
+    if (!names ) {
+      alert("Authors Name is not optional")
+      setPublishstate('')
+      setSubmitted(false)
+      return
+    }
+    if (!ethAccount ) {
+      alert('No ETH Account, Please login')
+      setPublishstate('')
+      setSubmitted(false)
       return
     }
     /* first, upload metadata to IPFS */
