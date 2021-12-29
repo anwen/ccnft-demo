@@ -8,6 +8,7 @@ import { Menu, Transition } from "@headlessui/react"
 import { Fragment, useEffect, useRef } from "react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
 import { useRouter } from "next/router"
+import axios from "axios"
 
 // On production, you should use something like web3Modal
 // to support additional wallet providers, like WalletConnect
@@ -18,6 +19,7 @@ function Marketplace({ Component, pageProps }) {
   const [ethAccount, setethAccount] = useState(null)
   const [Logined, setLogined] = useState(false)
   const [loadingState, setLoadingState] = useState("not-loaded")
+  const [BackendVersion, setBackendVersion] = useState("err")
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,8 +44,21 @@ function Marketplace({ Component, pageProps }) {
         })
       }
       listenMMAccount()
+      getBackendVersion()
     }
   }, [])
+
+  async function getBackendVersion() {
+    try {
+      const dweb_search_ver_api = "https://dweb-search-api.anwen.cc/version"
+      const ret = await axios.get(dweb_search_ver_api)
+      if (ret.status == 200 && 'version' in ret.data) {
+        setBackendVersion(ret.data['version'])
+      } 
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   async function loginSig() {
     // change network and sig login
@@ -267,10 +282,13 @@ function Marketplace({ Component, pageProps }) {
 
       <Component {...pageProps} />
 
-
-
       <footer className="border-b p-6">
-          <p>Version v0.4.4 Powered by Dweb Lab</p>
+          <p>Frontend Version: v0.4.4 &nbsp;
+          Backend Version: {BackendVersion} &nbsp;
+           & <a href="https://mumbai.polygonscan.com/">Polygon (MATIC) Mumbai TESTNET</a>
+
+         &nbsp;| Powered by Dweb Lab.
+          </p>
       </footer>
 
     </div>
