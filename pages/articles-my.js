@@ -49,12 +49,7 @@ export default function MyAssets() {
               <img src={nft.image} className="rounded" />
               <div className="p-4">
                 <a href={"/article?cid=" + nft.path}>
-                  <p
-                    style={{ height: "64px" }}
-                    className="text-2xl font-semibold"
-                  >
-                    {nft.name}
-                  </p>
+                  <p className="text-2xl font-semibold">{nft.name}</p>
                 </a>
                 <p className="text-2xl font-semibold">
                   By:

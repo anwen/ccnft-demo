@@ -36,6 +36,7 @@ function Marketplace({ Component, pageProps }) {
             console.log("Got new ethAccount", accounts[0])
             localStorage.setItem("ethAccount", accounts[0])
             localStorage.removeItem("sig_login")
+            setethAccount(aethAccount)
             loginSig()
           }
         })

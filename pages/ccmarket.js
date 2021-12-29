@@ -85,12 +85,7 @@ export default function Home() {
             <div key={i} className="border shadow rounded-xl overflow-hidden">
               <img src={nft.image} />
               <div className="p-4">
-                <p
-                  style={{ height: "64px" }}
-                  className="text-2xl font-semibold"
-                >
-                  {nft.name}
-                </p>
+                <p className="text-2xl font-semibold">{nft.name}</p>
                 <div style={{ height: "70px", overflow: "hidden" }}>
                   <p className="text-gray-400">{nft.description}</p>
                 </div>

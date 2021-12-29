@@ -105,12 +105,7 @@ export default function Home() {
               <img src={nft.image} />
               <div className="p-4">
                 <a href={"/article?cid=" + nft.path}>
-                  <p
-                    style={{ height: "64px" }}
-                    className="text-2xl font-semibold"
-                  >
-                    {nft.name}
-                  </p>
+                  <p className="text-2xl font-semibold">{nft.name}</p>
                 </a>
                 <div style={{ height: "70px", overflow: "hidden" }}>
                   <p className="text-gray-400">{nft.description}</p>

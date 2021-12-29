@@ -188,10 +188,7 @@ export default function MyAssets() {
         <div className="border shadow rounded-xl overflow-hidden">
           <img src={nft.image} className="rounded" />
           <div className="p-4">
-            <p
-              style={{ height: "64px" }}
-              className="text-3xl font-semibold flex justify-center"
-            >
+            <p className="text-3xl font-semibold flex justify-center">
               {nft.name}
             </p>
             <div className="markdown">
