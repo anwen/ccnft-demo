@@ -166,14 +166,32 @@ export default function CreateItem() {
       console.log(added)
       const url = `https://ipfs.infura.io/ipfs/${added.path}`
       // We also store metadata in Dweb Search
-      const dweb_search_url = `https://dweb-search-api.anwen.cc/add_meta?path=${added.path}&eth=${ethAccount}&name=${name}&image=${fileUrl}&tags=${s_tags}&authors=${names}`
+      console.log(s_tags)
+      console.log(names)
+      // const dweb_search_url = `https://dweb-search-api.anwen.cc/add_meta?path=${added.path}&eth=${ethAccount}&name=${name}&image=${fileUrl}&tags=${s_tags}&authors=${names}`
+      const dweb_search_url = `https://dweb-search-api.anwen.cc/add_meta`
+      console.log(dweb_search_url)
 
-      const ret = await axios.get(dweb_search_url) // TODO
+      // ?path=${added.path}&eth=${ethAccount}&name=${name}&image=${fileUrl}&tags=${s_tags}&authors=${names}`
+
+      const ret = await axios.post(dweb_search_url, {
+        path: added.path,
+        eth: ethAccount,
+        name: name,
+        image: fileUrl,
+        tags: s_tags,
+        authors: names
+      }) // TODO
       console.log(ret)
-      if (ret.status == 200) {
+      if (ret.status == 200 && !('error' in ret.data)) {
         router.push("/articles-my")
       } else {
-        alert("Sorry! Publish failed, server error. we are fixing")
+        let err = ret.data['error']
+        console.log(err)
+        alert(`Sorry! Publish failed, server error: ${err}. We're fixing. You can try later.`)
+        setPublishstate("")
+        setSubmitted(false)
+        return
       }
       /* after file is uploaded to IPFS, pass the URL to save it on Polygon */
       // createNFT(url)
