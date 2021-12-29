@@ -266,6 +266,13 @@ function Marketplace({ Component, pageProps }) {
       </nav>
 
       <Component {...pageProps} />
+
+
+
+      <footer className="border-b p-6">
+          <p>Version v0.4.4 Powered by Dweb Lab</p>
+      </footer>
+
     </div>
   )
 }
