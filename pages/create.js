@@ -223,8 +223,12 @@ export default function CreateItem() {
             updateFormInput({ ...formInput, name: e.target.value })
           }
         />
+        <p> -- Markdown Tips: &nbsp;
+          <a href="https://anwen.cc/share/6">参考1</a>&nbsp;
+          <a href="https://www.markdown.xyz/basic-syntax/">参考2</a>
+        </p>
         <textarea
-          placeholder="Your creative works (you can use Markdown format)"
+          placeholder="Content of your creative works (you can use Markdown format)"
           className="mt-2 border rounded p-4 h-80"
           onChange={(e) =>
             updateFormInput({ ...formInput, description: e.target.value })
