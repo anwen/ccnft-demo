@@ -1,5 +1,6 @@
 import "../styles/globals.css"
 import "../styles/markdown.css"
+import { FrontendVersion } from "./version.js"
 import Link from "next/link"
 import Head from "next/head"
 import { useState } from "react"
@@ -283,7 +284,7 @@ function Marketplace({ Component, pageProps }) {
       <Component {...pageProps} />
 
       <footer className="border-b p-6">
-          <p>Frontend Version: v0.4.4 &nbsp;
+          <p>Frontend Version: {FrontendVersion} &nbsp;
           Backend Version: {BackendVersion} &nbsp;
            & <a href="https://mumbai.polygonscan.com/">Polygon (MATIC) Mumbai TESTNET</a>
 

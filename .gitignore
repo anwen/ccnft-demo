@@ -47,3 +47,5 @@ artifacts
 /contracts/types
 
 package-lock.json
+
+pages/version.js
