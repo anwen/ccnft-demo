@@ -48,4 +48,4 @@ artifacts
 
 package-lock.json
 
-pages/version.js
+version.js

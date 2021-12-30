@@ -1,6 +1,6 @@
 import "../styles/globals.css"
 import "../styles/markdown.css"
-import { FrontendVersion } from "./version.js"
+import { FrontendVersion } from "../version.js"
 import Link from "next/link"
 import Head from "next/head"
 import { useState } from "react"

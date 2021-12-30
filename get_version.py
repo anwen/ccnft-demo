@@ -26,4 +26,4 @@ export {
 """
 # print(txt)
 
-open('pages/version.js', 'w').write(txt)
+open('version.js', 'w').write(txt)
