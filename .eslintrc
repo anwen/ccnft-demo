@@ -1,11 +1,13 @@
 {
+  "parser": "@typescript-eslint/parser",
   "env": {
     "browser": true,
     "es2021": true
   },
   "extends": [
     "plugin:react/recommended",
-    "standard",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier",
     "next/core-web-vitals"
   ],
@@ -16,7 +18,7 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": ["react","@typescript-eslint"],
   "rules": {
     "@next/next/no-img-element": "off"
   }
