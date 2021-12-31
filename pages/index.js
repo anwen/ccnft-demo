@@ -87,8 +87,7 @@ export default function Home() {
         </li>
         <li>
           🌃 There is also an IPFS version:
-          ipfs://QmSp1Y8TJLQ2dJyYd5uZS7iqGDLPChf2rSsK1R8KkTgY2i{" "} not newest
-          newest version: b8b6db
+          ipfs://QmeHJjYjFDLnu4pehAjRyy2MTbZCuVkXFRsvUYVfVUaYxL maybe not newest version
         </li>
       </ul>
     </div>
