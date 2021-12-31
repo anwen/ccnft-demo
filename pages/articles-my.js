@@ -1,7 +1,6 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useRouter } from "next/router"
 
 import { nftmarketaddress, nftaddress } from "../config"
 
@@ -9,17 +8,7 @@ let ethAccount
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
-  const router = useRouter()
 
-  if (router.pathname == "/articles-my") {
-    if (typeof document !== "undefined") {
-      var els = document.getElementsByClassName("_nav")
-      Array.prototype.forEach.call(els, function (el) {
-        el.classList.remove("current")
-      })
-      document.getElementById("_articles_my").classList.add("current")
-    }
-  }
   if (typeof window !== "undefined") {
     ethAccount = localStorage.getItem("ethAccount")
   }

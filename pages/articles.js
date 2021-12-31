@@ -13,15 +13,6 @@ export default function MyAssets() {
   // useEffect(function() {
   // },[]);
   const router = useRouter()
-  console.log(router)
-  if (router.pathname == "/articles") {
-    if (typeof document !== "undefined") {
-      var els = document.getElementsByClassName("_nav")
-      Array.prototype.forEach.call(els, function (el) {
-        el.classList.remove("current")
-      })
-    }
-  }
 
   console.log(router.query)
   if ("author" in router.query) {

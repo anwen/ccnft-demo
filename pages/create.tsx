@@ -36,17 +36,6 @@ export default function CreateItem() {
   const [ethAccount, setEthAccount] = useState<string>()
   const [preview, setPreview] = useState<string>()
 
-  // todo: remove this menu active track
-  if (router.pathname == "/create") {
-    if (typeof document !== "undefined") {
-      const els = document.getElementsByClassName("_nav")
-      Array.prototype.forEach.call(els, function (el) {
-        el.classList.remove("current")
-      })
-      document.getElementById("_create")?.classList?.add("current")
-    }
-  }
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const account = localStorage.getItem("ethAccount")
