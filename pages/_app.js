@@ -1,13 +1,12 @@
 import "../styles/globals.css"
 import "../styles/markdown.css"
-import Link from "next/link"
 import Head from "next/head"
 import { useState } from "react"
 import { ethers } from "ethers"
 import { Menu, Transition } from "@headlessui/react"
-import { Fragment, useEffect, useRef } from "react"
+import { Fragment, useEffect } from "react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
-import { useRouter } from "next/router"
+import {Navigation} from "../components/Navigation";
 
 // On production, you should use something like web3Modal
 // to support additional wallet providers, like WalletConnect
@@ -165,43 +164,7 @@ function Marketplace({ Component, pageProps }) {
 
       <nav className="border-b p-6">
         <p className="text-4xl font-bold">Creative Commons NFT Playground</p>
-        <div className="flex mt-4">
-          <Link href="/">
-            <a className="mr-4 text-pink-500 _nav" id="_home">
-              Home
-            </a>
-          </Link>
-          <Link href="/create">
-            <a className="mr-4 text-pink-500 _nav" id="_create">
-              +Create
-            </a>
-          </Link>
-          <Link href="/articles-my">
-            <a className="mr-4 text-pink-500 _nav" id="_articles_my">
-              My Articles
-            </a>
-          </Link>
-          <Link href="/articles-all">
-            <a className="mr-4 text-pink-500 _nav" id="_articles_all">
-              All Articles
-            </a>
-          </Link>
-          <Link href="/my-nfts">
-            <a className="mr-4 text-pink-500 _nav" id="_my_nfts">
-              My NFTs
-            </a>
-          </Link>
-          <Link href="/my-collections">
-            <a className="mr-4 text-pink-500 _nav" id="_my_collections">
-              My Collections
-            </a>
-          </Link>
-          <Link href="/nft-market">
-            <a className="mr-4 text-pink-500 _nav" id="_nft_market">
-              NFT Market
-            </a>
-          </Link>
-        </div>
+        <Navigation />
         <button
           style={{ display: Logined ? "none" : "block" }}
           onClick={ConnectWallet}

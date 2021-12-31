@@ -24,15 +24,6 @@ export default function MyAssets() {
   // const [nft, setNft] = useState({})
   const [loadingState, setLoadingState] = useState("not-loaded")
   const router = useRouter()
-  console.log(router) // pathname: '/', route: '/', asPath: '/'
-  if (router.pathname == "/article") {
-    if (typeof document !== "undefined") {
-      var els = document.getElementsByClassName("_nav")
-      Array.prototype.forEach.call(els, function (el) {
-        el.classList.remove("current")
-      })
-    }
-  }
 
   async function createMint() {
     /* first, upload to IPFS */

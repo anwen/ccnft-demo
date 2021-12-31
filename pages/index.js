@@ -1,7 +1,6 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useRouter } from "next/router"
 
 import { nftaddress, nftmarketaddress } from "../config"
 
@@ -12,17 +11,6 @@ let provider
 
 export default function Home() {
   const [nfts, setNfts] = useState([])
-  const router = useRouter()
-  console.log(router) // pathname: '/', route: '/', asPath: '/'
-  if (router.pathname == "/") {
-    if (typeof document !== "undefined") {
-      var els = document.getElementsByClassName("_nav")
-      Array.prototype.forEach.call(els, function (el) {
-        el.classList.remove("current")
-      })
-      document.getElementById("_home").classList.add("current")
-    }
-  }
 
   return (
     <div className="px-4" style={{ maxWidth: "1600px" }}>
