@@ -58,7 +58,7 @@ export default function EditItem() {
   useEffect(() => {
     if ("cid" in router.query) {
       const _cid = router.query.cid // TODO: setCid and cid is useless in fetchArticle
-      setCid(_cid)
+      setCid(router.query.cid)
     }
     async function fetchArticle() {
       const doc = await loadNFT(_cid)
