@@ -18,19 +18,19 @@ export async function loadNFT(cid) {
     ipfs_gateway_url = `https://${cid}.ipfs.infura-ipfs.io/` // cidv1
   }
   const ret = await axios.get(ipfs_gateway_url) // TODO
-  let nft = {}
+  let _nft // TODO
   if ("data" in ret) {
-    nft = ret.data
+    _nft = ret.data
     // console.log("nft.minted", nft.minted) // TODO: add minted info
     // console.log("aname", ret.data.authors[0].name)
-    if (nft.image.startsWith("https://ipfs.infura.io/ipfs/")) {
-      const v0 = CID.parse(nft.image.slice(28)) // v0
+    if (_nft.image.startsWith("https://ipfs.infura.io/ipfs/")) {
+      const v0 = CID.parse(_nft.image.slice(28)) // v0
       const v1 = v0.toV1().toString()
-      nft.image = `https://${v1}.ipfs.infura-ipfs.io/`
-      console.log("nft.image", nft.image)
+      _nft.image = `https://${v1}.ipfs.infura-ipfs.io/`
+      console.log("nft.image", _nft.image)
     }
-    nft.s_tags = nft.tags.join(' ')
-    nft.author_names = nft.authors[0]['name']
+    _nft.s_tags = _nft.tags.join(' ')
+    _nft.author_names = _nft.authors[0]['name']
   }
-  return nft
+  return _nft
 }

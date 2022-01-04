@@ -15,7 +15,7 @@ import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import {InputFieldError} from "../components/InputFieldError";
 
 
-let nft = {} // TODO: use useState?
+let nft // TODO: use useState?
 
 interface IFormInputs {
   price: string
@@ -57,9 +57,8 @@ export default function EditItem() {
 
   useEffect(() => {
     async function fetchArticle() {
-      const doc = await loadNFT(cid)
-      if (doc && 'image' in doc) {
-        nft = doc
+      nft = await loadNFT(cid)
+      if (nft && 'image' in nft) {
         setPreview(nft.image)
         setLoadingState("loaded")
       }
@@ -149,9 +148,9 @@ export default function EditItem() {
     alert("Sorry! Publish failed, server error. we are fixing...")
   }
 
-  if (loadingState != "loaded" && !("name" in nft))
+  if (loadingState != "loaded")
     return <h1 className="py-10 px-20 text-3xl"></h1>
-  if (loadingState === "loaded" && !("name" in nft))
+  if (loadingState === "loaded" && (!nft || !("name" in nft)))
     return <h1 className="py-10 px-20 text-3xl">Article not found, cannot edit</h1>
 
   return (
