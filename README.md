@@ -47,7 +47,7 @@ We aim to help create next-generation content communities with pure open-source,
 https://opensource.org/licenses/MIT
 
 
-## Design
+## Design 作品激进市场3次方策展实验
 ### 角色
 
 - 1 人类：理想情况下，高质量知识应该免费公开传播
