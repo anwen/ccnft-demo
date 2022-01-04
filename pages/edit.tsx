@@ -56,18 +56,18 @@ export default function EditItem() {
   }, [])
 
   useEffect(() => {
-    if ("cid" in router.query) {
-      setCid(router.query.cid.toString())
-    }
     async function fetchArticle() {
       const doc = await loadNFT(cid)
-      if (doc) {
+      if (doc && 'image' in doc) {
         nft = doc
         setPreview(nft.image)
         setLoadingState("loaded")
       }
     }
-    fetchArticle()
+    if ("cid" in router.query) {
+      setCid(router.query.cid.toString())
+      fetchArticle()
+    }
   }, [router.query])
 
   const {register, handleSubmit, formState: {errors, isSubmitting}, watch} = useForm<IFormInputs>({
