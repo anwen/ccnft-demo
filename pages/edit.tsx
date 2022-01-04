@@ -57,12 +57,11 @@ export default function EditItem() {
 
   useEffect(() => {
     if ("cid" in router.query) {
-      cid = router.query.cid
-      setCid(cid)
+      const _cid = router.query.cid // TODO: setCid and cid is useless in fetchArticle
+      setCid(_cid)
     }
-    console.log('cid', cid)
     async function fetchArticle() {
-      const doc = await loadNFT(cid)
+      const doc = await loadNFT(_cid)
       if (doc) {
         nft = doc
         setPreview(nft.image)
