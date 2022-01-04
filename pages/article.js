@@ -1,5 +1,5 @@
 import { ethers } from "ethers"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import axios from "axios"
 import Web3Modal from "web3modal"
 import { useRouter } from "next/router"
@@ -119,15 +119,9 @@ export default function MyAssets() {
   console.log(nft)
   console.log(loadingState != "loaded", !nft)
 
-  // const { cid } = router.query
-  // console.log(cid)
   if (loadingState != "loaded" && !("name" in nft)) {
     loadNFT()
   }
-
-  useEffect(() => {
-    loadNFT()
-  }, [])
 
   async function loadNFT() {
     console.log(router.query)
