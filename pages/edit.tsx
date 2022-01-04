@@ -56,7 +56,7 @@ export default function EditItem() {
   }, [])
 
   useEffect(() => {
-    async function fetchArticle() {
+    async function fetchArticle(cid) {
       nft = await loadNFT(cid)
       if (nft && 'image' in nft) {
         setPreview(nft.image)
@@ -64,8 +64,8 @@ export default function EditItem() {
       }
     }
     if ("cid" in router.query) {
-      setCid(router.query.cid.toString())
-      fetchArticle()
+      setCid(router.query.cid.toString()) // TODO
+      fetchArticle(router.query.cid.toString())
     }
   }, [router.query])
 
