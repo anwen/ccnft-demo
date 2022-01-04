@@ -91,8 +91,6 @@ export default function CreateItem() {
     await addNFTToNFTStorage(nftData)
 
     const addedNFT = await addToIPFS(nftData)
-    // TODO: use this url?
-    const url = `https://ipfs.infura.io/ipfs/${addedNFT.path}`
     // TODO: need fix this url?
     const dweb_search_url = `https://dweb-search-api.anwen.cc/add_meta`
     const ret = await axios.post(dweb_search_url, {
