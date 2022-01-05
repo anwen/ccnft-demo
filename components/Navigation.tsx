@@ -34,10 +34,9 @@ const config = [
 
 export const Navigation = () => {
   const router = useRouter()
-  console.log(router.asPath);
   const isActivePath = (path: string) => router.asPath === path
   return (
-    <div className="flex mt-4">
+    <div className="flex mt-4 grow">
       { config.map((item) => {
         return (
           <Link key={item.path} href={item.path}>
