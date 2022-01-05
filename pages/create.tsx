@@ -93,6 +93,10 @@ export default function CreateItem() {
     const addedNFT = await addToIPFS(nftData)
     // TODO: need fix this url?
     const dweb_search_url = `https://dweb-search-api.anwen.cc/add_meta`
+    const sig_login = localStorage.getItem("sig_login")
+    const aethAccount = localStorage.getItem("ethAccount")
+    axios.defaults.headers.common['authorization'] = `Bearer ${sig_login}` 
+    axios.defaults.headers.common['address'] = aethAccount
     const ret = await axios.post(dweb_search_url, {
       path: addedNFT.path,
       eth: ethAccount,
