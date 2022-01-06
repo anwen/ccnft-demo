@@ -1,18 +1,18 @@
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import axios from "axios"
-import {useForm} from "react-hook-form";
-import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import {useEffect, useState} from "react";
+import { useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup"
+import { useEffect, useState } from "react"
 
-import {addNFTToNFTStorage} from "../services/NFTStorage";
-import {addToIPFS} from "../services/IPFSHttpClient";
-import {loadNFT} from "../services/backend";
+import { addNFTToNFTStorage } from "../services/NFTStorage"
+import { addToIPFS } from "../services/IPFSHttpClient"
+import { loadNFT } from "../services/backend"
 
-import {nftaddress, nftmarketaddress} from "../config"
+import { nftaddress, nftmarketaddress } from "../config"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
-import {InputFieldError} from "../components/InputFieldError";
+import { InputFieldError } from "../components/InputFieldError"
 
 
 let nft // TODO: use useState?
@@ -33,7 +33,7 @@ const schema = yup.object({
   s_tags: yup.string().required("Tags is not optional"),
   author: yup.string().required("Authors Name is not optional"),
   files: yup.mixed(), // TODO: special case, not a img?
-}).required();
+}).required()
 
 export default function EditItem() {
   const router = useRouter()
@@ -69,10 +69,10 @@ export default function EditItem() {
     }
   }, [router.query])
 
-  const {register, handleSubmit, formState: {errors, isSubmitting}, watch} = useForm<IFormInputs>({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
-  });
-  const watchedFiles = watch("files", null);
+  })
+  const watchedFiles = watch("files", null)
 
   useEffect(() => {
     if (!watchedFiles) return
@@ -82,7 +82,7 @@ export default function EditItem() {
     setPreview(url)
   }, [watchedFiles])
 
-  const onSubmit = async (data: IFormInputs) => {
+  const onSubmit = async(data: IFormInputs) => {
     // upload new file is optional
     let imageURL
     let filesize
@@ -90,7 +90,7 @@ export default function EditItem() {
     let filetype
     if (data.files.length>0) {
       const file = data.files[0]
-      const {type: filetype, size: filesize, name: filename} = file
+      const { type: filetype, size: filesize, name: filename } = file
       const addedImage = await addToIPFS(file)
       imageURL = `https://ipfs.infura.io/ipfs/${addedImage.path}`
     } else {

@@ -1,39 +1,39 @@
 import "../styles/globals.css"
 import "../styles/markdown.css"
 import Head from "next/head"
-import {ethers, providers} from "ethers"
-import {Menu, Transition} from "@headlessui/react"
-import {Fragment, useCallback, useMemo, useReducer, useState} from "react"
-import {ChevronDownIcon} from "@heroicons/react/solid"
-import {Navigation} from "../components/Navigation";
+import { ethers, providers } from "ethers"
+import { Menu, Transition } from "@headlessui/react"
+import { Fragment, useCallback, useMemo, useReducer, useState } from "react"
+import { ChevronDownIcon } from "@heroicons/react/solid"
+import { Navigation } from "../components/Navigation"
 import {
   DOMAIN,
   signInfo,
   STORAGE_KEY_ACCOUNT,
   STORAGE_KEY_ACCOUNT_SIG,
   SUPPORT_NETWORKS
-} from "../constants";
-import {useAsync, useLocalStorageValue, useMountEffect} from "@react-hookz/web";
-import {initialWeb3State, Web3Context, web3Reducer} from "../context/web3Context";
-import {createProvider, switchNetwork} from "../web3";
-import {getBrief} from "../web3/utils";
+} from "../constants"
+import { useAsync, useLocalStorageValue, useMountEffect } from "@react-hookz/web"
+import { initialWeb3State, Web3Context, web3Reducer } from "../context/web3Context"
+import { createProvider, switchNetwork } from "../web3"
+import { getBrief } from "../web3/utils"
 import axios from "axios"
 import { FrontendVersion } from "../version.js"
 
 
-function App({Component, pageProps}) {
+function App({ Component, pageProps }) {
   const [accountInLocal, setLocalAccount, removeLocalAccount] = useLocalStorageValue<string>(STORAGE_KEY_ACCOUNT)
   const [sigInLocal, setLocalSig, removeLocalSig] = useLocalStorageValue(STORAGE_KEY_ACCOUNT_SIG)
-  const [state, dispatch] = useReducer(web3Reducer, {...initialWeb3State, account: accountInLocal});
-  const {account, provider, chainId} = state
+  const [state, dispatch] = useReducer(web3Reducer, { ...initialWeb3State, account: accountInLocal })
+  const { account, provider, chainId } = state
   const isSupportCurrentNetwork = SUPPORT_NETWORKS.includes(chainId)
   const [backendVersion, setBackendVersion] = useState("err")
 
-  const [, actions] = useAsync(async () => {
+  const [, actions] = useAsync(async() => {
     if (!sigInLocal || !accountInLocal) return
-    const cachedProvider = await createProvider(undefined, (id) => dispatch({type: "SET_CHAIN_ID", chainId: id}))
+    const cachedProvider = await createProvider(undefined, (id) => dispatch({ type: "SET_CHAIN_ID", chainId: id }))
     if (!cachedProvider) return
-    dispatch({type: 'SET_WEB3_PROVIDER', provider: cachedProvider})
+    dispatch({ type: 'SET_WEB3_PROVIDER', provider: cachedProvider })
     const web3Provider = new providers.Web3Provider(cachedProvider)
     const signer = web3Provider.getSigner()
     const address = await signer.getAddress()
@@ -64,16 +64,16 @@ function App({Component, pageProps}) {
   }
 
   const web3ContextValue = useMemo(() => {
-    return {state, dispatch};
-  }, [state, dispatch]);
+    return { state, dispatch }
+  }, [state, dispatch])
 
-  const connectWallet = useCallback(async function () {
-    const provider = await createProvider(undefined, (id) => dispatch({type: "SET_CHAIN_ID", chainId: id}))
+  const connectWallet = useCallback(async function() {
+    const provider = await createProvider(undefined, (id) => dispatch({ type: "SET_CHAIN_ID", chainId: id }))
     if (provider.chainId !== '0x13881') {
       await switchNetwork(provider)
     }
     if (!provider) return
-    dispatch({type: 'SET_WEB3_PROVIDER', provider})
+    dispatch({ type: 'SET_WEB3_PROVIDER', provider })
 
     const web3Provider = new providers.Web3Provider(provider)
     const signer = web3Provider.getSigner()
@@ -103,7 +103,7 @@ function App({Component, pageProps}) {
     })
   }, [])
 
-  const disconnectWallet = async () => {
+  const disconnectWallet = async() => {
     dispatch({
       type: 'SET_WEB3_PROVIDER',
       provider: undefined,
@@ -160,7 +160,7 @@ function App({Component, pageProps}) {
         </div>
 
         <div
-          style={{display: account && isSupportCurrentNetwork ? "block" : "none"}}
+          style={{ display: account && isSupportCurrentNetwork ? "block" : "none" }}
           className="absolute top-8 right-8 text-right fixed "
         >
           <Menu as="div" className="relative inline-block text-left">
@@ -186,7 +186,7 @@ function App({Component, pageProps}) {
                 className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-1 py-1">
                   <Menu.Item>
-                    {({active}) => (
+                    {({ active }) => (
                       <button
                         className={`${
                           active ? "bg-blue-500 text-gray-300" : "text-gray-900"
@@ -198,7 +198,7 @@ function App({Component, pageProps}) {
                   </Menu.Item>
 
                   <Menu.Item>
-                    {({active}) => (
+                    {({ active }) => (
                       <button
                         onClick={disconnectWallet}
                         className={`${

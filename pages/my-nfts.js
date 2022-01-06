@@ -35,7 +35,7 @@ export default function CreatorDashboard() {
     const data = await marketContract.fetchItemsCreated()
 
     const items = await Promise.all(
-      data.map(async (i) => {
+      data.map(async(i) => {
         const tokenUri = await tokenContract.tokenURI(i.tokenId)
         const meta = await axios.get(tokenUri)
         let price = ethers.utils.formatUnits(i.price.toString(), "ether")

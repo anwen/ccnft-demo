@@ -32,7 +32,7 @@ export default function Home() {
     console.log("data", data)
 
     const items = await Promise.all(
-      data.map(async (i) => {
+      data.map(async(i) => {
         const tokenUri = await tokenContract.tokenURI(i.tokenId)
         const meta = await axios.get(tokenUri)
         console.log("tokenUri", tokenUri)

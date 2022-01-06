@@ -1,16 +1,16 @@
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import axios from "axios"
-import {useForm} from "react-hook-form";
-import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import {addNFTToNFTStorage} from "../services/NFTStorage";
-import {addToIPFS} from "../services/IPFSHttpClient";
+import { useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup"
+import { addNFTToNFTStorage } from "../services/NFTStorage"
+import { addToIPFS } from "../services/IPFSHttpClient"
 
-import {nftaddress, nftmarketaddress} from "../config"
+import { nftaddress, nftmarketaddress } from "../config"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
-import {useEffect, useState} from "react";
-import {InputFieldError} from "../components/InputFieldError";
+import { useEffect, useState } from "react"
+import { InputFieldError } from "../components/InputFieldError"
 
 interface IFormInputs {
   price: string
@@ -27,8 +27,8 @@ const schema = yup.object({
   description: yup.string().required("Content is not optional"),
   s_tags: yup.string().required("Tags is not optional"),
   author: yup.string().required("Authors Name is not optional"),
-  files: yup.mixed().test({ test: (value) => value.length, message: "Feature Image is not optional"}),
-}).required();
+  files: yup.mixed().test({ test: (value) => value.length, message: "Feature Image is not optional" }),
+}).required()
 
 export default function CreateItem() {
   const router = useRouter()
@@ -48,10 +48,10 @@ export default function CreateItem() {
     }
   }, [])
 
-  const {register, handleSubmit, formState: {errors, isSubmitting}, watch} = useForm<IFormInputs>({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
-  });
-  const watchedFiles = watch("files", null);
+  })
+  const watchedFiles = watch("files", null)
 
   useEffect(() => {
     if (!watchedFiles) return
@@ -61,9 +61,9 @@ export default function CreateItem() {
     setPreview(url)
   }, [watchedFiles])
 
-  const onSubmit = async (data: IFormInputs) => {
+  const onSubmit = async(data: IFormInputs) => {
     const file = data.files[0]
-    const {type: filetype, size: filesize, name: filename} = file
+    const { type: filetype, size: filesize, name: filename } = file
     const addedImage = await addToIPFS(file)
     const imageURL = `https://ipfs.infura.io/ipfs/${addedImage.path}`
     const license = "CC-BY-SA"

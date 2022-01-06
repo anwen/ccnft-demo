@@ -33,7 +33,7 @@ export default function MyAssets() {
     const data = await marketContract.fetchMyNFTs()
 
     const items = await Promise.all(
-      data.map(async (i) => {
+      data.map(async(i) => {
         const tokenUri = await tokenContract.tokenURI(i.tokenId)
         console.log(tokenUri)
         const meta = await axios.get(tokenUri)
