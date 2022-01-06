@@ -1,0 +1,9 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "semi": [2, "never"],
+    "space-before-blocks": "error",
+    "space-before-function-paren": [2, "never"],
+    "object-curly-spacing": ["error", "always"]
+  }
+}
