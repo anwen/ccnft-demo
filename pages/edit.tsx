@@ -13,6 +13,7 @@ import { nftaddress, nftmarketaddress } from "../config"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import { InputFieldError } from "../components/InputFieldError"
+import { useAccount } from "../hooks/useAccount"
 
 
 let nft // TODO: use useState?
@@ -37,21 +38,16 @@ const schema = yup.object({
 
 export default function EditItem() {
   const router = useRouter()
-  // TODO: create useAccount Hook and listen account change
-  const [ethAccount, setEthAccount] = useState<string>()
+  const account = useAccount()
   const [preview, setPreview] = useState<string>()
   const [cid, setCid] = useState<string>()
   const [loadingState, setLoadingState] = useState("not-loaded")
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const account = localStorage.getItem("ethAccount")
-      if (!account) {
-        alert("No ETH Account, Please login")
-        router.push("/articles-all")
-        return
-      }
-      setEthAccount(account)
+    if (!account) {
+      alert("No ETH Account, Please login")
+      router.push("/articles-all")
+      return
     }
   }, [])
 
@@ -105,7 +101,7 @@ export default function EditItem() {
     const authors = [{
       name: data.author,
       wallet: {
-        eth: ethAccount,
+        eth: account,
       },
     }]
     const nftData = JSON.stringify({
@@ -135,7 +131,7 @@ export default function EditItem() {
       // headers: {"Authorization" : `Bearer ${tokenStr}`},
       previous_path: cid, 
       path: addedNFT.path,
-      eth: ethAccount,
+      eth: account,
       name: data.name,
       image: imageURL,
       tags: data.s_tags,
@@ -187,16 +183,16 @@ export default function EditItem() {
         </div>
         <div>
 
-        <p>-- Markdown Tips: &nbsp;
-          <a href="https://anwen.cc/share/6">参考1</a>&nbsp;
-          <a href="https://www.markdown.xyz/basic-syntax/">参考2</a>
-        </p>
-        <textarea
-          placeholder="Content of your article (you can use Markdown format)"
-          className="mt-2 border rounded p-4 h-80 w-full"
-          defaultValue={nft.description}
-          {...register("description")}
-        />
+          <p>-- Markdown Tips: &nbsp;
+            <a href="https://anwen.cc/share/6">参考1</a>&nbsp;
+            <a href="https://www.markdown.xyz/basic-syntax/">参考2</a>
+          </p>
+          <textarea
+            placeholder="Content of your article (you can use Markdown format)"
+            className="mt-2 border rounded p-4 h-80 w-full"
+            defaultValue={nft.description}
+            {...register("description")}
+          />
           <InputFieldError message={errors.description?.message} />
         </div>
         <div>

@@ -4,9 +4,11 @@ import axios from "axios"
 import { useRouter } from "next/router"
 
 import { nftmarketaddress, nftaddress } from "../config"
+import { useAccount } from "../hooks/useAccount"
 
 let ethAccount
 export default function MyAssets() {
+  const account = useAccount()
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
 
@@ -14,7 +16,6 @@ export default function MyAssets() {
   // },[]);
   const router = useRouter()
 
-  console.log(router.query)
   if ("author" in router.query) {
     ethAccount = router.query.author
     console.log("ethAccount", ethAccount)

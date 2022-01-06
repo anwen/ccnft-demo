@@ -11,6 +11,7 @@ import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import { useEffect, useState } from "react"
 import { InputFieldError } from "../components/InputFieldError"
+import { useAccount } from "../hooks/useAccount"
 
 interface IFormInputs {
   price: string
@@ -32,19 +33,14 @@ const schema = yup.object({
 
 export default function CreateItem() {
   const router = useRouter()
-  // TODO: create useAccount Hook and listen account change
-  const [ethAccount, setEthAccount] = useState<string>()
+  const account = useAccount()
   const [preview, setPreview] = useState<string>()
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const account = localStorage.getItem("ethAccount")
-      if (!account) {
-        alert("No ETH Account, Please login")
-        router.push("/articles-all")
-        return
-      }
-      setEthAccount(account)
+    if (!account) {
+      alert("No ETH Account, Please login")
+      router.push("/articles-all")
+      return
     }
   }, [])
 
@@ -72,7 +68,7 @@ export default function CreateItem() {
     const authors = [{
       name: data.author,
       wallet: {
-        eth: ethAccount,
+        eth: account,
       },
     }]
     const nftData = JSON.stringify({
@@ -99,7 +95,7 @@ export default function CreateItem() {
     axios.defaults.headers.common['address'] = aethAccount
     const ret = await axios.post(dweb_search_url, {
       path: addedNFT.path,
-      eth: ethAccount,
+      eth: account,
       name: data.name,
       image: imageURL,
       tags: data.s_tags,
@@ -145,15 +141,15 @@ export default function CreateItem() {
         </div>
         <div>
 
-        <p>-- Markdown Tips: &nbsp;
-          <a href="https://anwen.cc/share/6">参考1</a>&nbsp;
-          <a href="https://www.markdown.xyz/basic-syntax/">参考2</a>
-        </p>
-        <textarea
-          placeholder="Content of your article (you can use Markdown format)"
-          className="mt-2 border rounded p-4 h-80 w-full"
-          {...register("description")}
-        />
+          <p>-- Markdown Tips: &nbsp;
+            <a href="https://anwen.cc/share/6">参考1</a>&nbsp;
+            <a href="https://www.markdown.xyz/basic-syntax/">参考2</a>
+          </p>
+          <textarea
+            placeholder="Content of your article (you can use Markdown format)"
+            className="mt-2 border rounded p-4 h-80 w-full"
+            {...register("description")}
+          />
           <InputFieldError message={errors.description?.message} />
         </div>
         <div>

@@ -6,24 +6,19 @@ import { nftmarketaddress, nftaddress } from "../config"
 
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
+import { useWeb3 } from "../hooks/useWeb3"
 
 export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([])
   const [sold, setSold] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
+  const provider = useWeb3()
 
   useEffect(() => {
+    if (!provider) return
     loadNFTs()
-  }, [])
+  }, [provider])
   async function loadNFTs() {
-    const web3Modal = new Web3Modal({
-      // network: "mainnet",
-      // network: "mumbai",
-      cacheProvider: true,
-    })
-    // const connection = await web3Modal.connect("https://rpc-mumbai.matic.today")
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
 
     const marketContract = new ethers.Contract(
