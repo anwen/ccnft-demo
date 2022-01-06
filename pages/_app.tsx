@@ -69,6 +69,9 @@ function App({Component, pageProps}) {
 
   const connectWallet = useCallback(async function () {
     const provider = await createProvider(undefined, (id) => dispatch({type: "SET_CHAIN_ID", chainId: id}))
+    if (provider.chainId !== '0x13881') {
+      await switchNetwork(provider)
+    }
     if (!provider) return
     dispatch({type: 'SET_WEB3_PROVIDER', provider})
 

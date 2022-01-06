@@ -11,9 +11,6 @@ export const createProvider = async (network?: string, onChainChange?: (chainId:
     const provider = await web3Modal.connect()
     if (!provider) return null
     onChainChange((new BigNumber(provider.chainId)).toNumber())
-    if (provider.chainId !== (network ?? '0x13881')) {
-      await switchNetwork(provider)
-    }
     if (onChainChange) {
       provider.on('chainChanged', (id) => {
         onChainChange((new BigNumber(id)).toNumber())
