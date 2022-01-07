@@ -44,6 +44,17 @@ export default function MyAssets() {
     }
   }
 
+  async function gotoEdit() {
+    if ("cid" in router.query) {
+      cid = router.query.cid
+    }
+    if (!cid) {
+      return
+    }
+    router.push(`/edit?cid=${cid}`)
+  }
+
+
   async function storeNFTtoFilecoin() {
     await window.ethereum.enable()
     const provider = new providers.Web3Provider(window.ethereum)
@@ -195,16 +206,27 @@ export default function MyAssets() {
             {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
               <button
                 onClick={createMint}
-                className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg"
+                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
               >
                 Mint (Will sign 2 times. Be patient...)
               </button>
             )}
             <br />
+
+            {nft.authors[0].wallet.eth == myethAccount && (
+              <button
+                onClick={gotoEdit}
+                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
+              >
+                Edit
+              </button>
+            )}
+            <br />
+
             {nft.authors[0].wallet.eth == myethAccount && (
               <button
                 onClick={storeNFTtoFilecoin}
-                className="font-bold mt-4 bg-pink-500 text-white rounded p-4 shadow-lg"
+                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
               >
                 Store NFT on the Filecoin network(optional)
               </button>
