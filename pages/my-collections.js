@@ -6,22 +6,22 @@ import { nftmarketaddress, nftaddress } from "../config"
 
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
+import { useAccount } from "../hooks/useAccount"
+import { useWeb3Context } from "../context/web3Context"
+import { useWeb3 } from "../hooks/useWeb3"
 
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
+  const provider = useWeb3()
+
 
   useEffect(() => {
+    if (!provider) return
     loadNFTs()
-  }, [])
+  }, [provider])
+
   async function loadNFTs() {
-    const web3Modal = new Web3Modal({
-      // network: "mainnet",
-      // network: "mumbai",
-      cacheProvider: true,
-    })
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
 
     const marketContract = new ethers.Contract(
@@ -33,7 +33,7 @@ export default function MyAssets() {
     const data = await marketContract.fetchMyNFTs()
 
     const items = await Promise.all(
-      data.map(async (i) => {
+      data.map(async(i) => {
         const tokenUri = await tokenContract.tokenURI(i.tokenId)
         console.log(tokenUri)
         const meta = await axios.get(tokenUri)
@@ -64,7 +64,7 @@ export default function MyAssets() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
             <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <img src={nft.image} className="rounded" />
+              <img src={nft.image} className="rounded"/>
 
               <div className="p-4">
                 <a href={"/article?cid=" + nft.path}>

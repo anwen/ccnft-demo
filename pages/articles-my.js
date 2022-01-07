@@ -1,6 +1,7 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import { useAccount } from "../hooks/useAccount"
 
 import { nftmarketaddress, nftaddress } from "../config"
 
@@ -8,10 +9,7 @@ let ethAccount
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
-
-  if (typeof window !== "undefined") {
-    ethAccount = localStorage.getItem("ethAccount")
-  }
+  const ethAccount = useAccount()
 
   useEffect(() => {
     loadNFTs()

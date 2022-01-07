@@ -1,16 +1,17 @@
-import {useRouter} from "next/router"
+import { useRouter } from "next/router"
 import axios from "axios"
-import {useForm} from "react-hook-form";
-import {yupResolver} from '@hookform/resolvers/yup';
-import * as yup from "yup";
-import {addNFTToNFTStorage} from "../services/NFTStorage";
-import {addToIPFS} from "../services/IPFSHttpClient";
+import { useForm } from "react-hook-form"
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup"
+import { addNFTToNFTStorage } from "../services/NFTStorage"
+import { addToIPFS } from "../services/IPFSHttpClient"
 
-import {nftaddress, nftmarketaddress} from "../config"
+import { nftaddress, nftmarketaddress } from "../config"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
-import {useEffect, useState} from "react";
-import {InputFieldError} from "../components/InputFieldError";
+import { useEffect, useState } from "react"
+import { InputFieldError } from "../components/InputFieldError"
+import { useAccount } from "../hooks/useAccount"
 
 interface IFormInputs {
   price: string
@@ -27,31 +28,26 @@ const schema = yup.object({
   description: yup.string().required("Content is not optional"),
   s_tags: yup.string().required("Tags is not optional"),
   author: yup.string().required("Authors Name is not optional"),
-  files: yup.mixed().test({ test: (value) => value.length, message: "Feature Image is not optional"}),
-}).required();
+  files: yup.mixed().test({ test: (value) => value.length, message: "Feature Image is not optional" }),
+}).required()
 
 export default function CreateItem() {
   const router = useRouter()
-  // TODO: create useAccount Hook and listen account change
-  const [ethAccount, setEthAccount] = useState<string>()
+  const account = useAccount()
   const [preview, setPreview] = useState<string>()
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const account = localStorage.getItem("ethAccount")
-      if (!account) {
-        alert("No ETH Account, Please login")
-        router.push("/articles-all")
-        return
-      }
-      setEthAccount(account)
+    if (!account) {
+      alert("No ETH Account, Please login")
+      router.push("/articles-all")
+      return
     }
   }, [])
 
-  const {register, handleSubmit, formState: {errors, isSubmitting}, watch} = useForm<IFormInputs>({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
-  });
-  const watchedFiles = watch("files", null);
+  })
+  const watchedFiles = watch("files", null)
 
   useEffect(() => {
     if (!watchedFiles) return
@@ -61,9 +57,9 @@ export default function CreateItem() {
     setPreview(url)
   }, [watchedFiles])
 
-  const onSubmit = async (data: IFormInputs) => {
+  const onSubmit = async(data: IFormInputs) => {
     const file = data.files[0]
-    const {type: filetype, size: filesize, name: filename} = file
+    const { type: filetype, size: filesize, name: filename } = file
     const addedImage = await addToIPFS(file)
     const imageURL = `https://ipfs.infura.io/ipfs/${addedImage.path}`
     const license = "CC-BY-SA"
@@ -72,7 +68,7 @@ export default function CreateItem() {
     const authors = [{
       name: data.author,
       wallet: {
-        eth: ethAccount,
+        eth: account,
       },
     }]
     const nftData = JSON.stringify({
@@ -99,7 +95,7 @@ export default function CreateItem() {
     axios.defaults.headers.common['address'] = aethAccount
     const ret = await axios.post(dweb_search_url, {
       path: addedNFT.path,
-      eth: ethAccount,
+      eth: account,
       name: data.name,
       image: imageURL,
       tags: data.s_tags,
@@ -145,15 +141,15 @@ export default function CreateItem() {
         </div>
         <div>
 
-        <p>-- Markdown Tips: &nbsp;
-          <a href="https://anwen.cc/share/6">参考1</a>&nbsp;
-          <a href="https://www.markdown.xyz/basic-syntax/">参考2</a>
-        </p>
-        <textarea
-          placeholder="Content of your article (you can use Markdown format)"
-          className="mt-2 border rounded p-4 h-80 w-full"
-          {...register("description")}
-        />
+          <p>-- Markdown Tips: &nbsp;
+            <a href="https://anwen.cc/share/6">参考1</a>&nbsp;
+            <a href="https://www.markdown.xyz/basic-syntax/">参考2</a>
+          </p>
+          <textarea
+            placeholder="Content of your article (you can use Markdown format)"
+            className="mt-2 border rounded p-4 h-80 w-full"
+            {...register("description")}
+          />
           <InputFieldError message={errors.description?.message} />
         </div>
         <div>

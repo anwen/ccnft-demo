@@ -15,6 +15,7 @@ import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 
 import { providers } from "ethers"
 import { init } from "@textile/eth-storage"
+import { useWeb3 } from "../hooks/useWeb3"
 
 let ethAccount
 let myethAccount
@@ -22,6 +23,7 @@ let cid
 let nft = {}
 export default function MyAssets() {
   // const [nft, setNft] = useState({})
+  const provider = useWeb3()
   const [loadingState, setLoadingState] = useState("not-loaded")
   const router = useRouter()
 
@@ -56,10 +58,7 @@ export default function MyAssets() {
 
 
   async function storeNFTtoFilecoin() {
-    await window.ethereum.enable()
-    const provider = new providers.Web3Provider(window.ethereum)
     const wallet = provider.getSigner()
-
     const storage = await init(wallet)
     // const blob = new Blob(["Hello, world!"], { type: "text/plain" });
     const jsonse = JSON.stringify(nft)
@@ -86,9 +85,6 @@ export default function MyAssets() {
   }
 
   async function createSale(url) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
 
     /* next, create the item */

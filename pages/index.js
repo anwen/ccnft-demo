@@ -1,17 +1,12 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
-import axios from "axios"
 
 import { nftaddress, nftmarketaddress } from "../config"
 
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 
-let provider
-
 export default function Home() {
-  const [nfts, setNfts] = useState([])
-
   return (
     <div className="px-4" style={{ maxWidth: "1600px" }}>
       <h2 className="px-20 py-10 text-3xl">📢Tips</h2>
