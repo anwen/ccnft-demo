@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { useAccount } from "../hooks/useAccount"
 import { Layout } from "../components/Layout"
+import { ArticleItem } from "../components/ArticleItem"
 
 export default function MyAssets() {
   const [nfts, setNfts] = useState([])
@@ -27,26 +28,11 @@ export default function MyAssets() {
 
   return (
     <Layout>
-      <div className="flex justify-center">
-        <div className="p-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-            {nfts.map((nft, i) => (
-              <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={nft.image} className="rounded" />
-                <div className="p-4">
-                  <a href={"/article?cid=" + nft.path}>
-                    <p className="text-2xl font-semibold">{nft.name}</p>
-                  </a>
-                  <p className="text-2xl font-semibold">
-                  By:
-                    <a href={"/articles?author=" + nft.eth}>{nft.authors}</a>
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      <section className="text-gray-600 body-font flex flex-wrap -m-4 m-6">
+        {nfts.map((nft, i) => (
+          <ArticleItem key={i} imageURL={nft.image} name={nft.name} tags={nft.tags} authors={nft.authors}  path={nft.path}/>
+        ))}
+      </section>
     </Layout>
   )
 }

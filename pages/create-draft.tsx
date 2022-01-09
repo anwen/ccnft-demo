@@ -3,7 +3,7 @@ import { Editor } from "../components/Editor"
 export default function CreateDraft() {
   const account = 'testaccout'
   return (
-    <div className="flex justify-center py-16 min-h-screen">
+    <div className="flex justify-center py-16">
       <Editor account={account} />
     </div>
   )

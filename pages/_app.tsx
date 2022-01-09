@@ -186,7 +186,7 @@ function App({ Component, pageProps }) {
                                 active ? "bg-blue-500 text-gray-300" : "text-gray-900"
                               } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                             >
-                              id: {getBrief(account)}
+                              ID: {getBrief(account)}
                             </button>
                           )}
                         </Menu.Item>
