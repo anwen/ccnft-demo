@@ -1,12 +1,12 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import Web3Modal from "web3modal"
 import { nftmarketaddress, nftaddress } from "../config"
 
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import { useWeb3 } from "../hooks/useWeb3"
+import { Layout } from "../components/Layout"
 
 export default function CreatorDashboard() {
   const [nfts, setNfts] = useState([])
@@ -65,55 +65,57 @@ export default function CreatorDashboard() {
     )
   } else if (loadingState === "loaded") {
     return (
-      <div>
-        <div className="p-4">
-          <h1 className="text-3xl py-2">CC-NFTs created by me</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-            {nfts.map((nft, i) => (
-              <div key={i} className="border shadow rounded-xl overflow-hidden">
-                <img src={nft.image} className="rounded" />
+      <Layout>
+        <div>
+          <div className="p-4">
+            <h1 className="text-3xl py-2">CC-NFTs created by me</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+              {nfts.map((nft, i) => (
+                <div key={i} className="border shadow rounded-xl overflow-hidden">
+                  <img src={nft.image} className="rounded" />
 
-                <div className="p-4">
-                  <a href={"/article?cid=" + nft.path}>
-                    <p className="text-2xl font-semibold">{nft.name}</p>
-                  </a>
-                  <div style={{ height: "70px", overflow: "hidden" }}>
-                    <p className="text-gray-400">{nft.description}</p>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-black">
-                  <p className="text-2xl font-bold text-white">
-                    Price - {nft.price} Matic
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="px-4">
-          {Boolean(sold.length) && (
-            <div>
-              <h2 className="text-2xl py-2">Items sold</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-                {sold.map((nft, i) => (
-                  <div
-                    key={i}
-                    className="border shadow rounded-xl overflow-hidden"
-                  >
-                    <img src={nft.image} className="rounded" />
-                    <div className="p-4 bg-black">
-                      <p className="text-2xl font-bold text-white">
-                        Price - {nft.price} Matic
-                      </p>
+                  <div className="p-4">
+                    <a href={"/article?cid=" + nft.path}>
+                      <p className="text-2xl font-semibold">{nft.name}</p>
+                    </a>
+                    <div style={{ height: "70px", overflow: "hidden" }}>
+                      <p className="text-gray-400">{nft.description}</p>
                     </div>
                   </div>
-                ))}
-              </div>
+
+                  <div className="p-4 bg-black">
+                    <p className="text-2xl font-bold text-white">
+                    Price - {nft.price} Matic
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
-          )}
+          </div>
+          <div className="px-4">
+            {Boolean(sold.length) && (
+              <div>
+                <h2 className="text-2xl py-2">Items sold</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+                  {sold.map((nft, i) => (
+                    <div
+                      key={i}
+                      className="border shadow rounded-xl overflow-hidden"
+                    >
+                      <img src={nft.image} className="rounded" />
+                      <div className="p-4 bg-black">
+                        <p className="text-2xl font-bold text-white">
+                        Price - {nft.price} Matic
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </Layout>
     )
   }
   return null

@@ -6,7 +6,7 @@ import { FrontendVersion } from "../version"
 export const Footer  = memo(() => {
   const [backendVersion] = useLocalStorageValue(BACKEND_VERSION)
   return (
-    <footer className="border-b p-6">
+    <footer className="border-b p-6 flex justify-center">
       <p>Frontend Version: {FrontendVersion} &nbsp;
         Backend Version: {backendVersion} &nbsp;
         & <a href="https://ipfs.io/">IPFS</a> &nbsp;
