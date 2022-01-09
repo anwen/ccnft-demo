@@ -29,7 +29,7 @@ function App({ Component, pageProps }) {
   const { account, provider, chainId } = state
   const isSupportCurrentNetwork = SUPPORT_NETWORKS.includes(chainId)
 
-  const [, actions] = useAsync(async() => {
+  const [autoLoginState, actions] = useAsync(async() => {
     if (!sigInLocal || !accountInLocal) return
     const cachedProvider = await createProvider(undefined, (id) => dispatch({ type: "SET_CHAIN_ID", chainId: id }))
     if (!cachedProvider) return
@@ -117,6 +117,7 @@ function App({ Component, pageProps }) {
 
 
   const renderActionButton = () => {
+    if (!['success', 'error'].includes(autoLoginState.status)) return null
     if (!sigInLocal || !accountInLocal) {
       return (
         <button

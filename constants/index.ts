@@ -7,6 +7,9 @@ export const SUPPORT_NETWORKS = [80001]
 export const STORAGE_KEY_ACCOUNT = 'ethAccount'
 export const STORAGE_KEY_ACCOUNT_SIG = 'sig_login'
 export const BACKEND_VERSION = 'backend_version'
+export const CREATE_USED_TAGS = 'create_used_tags'
+export const CREATE_USED_AUTHORS = 'create_used_authors'
+export const CREATE_CACHE = 'create_cache'
 export const DOMAIN = {
   name: "DwebLab Alpha",
   version: "1",

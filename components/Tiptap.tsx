@@ -3,9 +3,16 @@ import StarterKit from '@tiptap/starter-kit'
 import { Paragraph } from "@tiptap/extension-paragraph"
 import Placeholder from '@tiptap/extension-placeholder'
 import { Heading } from '@tiptap/extension-heading'
+import { useLocalStorageValue } from "@react-hookz/web"
+import { CREATE_CACHE  } from "../constants"
 
 export const Tiptap = () => {
+  const [, setCache] = useLocalStorageValue<any>(CREATE_CACHE)
   const editor = useEditor({
+    onUpdate: ({ editor : e }) => {
+      const json = e.getJSON()
+      setCache(json)
+    },
     extensions: [
       StarterKit,
       Paragraph.configure({
