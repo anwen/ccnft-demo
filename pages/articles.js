@@ -10,11 +10,10 @@ export default function MyAssets() {
   const [nfts, setNfts] = useState([])
   const [loadingState, setLoadingState] = useState("not-loaded")
 
-  // useEffect(function() {
-  // },[]);
   const router = useRouter()
 
   console.log(router.query)
+  
   if ("author" in router.query) {
     ethAccount = router.query.author
     console.log("ethAccount", ethAccount)
@@ -26,8 +25,7 @@ export default function MyAssets() {
   }
   useEffect(() => {
     loadNFTs()
-  }, [])
-  // loadNFTs()
+  }, [ethAccount])
   async function loadNFTs() {
     if (ethAccount) {
       const dweb_search_url = `https://dweb-search-api.anwen.cc/get_meta?eth=${ethAccount}`
@@ -41,6 +39,7 @@ export default function MyAssets() {
       setLoadingState("loaded")
     }
   }
+
   if (loadingState === "loaded" && !nfts.length)
     return <h1 className="py-10 px-20 text-3xl">No creations</h1>
 
