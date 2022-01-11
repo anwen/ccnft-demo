@@ -28,3 +28,15 @@ h3 {
 body {
   @apply text-gray-800;
 }
+
+ul, ol {
+  padding: 0 1rem;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
