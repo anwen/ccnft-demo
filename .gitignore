@@ -49,3 +49,5 @@ artifacts
 package-lock.json
 
 version.js
+yarn.lock
+*_bak

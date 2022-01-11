@@ -75,7 +75,7 @@ export default function MyAssets() {
                 </p>
                 Tags: &nbsp;
                 {nft.tags.map((tag, i) => (
-                  <a href={"/articles?tag=" + tag}>{tag}</a>
+                  <a key={i} href={"/articles?tag=" + tag}>{tag}</a>
                 ))}
               </div>
             </div>
