@@ -40,3 +40,15 @@ ul {
 ol {
   list-style: decimal;
 }
+
+/*editor*/
+.ProseMirror p {
+  @apply text-neutral-800 text-lg min-h-full mb-2;
+}
+.ProseMirror h1 {
+  @apply text-neutral-800 min-h-full mb-4
+}
+
+.ProseMirror h2 {
+  @apply text-neutral-800 min-h-full mb-3
+}

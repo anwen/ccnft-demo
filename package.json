@@ -29,6 +29,7 @@
     "ethers": "^5.5.2",
     "graphql-tag": "^2.12.6",
     "ipfs-http-client": "^55.0.0",
+    "markdown-it": "^12.3.2",
     "multiformats": "^9.5.4",
     "next": "^12.0.7",
     "next-transpile-modules": "^9.0.0",
@@ -39,6 +40,7 @@
     "react-markdown": "^7.1.1",
     "react-select": "^5.2.1",
     "react-textarea-autosize": "^8.3.3",
+    "turndown": "^7.1.1",
     "web3": "^1.6.1",
     "web3modal": "^1.9.4",
     "yup": "^0.32.11"

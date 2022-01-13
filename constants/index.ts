@@ -10,6 +10,8 @@ export const BACKEND_VERSION = 'backend_version'
 export const CREATE_USED_TAGS = 'create_used_tags'
 export const CREATE_USED_AUTHORS = 'create_used_authors'
 export const CREATE_CACHE = 'create_cache'
+export const ARTICLE_LICENSE = "CC-BY-SA"
+export const ARTICLE_LICENSE_URL = "https://creativecommons.org/licenses/by-sa/4.0/"
 export const DOMAIN = {
   name: "DwebLab Alpha",
   version: "1",

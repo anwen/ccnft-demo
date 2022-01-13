@@ -11,14 +11,24 @@ import { ListItem } from "@tiptap/extension-list-item"
 import { Image } from "@tiptap/extension-image"
 import { UploadImageDialog } from "./UploadImageDialog"
 import { useState } from "react"
+import TurndownService from 'turndown'
+import MarkdownIt from 'markdown-it'
 
-export const Tiptap = () => {
+interface TiptapProps {
+  initValue: string
+}
+
+const turndownService = new TurndownService({ headingStyle: 'atx' })
+const md = new MarkdownIt()
+
+export const Tiptap = ({ initValue }: TiptapProps) => {
   const [openImageDialog, setOpenImageDialog] = useState(false)
   const [, setCache] = useLocalStorageValue<any>(CREATE_CACHE)
   const editor = useEditor({
     onUpdate: ({ editor : e }) => {
-      const json = e.getJSON()
-      setCache(json)
+      const html = e.getHTML()
+      const markdown = turndownService.turndown(html)
+      setCache(markdown)
     },
     extensions: [
       BulletList,
@@ -26,11 +36,7 @@ export const Tiptap = () => {
       ListItem,
       Image,
       StarterKit,
-      Paragraph.configure({
-        HTMLAttributes: {
-          class: 'text-neutral-800 text-lg min-h-full mb-2',
-        },
-      }),
+      Paragraph,
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
@@ -44,7 +50,7 @@ export const Tiptap = () => {
         levels: [1, 2],
       }),
     ],
-    content: '',
+    content: md.render(initValue ?? ''),
     editorProps: {
       attributes: {
         class: 'focus:outline-none text-lg py-4',

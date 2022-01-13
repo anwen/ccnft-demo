@@ -7,16 +7,27 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { OnChangeValue } from "react-select"
 import CreatableSelect from "react-select/creatable"
 import { useLocalStorageValue } from "@react-hookz/web"
-import { CREATE_CACHE, CREATE_USED_AUTHORS, CREATE_USED_TAGS } from "../constants"
+import { ARTICLE_LICENSE, ARTICLE_LICENSE_URL, CREATE_CACHE, CREATE_USED_AUTHORS, CREATE_USED_TAGS } from "../constants"
 import { addToIPFS } from "../services/IPFSHttpClient"
 import { addNFTToNFTStorage } from "../services/NFTStorage"
 import axios from "axios"
 import router from "next/router"
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { ExclamationIcon } from "@heroicons/react/outline"
+import { data } from "autoprefixer"
 
 interface EditorProps {
   account: string
+  article?: {
+    authors: { name: string }[]
+    description: string
+    image: string
+    name: string
+    tags: string[]
+    filename: string
+    filesize: number
+    filetype: string
+  }
 }
 
 interface IFormInputs {
@@ -25,7 +36,7 @@ interface IFormInputs {
   description: string
   s_tags: string
   author: string
-  files: FileList
+  files: FileList | string
 }
 const customStyles = {
   menu: (provided, state) => ({
@@ -81,27 +92,42 @@ const schema = yup.object({
 }).required()
 
 type Option = { label: string, value: string, __isNew__: boolean }
-export const Editor = memo<EditorProps>(({ account }) => {
+export const Editor = memo<EditorProps>(({ account, article }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [cachedTags, setCachedTags] = useState<Option[]>([])
   const [cachedAuthors, setCachedAuthors] = useState<Option>()
   const [tagsInLocal, setLocalTags] = useLocalStorageValue<Omit<Option, '__isNew__'>[]>(CREATE_USED_TAGS)
   const [authorsInLocal, setLocalAuthors] = useLocalStorageValue<Omit<Option, '__isNew__'>[]>(CREATE_USED_AUTHORS)
-  const [preview, setPreview] = useState<string>()
+  const [preview, setPreview] = useState<string>(article?.image)
+
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors, isSubmitting, isValid },
     watch,
-    trigger
+    trigger,
+    getValues
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema)
   })
 
+  useEffect(() => {
+    if (!article) return
+    reset()
+    setValue("name", article?.name)
+    setValue('description', article?.description)
+    setValue('s_tags', article?.tags.join(','))
+    setValue('author', article?.authors[0].name)
+    setValue('files', article?.image)
+    setPreview(article?.image)
+  }, [reset, article])
+
   // update preview image
   const watchedFiles = watch("files", null)
   useEffect(() => {
+    if (typeof watchedFiles === 'string') return
     if (!watchedFiles) return
     if (!watchedFiles[0]) return
 
@@ -124,12 +150,25 @@ export const Editor = memo<EditorProps>(({ account }) => {
   }
 
   const onSubmit = async(data: IFormInputs) => {
-    const file = data.files[0]
-    const { type: filetype, size: filesize, name: filename } = file
-    const addedImage = await addToIPFS(file)
-    const imageURL = `https://ipfs.infura.io/ipfs/${addedImage.path}`
-    const license = "CC-BY-SA"
-    const license_url = "https://creativecommons.org/licenses/by-sa/4.0/"
+    let imageURL
+    let filesize
+    let filename
+    let filetype
+    if (typeof data.files !== 'string') {
+      const file = data.files[0]
+      const { type, size, name } = file
+      filesize = size
+      filename = name
+      filetype = type
+      const addedImage = await addToIPFS(file)
+      imageURL = `https://ipfs.infura.io/ipfs/${addedImage.path}`
+    } else {
+      imageURL = `https://ipfs.infura.io/ipfs/${preview.match(/\/\/(.*)\.ipfs/)[1]}`
+      filesize = article?.filesize
+      filename = article?.filename
+      filetype = article?.filetype
+    }
+
     const tags = data.s_tags.split(',')
     const authors = [{
       name: data.author,
@@ -141,8 +180,8 @@ export const Editor = memo<EditorProps>(({ account }) => {
       name: data.name,
       description: data.description,
       image: imageURL,
-      license,
-      license_url,
+      license: ARTICLE_LICENSE,
+      license_url: ARTICLE_LICENSE_URL,
       filesize,
       filename,
       filetype,
@@ -200,7 +239,7 @@ export const Editor = memo<EditorProps>(({ account }) => {
   }
 
   return (
-    <div className='relative w-full flex justify-center'>
+    <div className='relative w-full flex justify-center p-6'>
       <form style={{ width: '720px' }} onSubmit={handleSubmit(onSubmit, onError)}>
         <div className='inline-flex absolute -top-10 right-2 items-center'>
           <Menu as="div" className="relative inline-block text-left">
@@ -250,8 +289,8 @@ export const Editor = memo<EditorProps>(({ account }) => {
             className="font-bold bg-pink-500 text-white rounded px-4 py-2 cursor-pointer"
             onClick={() => {
               const cache = JSON.parse(localStorage.getItem(CREATE_CACHE) as any)
-              if (cache?.content?.[0]?.content) {
-                setValue('description', JSON.stringify(cache))
+              if (cache.length) {
+                setValue('description', cache)
                 trigger()
               }
             }}
@@ -308,6 +347,9 @@ export const Editor = memo<EditorProps>(({ account }) => {
             <CreatableSelect
               id='create-authors'
               styles={customStyles}
+              defaultValue={
+                article?.authors ? { label: article?.authors[0].name, value: article?.authors[0].name } : undefined
+              }
               placeholder="Input Authors"
               onChange={handleAuthorsChange}
               options={authorsInLocal ?? []}
@@ -318,6 +360,7 @@ export const Editor = memo<EditorProps>(({ account }) => {
             <CreatableSelect
               id='create-tags'
               styles={customStyles}
+              defaultValue={article?.tags.map(x => ({ label: x, value: x }))}
               isMulti
               placeholder="Input Post Tags"
               onChange={handleTagsChange}
@@ -326,7 +369,7 @@ export const Editor = memo<EditorProps>(({ account }) => {
             />
           </div>
         </div>
-        <Tiptap />
+        <Tiptap initValue={article?.description} />
       </form>
       <Dialog as='div' open={isOpen} onClose={() => setIsOpen(false)}>
         <Dialog.Overlay />
