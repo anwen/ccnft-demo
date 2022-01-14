@@ -7,17 +7,26 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { OnChangeValue } from "react-select"
 import CreatableSelect from "react-select/creatable"
 import { useLocalStorageValue } from "@react-hookz/web"
-import { ARTICLE_LICENSE, ARTICLE_LICENSE_URL, CREATE_CACHE, CREATE_USED_AUTHORS, CREATE_USED_TAGS } from "../constants"
+import {
+  ARTICLE_LICENSE,
+  ARTICLE_LICENSE_URL,
+  CREATE_CACHE,
+  CREATE_USED_AUTHORS,
+  CREATE_USED_TAGS,
+  STORAGE_KEY_ACCOUNT_SIG
+} from "../constants"
 import { addToIPFS } from "../services/IPFSHttpClient"
 import { addNFTToNFTStorage } from "../services/NFTStorage"
 import axios from "axios"
 import router from "next/router"
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { ExclamationIcon } from "@heroicons/react/outline"
-import { data } from "autoprefixer"
+import { getBrief } from "../web3/utils"
 
 interface EditorProps {
+  publishLink: string
   account: string
+  cid?: string
   article?: {
     authors: { name: string }[]
     description: string
@@ -92,8 +101,9 @@ const schema = yup.object({
 }).required()
 
 type Option = { label: string, value: string, __isNew__: boolean }
-export const Editor = memo<EditorProps>(({ account, article }) => {
+export const Editor = memo<EditorProps>(({ account, article, publishLink, cid }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [sigInLocal] = useLocalStorageValue(STORAGE_KEY_ACCOUNT_SIG)
   const [cachedTags, setCachedTags] = useState<Option[]>([])
   const [cachedAuthors, setCachedAuthors] = useState<Option>()
   const [tagsInLocal, setLocalTags] = useLocalStorageValue<Omit<Option, '__isNew__'>[]>(CREATE_USED_TAGS)
@@ -163,7 +173,7 @@ export const Editor = memo<EditorProps>(({ account, article }) => {
       const addedImage = await addToIPFS(file)
       imageURL = `https://ipfs.infura.io/ipfs/${addedImage.path}`
     } else {
-      imageURL = `https://ipfs.infura.io/ipfs/${preview.match(/\/\/(.*)\.ipfs/)[1]}`
+      imageURL = preview
       filesize = article?.filesize
       filename = article?.filename
       filetype = article?.filetype
@@ -193,19 +203,17 @@ export const Editor = memo<EditorProps>(({ account, article }) => {
 
     const addedNFT = await addToIPFS(nftData)
     // TODO: need fix this url?
-    const dweb_search_url = `https://dweb-search-api.anwen.cc/add_meta`
-    const sig_login = localStorage.getItem("sig_login")
-    const aethAccount = localStorage.getItem("ethAccount")
-    axios.defaults.headers.common['authorization'] = `Bearer ${sig_login}`
-    axios.defaults.headers.common['address'] = aethAccount
-    const ret = await axios.post(dweb_search_url, {
+    axios.defaults.headers.common['authorization'] = `Bearer ${sigInLocal}`
+    axios.defaults.headers.common['address'] = account
+    const ret = await axios.post(publishLink, {
       path: addedNFT.path,
       eth: account,
       name: data.name,
       image: imageURL,
       tags: data.s_tags,
-      authors: data.author
-    }) // TODO
+      authors: data.author,
+      ...(cid ?{ previous_path: cid } : {})
+    })
     if (ret.status == 200 && !('error' in ret.data)) {
       updateLocalCache()
       await router.push("/articles-my")
@@ -222,7 +230,7 @@ export const Editor = memo<EditorProps>(({ account, article }) => {
     ].map(x => ({ label: x.label, value: x.value }))
     const newAuthors = [
       ...authorsInLocal ?? [],
-      cachedAuthors.__isNew__ ? cachedAuthors : undefined
+      cachedAuthors?.__isNew__ ? cachedAuthors : undefined
     ].filter(x => x).map(x => ({ label: x.label, value: x.value }))
     setLocalTags(newTags)
     setLocalAuthors(newAuthors)
@@ -289,6 +297,7 @@ export const Editor = memo<EditorProps>(({ account, article }) => {
             className="font-bold bg-pink-500 text-white rounded px-4 py-2 cursor-pointer"
             onClick={() => {
               const cache = JSON.parse(localStorage.getItem(CREATE_CACHE) as any)
+              console.log(cache)
               if (cache.length) {
                 setValue('description', cache)
                 trigger()
@@ -342,7 +351,7 @@ export const Editor = memo<EditorProps>(({ account, article }) => {
             </div>
             <span
               className="mx-2 bg-gray-200 text-gray-500 rounded-full inline-block p-1 px-2 text-sm">
-              { account }
+              { getBrief(account) }
             </span>
             <CreatableSelect
               id='create-authors'

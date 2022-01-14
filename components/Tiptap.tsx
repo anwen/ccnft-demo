@@ -18,7 +18,7 @@ interface TiptapProps {
   initValue: string
 }
 
-const turndownService = new TurndownService({ headingStyle: 'atx' })
+const turndownService = new TurndownService('commonmark', { headingStyle: 'atx' })
 const md = new MarkdownIt()
 
 export const Tiptap = ({ initValue }: TiptapProps) => {
@@ -148,14 +148,6 @@ const MenuUI = ({ editor }: {editor: Editor}) => {
         >
         italic
         </button>
-      </div>
-      <div className="p-2 text-gray-800">
-        <button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={editor.isActive('strike') ? 'is-active' : ''}
-        >
-        strike
-        </button>  
       </div>
     </div>
   )

@@ -7,6 +7,7 @@ import { getBrief } from "../web3/utils"
 
 export default function Create() {
   const account = useAccount()
+  const publishLink = `https://dweb-search-api.anwen.cc/add_meta`
 
   useEffect(() => {
     if (!account) {
@@ -17,7 +18,7 @@ export default function Create() {
   }, [])
   return (
     <div className="flex justify-center py-12">
-      <Editor account={getBrief(account)} />
+      <Editor account={account} publishLink={publishLink} />
     </div>
   )
 }
