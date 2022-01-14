@@ -22,21 +22,13 @@ import router from "next/router"
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import { ExclamationIcon } from "@heroicons/react/outline"
 import { getBrief } from "../web3/utils"
+import { Article } from "../types"
 
 interface EditorProps {
   publishLink: string
   account: string
   cid?: string
-  article?: {
-    authors: { name: string }[]
-    description: string
-    image: string
-    name: string
-    tags: string[]
-    filename: string
-    filesize: number
-    filetype: string
-  }
+  article?: Article
 }
 
 interface IFormInputs {

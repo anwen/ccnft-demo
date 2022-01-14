@@ -41,6 +41,7 @@
     "react-select": "^5.2.1",
     "react-textarea-autosize": "^8.3.3",
     "turndown": "^7.1.1",
+    "urlcat": "^2.0.4",
     "web3": "^1.6.1",
     "web3modal": "^1.9.4",
     "yup": "^0.32.11"

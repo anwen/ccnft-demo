@@ -4,15 +4,18 @@ import { useEffect, useState } from "react"
 import { loadNFT } from "../services/backend"
 import { useAccount } from "../hooks/useAccount"
 import { Editor } from "../components/Editor"
+import { Article } from "../types"
 // todo: move to request center
 const dweb_search_url = `https://dweb-search-api.anwen.cc/edit_meta`
 
-export default function EditArticle({ cid }: {cid: string}) {
+interface EditArticleProps {
+  cid: string
+  nft: Article
+}
+
+export default function EditArticle({ cid, nft }: EditArticleProps) {
   const router = useRouter()
   const account = useAccount()
-  const [preview, setPreview] = useState<string>()
-  const [nft, setNft] = useState<any>()
-  const [loadingState, setLoadingState] = useState("not-loaded")
 
   useEffect(() => {
     if (!account) {
@@ -22,24 +25,8 @@ export default function EditArticle({ cid }: {cid: string}) {
     }
   }, [])
 
-  useEffect(() => {
-    async function fetchArticle(cid) {
-      const nft = await loadNFT(cid)
-      if (nft?.image) {
-        setPreview(nft.image)
-      }
-      setNft(nft)
-      setLoadingState("loaded")
-    }
-    if (cid) {
-      fetchArticle(router.query.cid.toString())
-    }
-  }, [router.query])
 
-
-  if (loadingState != "loaded")
-    return <h1 className="py-10 px-20 text-3xl"></h1>
-  if (loadingState === "loaded" && !nft?.name)
+  if (!nft?.name)
     return <h1 className="py-10 px-20 text-3xl">Article not found, cannot edit</h1>
 
   return (
@@ -50,9 +37,9 @@ export default function EditArticle({ cid }: {cid: string}) {
 }
 
 export async function getServerSideProps(context) {
+  const cid = context.query.cid
+  const nft = await loadNFT(cid)
   return {
-    props: {
-      cid: context.query.cid
-    }
+    props: { cid, nft }
   }
 }
