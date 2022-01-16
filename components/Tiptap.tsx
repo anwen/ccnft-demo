@@ -74,7 +74,6 @@ export const Tiptap = ({ initValue }: TiptapProps) => {
 
   const handleHyperLink = (url) => {
     if (url) {
-      console.log(url)
       editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
     }
     setOpenHyperDialog(false)
