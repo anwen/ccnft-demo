@@ -42,13 +42,21 @@ ol {
 }
 
 /*editor*/
+.ProseMirror {
+  font-family: georgia,serif;
+}
+
+.ProseMirror a {
+  @apply text-pink-500;
+  text-decoration: underline;
+}
 .ProseMirror p {
-  @apply text-neutral-800 text-lg min-h-full mb-2;
+  @apply text-neutral-600 text-lg min-h-full mb-2;
 }
 .ProseMirror h1 {
-  @apply text-neutral-800 min-h-full mb-4
+  @apply text-neutral-700 min-h-full mb-4
 }
 
 .ProseMirror h2 {
-  @apply text-neutral-800 min-h-full mb-3
+  @apply text-neutral-700 min-h-full mb-3
 }

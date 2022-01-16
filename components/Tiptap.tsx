@@ -13,6 +13,8 @@ import { UploadImageDialog } from "./UploadImageDialog"
 import { useState } from "react"
 import TurndownService from 'turndown'
 import MarkdownIt from 'markdown-it'
+import Link from '@tiptap/extension-link'
+import { AddLinkDialog } from "./AddLinkDialog"
 
 interface TiptapProps {
   initValue: string
@@ -23,6 +25,7 @@ const md = new MarkdownIt()
 
 export const Tiptap = ({ initValue }: TiptapProps) => {
   const [openImageDialog, setOpenImageDialog] = useState(false)
+  const [openHyperLinkDialog, setOpenHyperDialog] = useState(false)
   const [, setCache] = useLocalStorageValue<any>(CREATE_CACHE)
   const editor = useEditor({
     onUpdate: ({ editor : e }) => {
@@ -37,6 +40,9 @@ export const Tiptap = ({ initValue }: TiptapProps) => {
       Image,
       StarterKit,
       Paragraph,
+      Link.configure({
+        autolink: false,
+      }),
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
@@ -66,12 +72,21 @@ export const Tiptap = ({ initValue }: TiptapProps) => {
     setOpenImageDialog(false)
   }
 
+  const handleHyperLink = (url) => {
+    if (url) {
+      console.log(url)
+      editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+    }
+    setOpenHyperDialog(false)
+  }
+
   return (
     <div>
       {editor && <BubbleMenu editor={editor} pluginKey={'menu'}>
-        <MenuUI editor={editor} />
+        <MenuUI editor={editor} openHyperLinkDialog={() => setOpenHyperDialog(true)} />
       </BubbleMenu>}
       <UploadImageDialog open={openImageDialog} close={() => setOpenImageDialog(false)} save={handleImage} />
+      <AddLinkDialog open={openHyperLinkDialog} close={() => setOpenHyperDialog(false)} save={handleHyperLink} />
       <EditorContent editor={editor} />
       <div className='fixed bottom-6 inset-x-0'>
         <div className="flex justify-center">
@@ -113,7 +128,7 @@ const FixedMenuUI = ({ editor, openImageDialog }: {editor: Editor, openImageDial
   )
 }
 
-const MenuUI = ({ editor }: {editor: Editor}) => {
+const MenuUI = ({ editor, openHyperLinkDialog }: {editor: Editor, openHyperLinkDialog: () => void}) => {
   if (!editor) return null
   return (
     <div className="shadow-md bg-gray-100 rounded flex px-2 divide-x">
@@ -128,9 +143,17 @@ const MenuUI = ({ editor }: {editor: Editor}) => {
       <div className="p-2 text-gray-800">
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={editor.isActive('h-1') ? 'is-active' : ''}
+          className={editor.isActive('h-2') ? 'is-active' : ''}
         >
           h2
+        </button>
+      </div>
+      <div className="p-2 text-gray-800">
+        <button
+          onClick={e => {e.preventDefault(); openHyperLinkDialog() }}
+          className={editor.isActive('link') ? 'is-active' : ''}
+        >
+          link
         </button>
       </div>
       <div className="p-2 text-gray-800">
