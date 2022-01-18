@@ -30,7 +30,7 @@ export default function CreatorDashboard() {
     const data = await marketContract.fetchItemsCreated()
 
     const items = await Promise.all(
-      data.map(async(i) => {
+      data.map(async (i) => {
         const tokenUri = await tokenContract.tokenURI(i.tokenId)
         const meta = await axios.get(tokenUri)
         let price = ethers.utils.formatUnits(i.price.toString(), "ether")
@@ -45,7 +45,7 @@ export default function CreatorDashboard() {
           image: meta.data.image,
           name: meta.data.name,
           tags: meta.data.tags,
-          authors: meta.data.authors[0]['name'],
+          authors: meta.data.authors[0]["name"],
           description: meta.data.description,
         }
         return item
@@ -73,7 +73,9 @@ export default function CreatorDashboard() {
             <h1 className="text-3xl py-2">CC-NFTs created by me</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
               {nfts.map((nft, i) => (
-                <div key={i} className="border shadow rounded-xl overflow-hidden">
+                <div
+                  key={i}
+                  className="border shadow rounded-xl overflow-hidden">
                   <img src={nft.image} className="rounded" />
 
                   <div className="p-4">
@@ -87,7 +89,7 @@ export default function CreatorDashboard() {
 
                   <div className="p-4 bg-black">
                     <p className="text-2xl font-bold text-white">
-                    Price - {nft.price} Matic
+                      Price - {nft.price} Matic
                     </p>
                   </div>
                 </div>
@@ -101,7 +103,9 @@ export default function CreatorDashboard() {
                 <h2 className="text-2xl py-2">Items sold</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
                   {sold.map((nft, i) => (
-                    <div key={i} className="border shadow rounded-xl overflow-hidden">
+                    <div
+                      key={i}
+                      className="border shadow rounded-xl overflow-hidden">
                       <a href={"/article?cid=" + nft.path}>
                         <img src={nft.image} className="rounded" />
                       </a>
@@ -111,17 +115,21 @@ export default function CreatorDashboard() {
                         </a>
                         <p className="text-2xl font-semibold">
                           By: &nbsp;
-                          <a href={"/articles?author=" + nft.eth}>{nft.authors}</a>
+                          <a href={"/articles?author=" + nft.eth}>
+                            {nft.authors}
+                          </a>
                         </p>
                         Tags: &nbsp;
                         {nft.tags.map((tag, i) => (
-                          <a key={i} href={"/articles?tag=" + tag}>{tag}</a>
+                          <a key={i} href={"/articles?tag=" + tag}>
+                            {tag}
+                          </a>
                         ))}
                       </div>
                       <div className="p-4 bg-black">
                         <p className="text font-bold text-white">
                           Price - {nft.price} Matic
-                          </p>
+                        </p>
                       </div>
                     </div>
                   ))}

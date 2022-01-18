@@ -31,9 +31,14 @@ export default function MyAssets() {
     <Layout>
       <section className="text-gray-600 body-font flex flex-wrap -m-4 justify-start m-6">
         {nfts.map((nft, i) => (
-          <ArticleItem key={i} imageURL={nft.image} name={nft.name} tags={nft.tags} authors={nft.authors}  path={nft.path}/>
+          <ArticleItem
+            key={i}
+            imageURL={nft.image}
+            name={nft.name}
+            tags={nft.tags}
+            authors={nft.authors}
+            path={nft.path}/>
         ))}
-
       </section>
     </Layout>
   )

@@ -54,7 +54,11 @@ export default function MyAssets() {
   }
 
   if (loadingState === "loaded" && !nfts.length)
-    return <Layout><h1 className="py-10 px-20 text-3xl">No creations</h1></Layout>
+    return (
+      <Layout>
+        <h1 className="py-10 px-20 text-3xl">No creations</h1>
+      </Layout>
+    )
 
   return (
     <Layout>
@@ -76,7 +80,9 @@ export default function MyAssets() {
                   </p>
                   Tags: &nbsp;
                   {nft.tags.map((tag, i) => (
-                    <a key={i} href={"/articles?tag=" + tag}>{tag}</a>
+                    <a key={i} href={"/articles?tag=" + tag}>
+                      {tag}
+                    </a>
                   ))}
                 </div>
               </div>
@@ -87,6 +93,3 @@ export default function MyAssets() {
     </Layout>
   )
 }
-
-
-

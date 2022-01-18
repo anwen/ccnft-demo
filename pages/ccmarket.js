@@ -19,8 +19,6 @@ export default function Home() {
     const provider = new ethers.providers.JsonRpcProvider(
       "https://rpc-mumbai.maticvigil.com",
     )
-    // const provider = new ethers.providers.JsonRpcProvider("https://rpc-mumbai.matic.today")
-    // const provider = new ethers.providers.JsonRpcProvider("https://polygon-mumbai.infura.io/v3/6d993cb640374f1b8baf01f5eddaed8e")
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const marketContract = new ethers.Contract(
       nftmarketaddress,
@@ -30,7 +28,7 @@ export default function Home() {
     const data = await marketContract.fetchMarketItems()
 
     const items = await Promise.all(
-      data.map(async(i) => {
+      data.map(async (i) => {
         const tokenUri = await tokenContract.tokenURI(i.tokenId)
         const meta = await axios.get(tokenUri)
         console.log(i.price.toString(), "raw price")
@@ -77,7 +75,11 @@ export default function Home() {
     loadNFTs()
   }
   if (loadingState === "loaded" && !nfts.length)
-    return <Layout><h1 className="px-20 py-10 text-3xl">No items in marketplace</h1></Layout>
+    return (
+      <Layout>
+        <h1 className="px-20 py-10 text-3xl">No items in marketplace</h1>
+      </Layout>
+    )
   return (
     <Layout>
       <div className="flex justify-center">
@@ -98,9 +100,8 @@ export default function Home() {
                   </p>
                   <button
                     className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
-                    onClick={() => buyNft(nft)}
-                  >
-                  Buy
+                    onClick={() => buyNft(nft)}>
+                    Buy
                   </button>
                 </div>
               </div>

@@ -28,7 +28,7 @@ function App({ Component, pageProps }) {
   const { account, provider, chainId } = state
   const isSupportCurrentNetwork = SUPPORT_NETWORKS.includes(chainId)
 
-  const [autoLoginState, actions] = useAsync(async() => {
+  const [autoLoginState, actions] = useAsync(async () => {
     if (!sigInLocal || !accountInLocal) return
     const cachedProvider = await createProvider(undefined, (id) => dispatch({ type: "SET_CHAIN_ID", chainId: id }))
     if (!cachedProvider) return
@@ -66,7 +66,7 @@ function App({ Component, pageProps }) {
     return { state, dispatch }
   }, [state, dispatch])
 
-  const connectWallet = useCallback(async function() {
+  const connectWallet = useCallback(async function () {
     const provider = await createProvider(undefined, (id) => dispatch({ type: "SET_CHAIN_ID", chainId: id }))
     if (provider.chainId !== '0x13881') {
       await switchNetwork(provider)
@@ -102,7 +102,7 @@ function App({ Component, pageProps }) {
     })
   }, [])
 
-  const disconnectWallet = async() => {
+  const disconnectWallet = async () => {
     dispatch({
       type: 'SET_WEB3_PROVIDER',
       provider: undefined,
@@ -121,8 +121,7 @@ function App({ Component, pageProps }) {
         <button
           suppressHydrationWarning
           onClick={connectWallet}
-          className="font-bold bg-pink-500 rounded p-2 text-white"
-        >
+          className="font-bold bg-pink-500 rounded p-2 text-white">
           ConnectWallet
         </button>
       )
@@ -133,8 +132,7 @@ function App({ Component, pageProps }) {
         <button
           suppressHydrationWarning
           onClick={() => switchNetwork(provider)}
-          className="font-bold bg-pink-500 rounded p-2 text-white"
-        >
+          className="font-bold bg-pink-500 rounded p-2 text-white">
           Switch Network
         </button>
       )
@@ -147,7 +145,8 @@ function App({ Component, pageProps }) {
     <div>
       <Head>
         <title>Creative Comomons NFT Playground</title>
-        <link rel="icon" href="/favicon.ico"/>
+        <link rel="icon"
+          href="/favicon.ico"/>
       </Head>
       <nav className="border-b p-6">
         <div className="flex justify-between items-center">
@@ -160,14 +159,14 @@ function App({ Component, pageProps }) {
         {
           sigInLocal && account && isSupportCurrentNetwork &&
           <div className="absolute top-8 right-8 text-right fixed">
-            <Menu as="div" className="relative inline-block text-left">
+            <Menu as="div"
+              className="relative inline-block text-left">
               <div>
                 <Menu.Button
                   className="inline-flex justify-center w-full px-2 py-2 font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
                   <ChevronDownIcon
                     className="w-5 h-5 text-violet-200 hover:text-violet-100"
-                    aria-hidden="true"
-                  />
+                    aria-hidden="true"/>
                 </Menu.Button>
               </div>
               <Transition
@@ -177,8 +176,7 @@ function App({ Component, pageProps }) {
                 enterTo="transform opacity-100 scale-100"
                 leave="transition ease-in duration-75"
                 leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
+                leaveTo="transform opacity-0 scale-95">
                 <Menu.Items
                   className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                   <div className="px-1 py-1">
@@ -187,8 +185,7 @@ function App({ Component, pageProps }) {
                         <button
                           className={`${
                             active ? "bg-blue-500 text-gray-300" : "text-gray-900"
-                          } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                        >
+                          } group flex rounded-md items-center w-full px-2 py-2 text-sm`}>
                           id: {getBrief(account)}
                         </button>
                       )}
@@ -200,8 +197,7 @@ function App({ Component, pageProps }) {
                           onClick={disconnectWallet}
                           className={`${
                             active ? "bg-blue-500 text-gray-300" : "text-gray-900"
-                          } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
-                        >
+                          } group flex rounded-md items-center w-full px-2 py-2 text-sm`}>
                           Logout
                         </button>
                       )}

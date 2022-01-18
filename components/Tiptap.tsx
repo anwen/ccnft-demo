@@ -81,15 +81,22 @@ export const Tiptap = ({ initValue }: TiptapProps) => {
 
   return (
     <div>
-      {editor && <BubbleMenu editor={editor} pluginKey={'menu'}>
-        <MenuUI editor={editor} openHyperLinkDialog={() => setOpenHyperDialog(true)} />
+      {editor && <BubbleMenu editor={editor}
+        pluginKey={'menu'}>
+        <MenuUI editor={editor}
+          openHyperLinkDialog={() => setOpenHyperDialog(true)} />
       </BubbleMenu>}
-      <UploadImageDialog open={openImageDialog} close={() => setOpenImageDialog(false)} save={handleImage} />
-      <AddLinkDialog open={openHyperLinkDialog} close={() => setOpenHyperDialog(false)} save={handleHyperLink} />
+      <UploadImageDialog open={openImageDialog}
+        close={() => setOpenImageDialog(false)}
+        save={handleImage}/>
+      <AddLinkDialog open={openHyperLinkDialog}
+        close={() => setOpenHyperDialog(false)}
+        save={handleHyperLink}/>
       <EditorContent editor={editor} />
       <div className='fixed bottom-6 inset-x-0'>
         <div className="flex justify-center">
-          <FixedMenuUI editor={editor} openImageDialog={() => setOpenImageDialog(true)} />
+          <FixedMenuUI editor={editor}
+            openImageDialog={() => setOpenImageDialog(true)} />
         </div>
       </div>
     </div>
@@ -103,23 +110,20 @@ const FixedMenuUI = ({ editor, openImageDialog }: {editor: Editor, openImageDial
       <div className="p-2 text-gray-800">
         <button
           onClick={(e) => { editor.chain().focus().toggleBulletList().run(); e.preventDefault() }}
-          className={editor.isActive('bulletList') ? 'is-active' : ''}
-        >
+          className={editor.isActive('bulletList') ? 'is-active' : ''}>
           Bullet list
         </button>
       </div>
       <div className="p-2 text-gray-800">
         <button
           onClick={(e) => {editor.chain().focus().toggleOrderedList().run(); e.preventDefault()}}
-          className={editor.isActive('orderedList') ? 'is-active' : ''}
-        >
+          className={editor.isActive('orderedList') ? 'is-active' : ''}>
           Order list
         </button>
       </div>
       <div className="p-2 text-gray-800">
         <button
-          onClick={(e) => { e.preventDefault(); openImageDialog()}}
-        >
+          onClick={(e) => { e.preventDefault(); openImageDialog()}}>
           Image
         </button>
       </div>
@@ -134,40 +138,35 @@ const MenuUI = ({ editor, openHyperLinkDialog }: {editor: Editor, openHyperLinkD
       <div className="p-2 text-gray-800">
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-          className={editor.isActive('h-1') ? 'is-active' : ''}
-        >
+          className={editor.isActive('h-1') ? 'is-active' : ''}>
           h1
         </button>
       </div>
       <div className="p-2 text-gray-800">
         <button
           onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-          className={editor.isActive('h-2') ? 'is-active' : ''}
-        >
+          className={editor.isActive('h-2') ? 'is-active' : ''}>
           h2
         </button>
       </div>
       <div className="p-2 text-gray-800">
         <button
           onClick={e => {e.preventDefault(); openHyperLinkDialog() }}
-          className={editor.isActive('link') ? 'is-active' : ''}
-        >
+          className={editor.isActive('link') ? 'is-active' : ''}>
           link
         </button>
       </div>
       <div className="p-2 text-gray-800">
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
-          className={editor.isActive('bold') ? 'is-active' : ''}
-        >
+          className={editor.isActive('bold') ? 'is-active' : ''}>
         bold
         </button>
       </div>
       <div className="p-2 text-gray-800">
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={editor.isActive('italic') ? 'is-active' : ''}
-        >
+          className={editor.isActive('italic') ? 'is-active' : ''}>
         italic
         </button>
       </div>
