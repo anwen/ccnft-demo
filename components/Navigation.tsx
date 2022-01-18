@@ -39,8 +39,10 @@ export const Navigation = () => {
     <div className="flex mt-4 grow flex-wrap">
       { config.map((item) => {
         return (
-          <Link key={item.path} href={item.path}>
-            <a className={`mr-4 text-pink-500 _nav ${ isActivePath(item.path) && 'current'}`} id="_home">
+          <Link key={item.path}
+            href={item.path}>
+            <a className={`mr-4 text-pink-500 _nav ${ isActivePath(item.path) && 'current'}`}
+              id="_home">
               {item.name}
             </a>
           </Link>

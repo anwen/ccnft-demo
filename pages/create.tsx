@@ -18,7 +18,8 @@ export default function Create() {
   }, [])
   return (
     <div className="flex justify-center py-12">
-      <Editor account={account} publishLink={publishLink} />
+      <Editor account={account}
+        publishLink={publishLink} />
     </div>
   )
 }

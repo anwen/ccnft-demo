@@ -151,7 +151,7 @@ export const Editor = memo<EditorProps>(({ account, article, publishLink, cid })
     setCachedTags([...newValue])
   }
 
-  const onSubmit = async(data: IFormInputs) => {
+  const onSubmit = async (data: IFormInputs) => {
     let imageURL
     let filesize
     let filename
@@ -240,15 +240,16 @@ export const Editor = memo<EditorProps>(({ account, article, publishLink, cid })
 
   return (
     <div className='relative w-full flex justify-center p-6'>
-      <form style={{ width: '720px' }} onSubmit={handleSubmit(onSubmit, onError)}>
+      <form style={{ width: '720px' }}
+        onSubmit={handleSubmit(onSubmit, onError)}>
         <div className='inline-flex absolute -top-10 right-2 items-center'>
-          <Menu as="div" className="relative inline-block text-left">
+          <Menu as="div"
+            className="relative inline-block text-left">
             <div>
               <Menu.Button className="px-2 flex items-center">
                 <ExclamationIcon
                   className="w-8 h-8"
-                  aria-hidden="true"
-                />
+                  aria-hidden="true"/>
               </Menu.Button>
             </div>
             <Transition
@@ -258,8 +259,7 @@ export const Editor = memo<EditorProps>(({ account, article, publishLink, cid })
               enterTo="transform opacity-100 scale-100"
               leave="transition ease-in duration-75"
               leaveFrom="transform opacity-100 scale-100"
-              leaveTo="transform opacity-0 scale-95"
-            >
+              leaveTo="transform opacity-0 scale-95">
               <Menu.Items
                 className="absolute right-0 w-80 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="px-6 py-8">
@@ -294,8 +294,7 @@ export const Editor = memo<EditorProps>(({ account, article, publishLink, cid })
                 setValue('description', cache)
                 trigger()
               }
-            }}
-          >
+            }}>
             {`Publish${isSubmitting ? '...' :''}`}
           </button>
         </div>
@@ -304,41 +303,52 @@ export const Editor = memo<EditorProps>(({ account, article, publishLink, cid })
             {
               !preview &&
               <div className="inline-flex bg-gray-200 text-gray-500 rounded-full px-2 cursor-pointer">
-                <svg viewBox="0 0 24 24" className="w-3">
+                <svg viewBox="0 0 24 24"
+                  className="w-3">
                   <path
                     d="M12 1.5v21M1.5 12h21"
                     stroke="#343F44"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     fill="none"
-                    fillRule="evenodd"
-                  />
+                    fillRule="evenodd"/>
                 </svg>
                 <span className="inline-block p-1 text-sm">
                 Add feature image
                 </span>
               </div>
             }
-            <input type="file" name="Asset" className="hidden" {...register("files")} />
+            <input type="file"
+              name="Asset"
+              className="hidden"
+              {...register("files")}/>
             {
               preview &&
-              <img className="lg:h-48 md:h-36 w-full object-cover object-center cursor-pointer" src={preview} />
+              <img className="lg:h-48 md:h-36 w-full object-cover object-center cursor-pointer"
+                src={preview} />
             }
           </label>
         </div>
         <div className="pt-12">
           <TextareaAutosize
             placeholder="Give a title"
-            className="border-0 outline-0 text-5xl w-full resize-none" {...register("name")}
-          />
+            className="border-0 outline-0 text-5xl w-full resize-none"
+            {...register("name")}/>
         </div>
         <div className="my-6 mb-4">
           <div className="text-gray-800 flex items-center">
             <div className="w-8 h-8 rounded-full inline-flex items-center justify-center bg-gray-200 text-gray-400">
-              <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                className="w-4 h-4" viewBox="0 0 24 24">
+              <svg fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="w-4 h-4"
+                viewBox="0 0 24 24">
                 <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
+                <circle cx="12"
+                  cy="7"
+                  r="4"/>
               </svg>
             </div>
             <span
@@ -353,8 +363,7 @@ export const Editor = memo<EditorProps>(({ account, article, publishLink, cid })
               }
               placeholder="Input Authors"
               onChange={handleAuthorsChange}
-              options={authorsInLocal ?? []}
-            />
+              options={authorsInLocal ?? []}/>
           </div>
           <div className="pt-3 flex justify-start items-center text-gray-500">
             <span>Tags:</span>
@@ -366,13 +375,14 @@ export const Editor = memo<EditorProps>(({ account, article, publishLink, cid })
               placeholder="Input Post Tags"
               onChange={handleTagsChange}
               // @ts-ignore
-              options={tagsInLocal ?? []}
-            />
+              options={tagsInLocal ?? []}/>
           </div>
         </div>
         <Tiptap initValue={article?.description} />
       </form>
-      <Dialog as='div' open={isOpen} onClose={() => setIsOpen(false)}>
+      <Dialog as='div'
+        open={isOpen}
+        onClose={() => setIsOpen(false)}>
         <Dialog.Overlay />
 
         <Dialog.Title>Deactivate account</Dialog.Title>

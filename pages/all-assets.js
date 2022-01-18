@@ -32,7 +32,7 @@ export default function AllAssets() {
     // const data = await marketContract.fetchItemsCreated()
 
     const items = await Promise.all(
-      data.map(async(i) => {
+      data.map(async (i) => {
         const tokenUri = await tokenContract.tokenURI(i.tokenId)
         const meta = await axios.get(tokenUri)
         let price = ethers.utils.formatUnits(i.price.toString(), "ether")
@@ -57,7 +57,11 @@ export default function AllAssets() {
     setLoadingState("loaded")
   }
   if (loadingState === "loaded" && !nfts.length)
-    return <Layout><h1 className="py-10 px-20 text-3xl">No assets created</h1></Layout>
+    return (
+      <Layout>
+        <h1 className="py-10 px-20 text-3xl">No assets created</h1>
+      </Layout>
+    )
   return (
     <Layout>
       <div>
@@ -69,7 +73,7 @@ export default function AllAssets() {
                 <img src={nft.image} className="rounded" />
                 <div className="p-4 bg-black">
                   <p className="text-2xl font-bold text-white">
-                  Price - {nft.price} Eth
+                    Price - {nft.price} Eth
                   </p>
                 </div>
               </div>

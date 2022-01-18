@@ -57,7 +57,6 @@ export default function MyAssets() {
     router.push(`/edit?cid=${cid}`)
   }
 
-
   async function storeNFTtoFilecoin() {
     const wallet = provider.getSigner()
     const storage = await init(wallet)
@@ -172,9 +171,17 @@ export default function MyAssets() {
   }
 
   if (loadingState != "loaded" && !("name" in nft))
-    return <Layout><h1 className="py-10 px-20 text-3xl"></h1></Layout>
+    return (
+      <Layout>
+        <h1 className="py-10 px-20 text-3xl"></h1>
+      </Layout>
+    )
   if (loadingState === "loaded" && !("name" in nft))
-    return <Layout><h1 className="py-10 px-20 text-3xl">No creation</h1></Layout>
+    return (
+      <Layout>
+        <h1 className="py-10 px-20 text-3xl">No creation</h1>
+      </Layout>
+    )
   return (
     <Layout>
       <div className="flex justify-center">
@@ -186,44 +193,43 @@ export default function MyAssets() {
                 {nft.name}
               </p>
               <div className="markdown">
-                <ReactMarkdown escapeHtml={true}>{nft.description}</ReactMarkdown>
+                <ReactMarkdown escapeHtml={true}>
+                  {nft.description}
+                </ReactMarkdown>
               </div>
               <p>
-              By:
+                By:
                 <a href={"/articles?author=" + nft.authors[0].wallet.eth}>
                   {nft.authors[0].name}
                 </a>
-              &nbsp;&nbsp;&nbsp;&nbsp;Author-Wallet: {nft.authors[0].wallet.eth}
+                &nbsp;&nbsp;&nbsp;&nbsp;Author-Wallet:{" "}
+                {nft.authors[0].wallet.eth}
               </p>
-
               <p>Tags: {nft.tags}</p>
               <p>
-              License: <a href={nft.license_url}>{nft.license}</a>
+                License: <a href={nft.license_url}>{nft.license}</a>
               </p>
-
               {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
                 <button
                   onClick={createMint}
-                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-                >
-                Mint (Will sign 2 times. Be patient...)
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  Mint (Will sign 2 times. Be patient...)
                 </button>
               )}
               <br />
-  {nft.authors[0].wallet.eth == myethAccount && (
-              <button
-                onClick={gotoEdit}
-                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-              >
-                Edit
-              </button>
-            )}
-            <br />            {nft.authors[0].wallet.eth == myethAccount && (
+              {nft.authors[0].wallet.eth == myethAccount && (
+                <button
+                  onClick={gotoEdit}
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  Edit
+                </button>
+              )}
+              <br />{" "}
+              {nft.authors[0].wallet.eth == myethAccount && (
                 <button
                   onClick={storeNFTtoFilecoin}
-                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-                >
-                Store NFT on the Filecoin network(optional)
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  Store NFT on the Filecoin network(optional)
                 </button>
               )}
             </div>

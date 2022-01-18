@@ -31,7 +31,10 @@ export default function EditArticle({ cid, nft }: EditArticleProps) {
 
   return (
     <div className="flex justify-center py-12">
-      <Editor account={account} article={nft} publishLink={dweb_search_url} cid={cid} />
+      <Editor account={account}
+        article={nft}
+        publishLink={dweb_search_url}
+        cid={cid}/>
     </div>
   )
 }
