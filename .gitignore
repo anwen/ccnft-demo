@@ -46,8 +46,6 @@ artifacts
 # contract type generation
 /contracts/types
 
-package-lock.json
-
 version.js
 yarn.lock
 *_bak
