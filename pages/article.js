@@ -16,6 +16,7 @@ import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import { providers } from "ethers"
 import { init } from "@textile/eth-storage"
 import { useWeb3 } from "../hooks/useWeb3"
+import { Layout } from "../components/Layout"
 
 let ethAccount
 let myethAccount
@@ -171,45 +172,45 @@ export default function MyAssets() {
   }
 
   if (loadingState != "loaded" && !("name" in nft))
-    return <h1 className="py-10 px-20 text-3xl"></h1>
+    return <Layout><h1 className="py-10 px-20 text-3xl"></h1></Layout>
   if (loadingState === "loaded" && !("name" in nft))
-    return <h1 className="py-10 px-20 text-3xl">No creation</h1>
+    return <Layout><h1 className="py-10 px-20 text-3xl">No creation</h1></Layout>
   return (
-    <div className="flex justify-center">
-      <div className="p-4">
-        <div className="border shadow rounded-xl overflow-hidden">
-          <img src={nft.image} className="rounded" />
-          <div className="p-4">
-            <p className="text-3xl font-semibold flex justify-center">
-              {nft.name}
-            </p>
-            <div className="markdown">
-              <ReactMarkdown escapeHtml={true}>{nft.description}</ReactMarkdown>
-            </div>
-            <p>
+    <Layout>
+      <div className="flex justify-center">
+        <div className="p-4">
+          <div className="border shadow rounded-xl overflow-hidden">
+            <img src={nft.image} className="rounded" />
+            <div className="p-4">
+              <p className="text-3xl font-semibold flex justify-center">
+                {nft.name}
+              </p>
+              <div className="markdown">
+                <ReactMarkdown escapeHtml={true}>{nft.description}</ReactMarkdown>
+              </div>
+              <p>
               By:
-              <a href={"/articles?author=" + nft.authors[0].wallet.eth}>
-                {nft.authors[0].name}
-              </a>
+                <a href={"/articles?author=" + nft.authors[0].wallet.eth}>
+                  {nft.authors[0].name}
+                </a>
               &nbsp;&nbsp;&nbsp;&nbsp;Author-Wallet: {nft.authors[0].wallet.eth}
-            </p>
+              </p>
 
-            <p>Tags: {nft.tags}</p>
-            <p>
+              <p>Tags: {nft.tags}</p>
+              <p>
               License: <a href={nft.license_url}>{nft.license}</a>
-            </p>
+              </p>
 
-            {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
-              <button
-                onClick={createMint}
-                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-              >
+              {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
+                <button
+                  onClick={createMint}
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
+                >
                 Mint (Will sign 2 times. Be patient...)
-              </button>
-            )}
-            <br />
-
-            {nft.authors[0].wallet.eth == myethAccount && (
+                </button>
+              )}
+              <br />
+  {nft.authors[0].wallet.eth == myethAccount && (
               <button
                 onClick={gotoEdit}
                 className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
@@ -217,19 +218,18 @@ export default function MyAssets() {
                 Edit
               </button>
             )}
-            <br />
-
-            {nft.authors[0].wallet.eth == myethAccount && (
-              <button
-                onClick={storeNFTtoFilecoin}
-                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-              >
+            <br />            {nft.authors[0].wallet.eth == myethAccount && (
+                <button
+                  onClick={storeNFTtoFilecoin}
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
+                >
                 Store NFT on the Filecoin network(optional)
-              </button>
-            )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }

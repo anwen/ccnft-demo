@@ -7,6 +7,7 @@ import { Fragment, useCallback, useMemo, useReducer, useState } from "react"
 import { ChevronDownIcon } from "@heroicons/react/solid"
 import { Navigation } from "../components/Navigation"
 import {
+  BACKEND_VERSION,
   DOMAIN,
   signInfo,
   STORAGE_KEY_ACCOUNT,
@@ -18,16 +19,15 @@ import { initialWeb3State, Web3Context, web3Reducer } from "../context/web3Conte
 import { createProvider, switchNetwork } from "../web3"
 import { getBrief } from "../web3/utils"
 import axios from "axios"
-import { FrontendVersion } from "../version.js"
 
 
 function App({ Component, pageProps }) {
   const [accountInLocal, setLocalAccount, removeLocalAccount] = useLocalStorageValue<string>(STORAGE_KEY_ACCOUNT)
   const [sigInLocal, setLocalSig, removeLocalSig] = useLocalStorageValue(STORAGE_KEY_ACCOUNT_SIG)
+  const [, setBackendVersion] = useLocalStorageValue(BACKEND_VERSION)
   const [state, dispatch] = useReducer(web3Reducer, { ...initialWeb3State, account: accountInLocal })
   const { account, provider, chainId } = state
   const isSupportCurrentNetwork = SUPPORT_NETWORKS.includes(chainId)
-  const [backendVersion, setBackendVersion] = useState("err")
 
   const [autoLoginState, actions] = useAsync(async() => {
     if (!sigInLocal || !accountInLocal) return
@@ -59,7 +59,7 @@ function App({ Component, pageProps }) {
         setBackendVersion(ret.data['version'])
       }
     } catch (error) {
-      console.log(error)
+      setBackendVersion('error')
     }
   }
 
@@ -123,7 +123,7 @@ function App({ Component, pageProps }) {
         <button
           suppressHydrationWarning
           onClick={connectWallet}
-          className="font-bold mt-2 bg-pink-500 rounded p-2 text-white"
+          className="font-bold bg-pink-500 rounded p-2 text-white"
         >
           ConnectWallet
         </button>
@@ -135,7 +135,7 @@ function App({ Component, pageProps }) {
         <button
           suppressHydrationWarning
           onClick={() => switchNetwork(provider)}
-          className="font-bold mt-2 bg-pink-500 rounded p-2 text-white"
+          className="font-bold bg-pink-500 rounded p-2 text-white"
         >
           Switch Network
         </button>
@@ -150,11 +150,9 @@ function App({ Component, pageProps }) {
         <title>Creative Comomons NFT Playground</title>
         <link rel="icon" href="/favicon.ico"/>
       </Head>
-
       <nav className="border-b p-6">
-        <p className="text-4xl font-bold">Creative Commons NFT Playground</p>
-        <div className="flex justify-around">
-          <Navigation/>
+        <div className="flex justify-between items-center">
+          <h1 className="text-4xl font-bold">Creative Commons NFT Playground</h1>
           <div>
             {renderActionButton()}
           </div>
@@ -219,15 +217,6 @@ function App({ Component, pageProps }) {
       <Web3Context.Provider value={web3ContextValue}>
         <Component {...pageProps} />
       </Web3Context.Provider>
-      <footer className="border-b p-6">
-        <p>Frontend Version: {FrontendVersion} &nbsp;
-          Backend Version: {backendVersion} &nbsp;
-          & <a href="https://ipfs.io/">IPFS</a> &nbsp;
-          & <a href="https://mumbai.polygonscan.com/">Polygon (MATIC) Mumbai TESTNET</a>
-
-          &nbsp;| Powered by Dweb Lab.
-        </p>
-      </footer>
     </div>
   )
 }
