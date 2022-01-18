@@ -46,7 +46,6 @@ cache
 # contract type generation
 /contracts/types
 
-package-lock.json
-
 yarn.lock
 *_bak
+.eslintcache

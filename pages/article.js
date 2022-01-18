@@ -15,13 +15,15 @@ import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 
 import { providers } from "ethers"
 import { init } from "@textile/eth-storage"
+import { useWeb3 } from "../hooks/useWeb3"
+import { Layout } from "../components/Layout"
+import { useAccount } from "../hooks/useAccount"
 
-let ethAccount
-let myethAccount
 let cid
 let nft = {}
 export default function MyAssets() {
-  // const [nft, setNft] = useState({})
+  const myethAccount = useAccount()
+  const provider = useWeb3()
   const [loadingState, setLoadingState] = useState("not-loaded")
   const router = useRouter()
 
@@ -54,12 +56,8 @@ export default function MyAssets() {
     router.push(`/edit?cid=${cid}`)
   }
 
-
   async function storeNFTtoFilecoin() {
-    await window.ethereum.enable()
-    const provider = new providers.Web3Provider(window.ethereum)
     const wallet = provider.getSigner()
-
     const storage = await init(wallet)
     // const blob = new Blob(["Hello, world!"], { type: "text/plain" });
     const jsonse = JSON.stringify(nft)
@@ -86,9 +84,6 @@ export default function MyAssets() {
   }
 
   async function createSale(url) {
-    const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
 
     /* next, create the item */
@@ -120,15 +115,6 @@ export default function MyAssets() {
     })
     await transaction.wait()
   }
-
-  if (typeof window !== "undefined") {
-    myethAccount = localStorage.getItem("ethAccount")
-    console.log("myethAccount", myethAccount)
-  }
-
-  console.log(router.query)
-  console.log(nft)
-  console.log(loadingState != "loaded", !nft)
 
   if (loadingState != "loaded" && !("name" in nft)) {
     loadNFT()
@@ -175,65 +161,71 @@ export default function MyAssets() {
   }
 
   if (loadingState != "loaded" && !("name" in nft))
-    return <h1 className="py-10 px-20 text-3xl"></h1>
+    return (
+      <Layout>
+        <h1 className="py-10 px-20 text-3xl"></h1>
+      </Layout>
+    )
   if (loadingState === "loaded" && !("name" in nft))
-    return <h1 className="py-10 px-20 text-3xl">No creation</h1>
+    return (
+      <Layout>
+        <h1 className="py-10 px-20 text-3xl">No creation</h1>
+      </Layout>
+    )
   return (
-    <div className="flex justify-center">
-      <div className="p-4">
-        <div className="border shadow rounded-xl overflow-hidden">
-          <img src={nft.image} className="rounded" />
-          <div className="p-4">
-            <p className="text-3xl font-semibold flex justify-center">
-              {nft.name}
-            </p>
-            <div className="markdown">
-              <ReactMarkdown escapeHtml={true}>{nft.description}</ReactMarkdown>
+    <Layout>
+      <div className="flex justify-center">
+        <div className="p-4">
+          <div className="border shadow rounded-xl overflow-hidden">
+            <img src={nft.image} className="rounded" />
+            <div className="p-4">
+              <p className="text-3xl font-semibold flex justify-center">
+                {nft.name}
+              </p>
+              <div className="markdown">
+                <ReactMarkdown escapeHtml={true}>
+                  {nft.description}
+                </ReactMarkdown>
+              </div>
+              <p>
+                By:
+                <a href={"/articles?author=" + nft.authors[0].wallet.eth}>
+                  {nft.authors[0].name}
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;Author-Wallet:{" "}
+                {nft.authors[0].wallet.eth}
+              </p>
+              <p>Tags: {nft.tags}</p>
+              <p>
+                License: <a href={nft.license_url}>{nft.license}</a>
+              </p>
+              {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
+                <button
+                  onClick={createMint}
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  Mint (Will sign 2 times. Be patient...)
+                </button>
+              )}
+              <br />
+              {nft.authors[0].wallet.eth == myethAccount && (
+                <button
+                  onClick={gotoEdit}
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  Edit
+                </button>
+              )}
+              <br />{" "}
+              {nft.authors[0].wallet.eth == myethAccount && (
+                <button
+                  onClick={storeNFTtoFilecoin}
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  Store NFT on the Filecoin network(optional)
+                </button>
+              )}
             </div>
-            <p>
-              By:
-              <a href={"/articles?author=" + nft.authors[0].wallet.eth}>
-                {nft.authors[0].name}
-              </a>
-              &nbsp;&nbsp;&nbsp;&nbsp;Author-Wallet: {nft.authors[0].wallet.eth}
-            </p>
-
-            <p>Tags: {nft.tags}</p>
-            <p>
-              License: <a href={nft.license_url}>{nft.license}</a>
-            </p>
-
-            {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
-              <button
-                onClick={createMint}
-                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-              >
-                Mint (Will sign 2 times. Be patient...)
-              </button>
-            )}
-            <br />
-
-            {nft.authors[0].wallet.eth == myethAccount && (
-              <button
-                onClick={gotoEdit}
-                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-              >
-                Edit
-              </button>
-            )}
-            <br />
-
-            {nft.authors[0].wallet.eth == myethAccount && (
-              <button
-                onClick={storeNFTtoFilecoin}
-                className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg"
-              >
-                Store NFT on the Filecoin network(optional)
-              </button>
-            )}
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
