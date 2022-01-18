@@ -2,7 +2,7 @@
 
 .secret
 .infuraid
-config.js
+# config.js
 
 # dependencies
 /node_modules
@@ -41,12 +41,11 @@ node_modules
 
 #Hardhat files
 cache
-artifacts
+# artifacts
 
 # contract type generation
 /contracts/types
 
-version.js
 yarn.lock
 *_bak
 .eslintcache
