@@ -17,13 +17,12 @@ import { providers } from "ethers"
 import { init } from "@textile/eth-storage"
 import { useWeb3 } from "../hooks/useWeb3"
 import { Layout } from "../components/Layout"
+import { useAccount } from "../hooks/useAccount"
 
-let ethAccount
-let myethAccount
 let cid
 let nft = {}
 export default function MyAssets() {
-  // const [nft, setNft] = useState({})
+  const myethAccount = useAccount()
   const provider = useWeb3()
   const [loadingState, setLoadingState] = useState("not-loaded")
   const router = useRouter()
@@ -116,15 +115,6 @@ export default function MyAssets() {
     })
     await transaction.wait()
   }
-
-  if (typeof window !== "undefined") {
-    myethAccount = localStorage.getItem("ethAccount")
-    console.log("myethAccount", myethAccount)
-  }
-
-  console.log(router.query)
-  console.log(nft)
-  console.log(loadingState != "loaded", !nft)
 
   if (loadingState != "loaded" && !("name" in nft)) {
     loadNFT()
