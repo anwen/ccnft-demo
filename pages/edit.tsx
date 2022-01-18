@@ -1,21 +1,25 @@
 import { useRouter } from "next/router"
-import * as yup from "yup"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { loadNFT } from "../services/backend"
 import { useAccount } from "../hooks/useAccount"
 import { Editor } from "../components/Editor"
-import { Article } from "../types"
+import { useAsync, useMountEffect } from "@react-hookz/web"
 // todo: move to request center
 const dweb_search_url = `https://dweb-search-api.anwen.cc/edit_meta`
 
-interface EditArticleProps {
-  cid: string
-  nft: Article
-}
-
-export default function EditArticle({ cid, nft }: EditArticleProps) {
+export default function EditArticle() {
   const router = useRouter()
   const account = useAccount()
+
+
+  const [info, actions] = useAsync(async () => {
+    const cid = router.query.cid as string || (new URLSearchParams(router.asPath.match(/cid=(.*)/g)[0])).get('cid')
+    if (!cid) return  { cid: null, nft: null }
+    const nft = await loadNFT(cid)
+    return { cid, nft }
+  })
+
+  useMountEffect(actions.execute)
 
   useEffect(() => {
     if (!account) {
@@ -26,23 +30,19 @@ export default function EditArticle({ cid, nft }: EditArticleProps) {
   }, [])
 
 
-  if (!nft?.name)
+  if (info.status === 'loading') {
+    return <h1 className="py-10 px-20 text-3xl">Loading</h1>
+  }
+
+  if (!info.result?.nft?.name || !info.result?.cid)
     return <h1 className="py-10 px-20 text-3xl">Article not found, cannot edit</h1>
 
   return (
     <div className="flex justify-center py-12">
       <Editor account={account}
-        article={nft}
+        article={info.result?.nft}
         publishLink={dweb_search_url}
-        cid={cid}/>
+        cid={info.result?.cid}/>
     </div>
   )
-}
-
-export async function getServerSideProps(context) {
-  const cid = context.query.cid
-  const nft = await loadNFT(cid)
-  return {
-    props: { cid, nft }
-  }
 }
