@@ -28,7 +28,7 @@ function App({ Component, pageProps }) {
   const { account, provider, chainId } = state
   const isSupportCurrentNetwork = SUPPORT_NETWORKS.includes(chainId)
 
-  const [autoLoginState, actions] = useAsync(async() => {
+  const [autoLoginState, actions] = useAsync(async () => {
     if (!sigInLocal || !accountInLocal) return
     const cachedProvider = await createProvider(undefined, (id) => dispatch({ type: "SET_CHAIN_ID", chainId: id }))
     if (!cachedProvider) return
@@ -37,14 +37,18 @@ function App({ Component, pageProps }) {
     const signer = web3Provider.getSigner()
     const address = await signer.getAddress()
     const network = await web3Provider.getNetwork()
-    if (address !== accountInLocal) return
-    dispatch({
-      type: 'SET_WEB3_PROVIDER',
-      provider: cachedProvider,
-      web3Provider,
-      account: address,
-      chainId: network.chainId,
-    })
+    if (address !== accountInLocal) {
+      removeLocalAccount()
+      removeLocalSig()
+    } else {
+      dispatch({
+        type: 'SET_WEB3_PROVIDER',
+        provider: cachedProvider,
+        web3Provider,
+        account: address,
+        chainId: network.chainId,
+      })
+    }
   })
 
   useMountEffect(actions.execute)
@@ -66,7 +70,7 @@ function App({ Component, pageProps }) {
     return { state, dispatch }
   }, [state, dispatch])
 
-  const connectWallet = useCallback(async function() {
+  const connectWallet = useCallback(async function () {
     const provider = await createProvider(undefined, (id) => dispatch({ type: "SET_CHAIN_ID", chainId: id }))
     if (provider.chainId !== '0x13881') {
       await switchNetwork(provider)
@@ -102,7 +106,7 @@ function App({ Component, pageProps }) {
     })
   }, [])
 
-  const disconnectWallet = async() => {
+  const disconnectWallet = async () => {
     dispatch({
       type: 'SET_WEB3_PROVIDER',
       provider: undefined,
@@ -156,7 +160,6 @@ function App({ Component, pageProps }) {
             {renderActionButton()}
           </div>
         </div>
-
         {
           sigInLocal && account && isSupportCurrentNetwork &&
           <div className="absolute top-8 right-8 text-right fixed">
@@ -212,6 +215,9 @@ function App({ Component, pageProps }) {
             </Menu>
           </div>
         }
+        <div className="flex justify-around">
+          <Navigation/>
+        </div>
       </nav>
       <Web3Context.Provider value={web3ContextValue}>
         <Component {...pageProps} />
