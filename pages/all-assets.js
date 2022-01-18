@@ -8,6 +8,7 @@ import { nftaddress, nftmarketaddress } from "../config"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import { useWeb3 } from "../hooks/useWeb3"
+import { Layout } from "../components/Layout"
 
 export default function AllAssets() {
   const [nfts, setNfts] = useState([])
@@ -56,24 +57,26 @@ export default function AllAssets() {
     setLoadingState("loaded")
   }
   if (loadingState === "loaded" && !nfts.length)
-    return <h1 className="py-10 px-20 text-3xl">No assets created</h1>
+    return <Layout><h1 className="py-10 px-20 text-3xl">No assets created</h1></Layout>
   return (
-    <div>
-      <div className="p-4">
-        <h2 className="text-2xl py-2">Items Created</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-          {nfts.map((nft, i) => (
-            <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <img src={nft.image} className="rounded" />
-              <div className="p-4 bg-black">
-                <p className="text-2xl font-bold text-white">
+    <Layout>
+      <div>
+        <div className="p-4">
+          <h2 className="text-2xl py-2">Items Created</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+            {nfts.map((nft, i) => (
+              <div key={i} className="border shadow rounded-xl overflow-hidden">
+                <img src={nft.image} className="rounded" />
+                <div className="p-4 bg-black">
+                  <p className="text-2xl font-bold text-white">
                   Price - {nft.price} Eth
-                </p>
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
   )
 }
