@@ -47,4 +47,6 @@ cache
 /contracts/types
 
 *_bak
+package-lock.json
+
 .eslintcache
