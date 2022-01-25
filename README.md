@@ -41,8 +41,8 @@ We aim to help create next-generation content communities with pure open-source,
 ## (O_O)? Question?
 
 - 🔗 We use mumbai test network. You can add it to your Metamask with Chainlist
-- 🌏 You can join Dweb Lab Discord
-- 🌃 There is also an IPFS version: ipfs://QmSp1Y8TJLQ2dJyYd5uZS7iqGDLPChf2rSsK1R8KkTgY2i
+- 🌏 You can join [Dweb Lab Discord](https://discord.gg/QaEwmJMDJ2)
+- 🌃 There is also an IPFS version: ipfs://QmPr6QkVtBdkjyexpNiagTvPTf5yERM4KhkYTjP3pNP1n5
 
 ## License
 
@@ -78,3 +78,17 @@ https://www.gnu.org/licenses/agpl-3.0.en.html
 - 问题 2 作品均可以免费查看和第三方策展，无需这样的排序，只需给作者捐赠就好。 是的，这是一个激进市场策展排序实验，不保证一定效果好
 - 问题 3 作者可能会重复发自己的作品赚取费用，由于信息公开可查，检测应该不难，鼓励作者每次 mint 都更新和改进作品
 - 问题 4 NFT 流动性差。捐赠无需流动性。不在考虑范围内
+
+## CCNP - Creative Commons NFT Playground
+
+A new playground for anyone to create, discover, share, reward and distribute articles.
+All articles here are under Creative Commons Attribution 4.0 International License.
+We help turn articles into NFTs. People can buy their loved NFTs for donation purpose.
+Also, we are building a Creator-DAO to assist creators, which we think is the best solution for people to exchange ideas&information more simply and fairly.
+We aim to help create next-generation content communities with pure open-source, open-data, open-protocols and web3 technology.
+
+一个帮助任何人创建、发现、分享、赞赏、分发文章的游乐场。
+这里的所有文章都会采用知识共享 4.0 国际许可协议。
+我们帮助作者将文章变为 NFT。而且大家购买 NFT 只是为了给作者捐赠。
+另外，我们也在构建一个创作者 DAO 来帮助创作者，人们可以在这里更简单公平地交换想法和信息。
+我们致力于帮助创建更好的下一代内容社区。我们采用开源、数据和协议开放以及 web3 技术来实现这一目标。
