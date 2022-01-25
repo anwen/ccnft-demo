@@ -4,6 +4,60 @@
 @tailwind utilities;
 
 .current {
-  text-decoration: underline #FF3028;
+  text-decoration: underline #ff3028;
   font-weight: bold;
+}
+
+h1 {
+  @apply text-4xl;
+}
+h2 {
+  @apply text-3xl;
+}
+h3 {
+  @apply text-2xl;
+}
+/* Placeholder (at the top) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+body {
+  @apply text-gray-800;
+}
+
+ul,
+ol {
+  padding: 0 1rem;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+/*editor*/
+.ProseMirror {
+  font-family: georgia, serif;
+}
+
+.ProseMirror a {
+  @apply text-pink-500;
+  text-decoration: underline;
+}
+.ProseMirror p {
+  @apply text-neutral-600 text-lg min-h-full mb-2;
+}
+.ProseMirror h1 {
+  @apply text-neutral-700 min-h-full mb-4;
+}
+
+.ProseMirror h2 {
+  @apply text-neutral-700 min-h-full mb-3;
 }
