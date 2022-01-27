@@ -1,4 +1,4 @@
-# reative Commons NFT Playground (CCNP)
+# Creative Commons NFT Playground (CCNP)
 
 - You can try the demo (matic munbai test network until now): https://ccnft-test.dweb-lab.com/
 - Introducing Creative Comomons NFT Playground (video): https://www.youtube.com/watch?v=kc6-uu1KhKM
@@ -79,3 +79,4 @@ https://www.gnu.org/licenses/agpl-3.0.en.html
 - 问题 2 作品均可以免费查看和第三方策展，无需这样的排序，只需给作者捐赠就好。 是的，这是一个激进市场策展排序实验，不保证一定效果好
 - 问题 3 作者可能会重复发自己的作品赚取费用，由于信息公开可查，检测应该不难，鼓励作者每次 mint 都更新和改进作品
 - 问题 4 NFT 流动性差。捐赠无需流动性。不在考虑范围内
+- 问题 5 **作者处于各种原因想选取其他许可协议，我们之后会逐步支持全部 CC 类型和其他类型的许可协议**
