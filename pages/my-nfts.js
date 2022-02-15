@@ -1,8 +1,9 @@
 import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { nftmarketaddress, nftaddress } from "../config"
+import { simpletokenaddress, nftmarketaddress, nftaddress } from "../config"
 
+import SimpleToken from "../artifacts/contracts/Simple.sol/Simple.json"
 import Market from "../artifacts/contracts/Market.sol/NFTMarket.json"
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json"
 import { useWeb3 } from "../hooks/useWeb3"
@@ -20,7 +21,12 @@ export default function CreatorDashboard() {
   }, [provider])
   async function loadNFTs() {
     const signer = provider.getSigner()
-
+    const myaddress = await signer.getAddress()
+    const sptContract = new ethers.Contract(
+      simpletokenaddress,
+      SimpleToken.abi,
+      signer,
+    )
     const marketContract = new ethers.Contract(
       nftmarketaddress,
       Market.abi,
@@ -28,6 +34,9 @@ export default function CreatorDashboard() {
     )
     const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider)
     const data = await marketContract.fetchItemsCreated()
+    const mySpt = await sptContract.balanceOf(myaddress)
+    console.log("mySpt", mySpt)
+    console.log("mySpt", ethers.utils.formatEther(mySpt))
 
     const items = await Promise.all(
       data.map(async (i) => {
