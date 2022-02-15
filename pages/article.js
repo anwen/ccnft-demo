@@ -28,7 +28,6 @@ export default function MyAssets() {
   const router = useRouter()
 
   async function createMint() {
-    /* first, upload to IPFS */
     let url = ""
     try {
       if (cid.startsWith("Qm")) {
@@ -39,10 +38,44 @@ export default function MyAssets() {
         url = `https://${cid}.ipfs.infura-ipfs.io/`
       }
       console.log("!nft.minted", !nft.minted)
-      /* after file is uploaded to IPFS, pass the URL to save it on Polygon */
       createSale(url)
     } catch (error) {
-      console.log("Error uploading file: ", error)
+      console.log("Error: ", error)
+    }
+  }
+
+  async function mintAsDonation() {
+    let url = ""
+    try {
+      if (cid.startsWith("Qm")) {
+        // v0
+        url = `https://ipfs.infura.io/ipfs/${cid}`
+      } else {
+        // v1
+        url = `https://${cid}.ipfs.infura-ipfs.io/`
+      }
+      // TODO: allow
+      const signer = provider.getSigner()
+      let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
+      const price = ethers.utils.parseUnits("0.2", "ether")
+      let transaction = await contract.mintAsDonorFromAuthor(
+        url,
+        nft.authors[0].wallet.eth,
+        {
+          value: price,
+        },
+      )
+      console.log(transaction)
+      // let tx = await transaction.wait()
+      // let event = tx.events[0]
+      // console.log(tx)
+      // console.log(event)
+      // let value = event.args[2]
+      // let tokenId = value.toNumber()
+
+      await transaction.wait()
+    } catch (error) {
+      console.log("Error: ", error)
     }
   }
 
@@ -199,6 +232,14 @@ export default function MyAssets() {
               <p>
                 License: <a href={nft.license_url}>{nft.license}</a>
               </p>
+              {!("disallow_mint" in nft) && (
+                <button
+                  onClick={mintAsDonation}
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  Mint As Donation
+                </button>
+              )}
+              <br />
               {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
                 <button
                   onClick={createMint}
