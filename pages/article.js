@@ -1,10 +1,11 @@
 import { ethers } from "ethers"
-import { useState } from "react"
+import { useState, createRef } from "react"
 import axios from "axios"
 import Web3Modal from "web3modal"
 import { useRouter } from "next/router"
 import ReactMarkdown from "react-markdown"
 import { CID } from "multiformats/cid"
+import { createPopper } from "@popperjs/core"
 
 import { nftmarketaddress, nftaddress } from "../config"
 
@@ -27,6 +28,25 @@ export default function MyAssets() {
   const [loadingState, setLoadingState] = useState("not-loaded")
   const router = useRouter()
 
+  const [formInput, updateFormInput] = useState({
+    amount: "",
+  })
+
+  const [popoverShow, setPopoverShow] = useState(false)
+  if (typeof window !== "undefined") {
+    const btnRef = createRef()
+    const popoverRef = createRef()
+    const openTooltip = () => {
+      createPopper(btnRef.current, popoverRef.current, {
+        placement: "top",
+      })
+      setPopoverShow(true)
+    }
+    const closeTooltip = () => {
+      setPopoverShow(false)
+    }
+  }
+
   async function createMint() {
     let url = ""
     try {
@@ -45,6 +65,8 @@ export default function MyAssets() {
   }
 
   async function mintAsDonation() {
+    const { amount } = formInput
+    // alert(amount)
     let url = ""
     try {
       if (cid.startsWith("Qm")) {
@@ -57,7 +79,9 @@ export default function MyAssets() {
       // TODO: allow
       const signer = provider.getSigner()
       let contract = new ethers.Contract(nftaddress, NFT.abi, signer)
-      const price = ethers.utils.parseUnits("0.2", "ether")
+      // const price = ethers.utils.parseUnits("0.2", "ether")
+      const price = ethers.utils.parseUnits(amount, "ether")
+      // const price = ethers.utils.parseUnits("0.01", "ether")
       let transaction = await contract.mintAsDonorFromAuthor(
         url,
         nft.authors[0].wallet.eth,
@@ -232,18 +256,57 @@ export default function MyAssets() {
               <p>
                 License: <a href={nft.license_url}>{nft.license}</a>
               </p>
+              <input
+                id="amount"
+                onChange={(e) =>
+                  updateFormInput({ ...formInput, amount: e.target.value })
+                }
+                type="text"
+                defaultValue="0.1"
+                placeholder="0.1"
+                className="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
               {!("disallow_mint" in nft) && (
                 <button
+                  id="popcorn"
+                  aria-describedby="tooltip"
+                  onMouseEnter={openTooltip}
+                  onMouseLeave={closeTooltip}
+                  ref={btnRef}
                   onClick={mintAsDonation}
-                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-2 shadow-lg">
                   Mint As Donation
                 </button>
               )}
+              <div
+                className={
+                  (popoverShow ? "" : "hidden ") +
+                  "bg-sky-600 border-0 mr-3 block z-50 font-normal leading-normal text-m break-words rounded-lg"
+                }
+                ref={popoverRef}>
+                <div>
+                  <div className="text-white font-semibold p-3 mb-0 uppercase rounded-t-lg">
+                    Tips!!!
+                  </div>
+                  <div className="text-white p-3">
+                    <ul>
+                      <li>You mint the article NFT is only for Donation.</li>
+                      <li>
+                        The platform will get 10% (60% of them will give back to
+                        early donors).
+                      </li>
+                      <li>
+                        If an author got x (from early donors), and then got
+                        20*x later, we will give 1.2*x to early donors.
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
               <br />
               {!("minted" in nft) && nft.authors[0].wallet.eth == myethAccount && (
                 <button
                   onClick={createMint}
-                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-2 shadow-lg">
                   Mint (Will sign 2 times. Be patient...)
                 </button>
               )}
@@ -251,7 +314,7 @@ export default function MyAssets() {
               {nft.authors[0].wallet.eth == myethAccount && (
                 <button
                   onClick={gotoEdit}
-                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-2 shadow-lg">
                   Edit
                 </button>
               )}
@@ -259,7 +322,7 @@ export default function MyAssets() {
               {nft.authors[0].wallet.eth == myethAccount && (
                 <button
                   onClick={storeNFTtoFilecoin}
-                  className="font-bold mt-4 bg-blue-500 text-white rounded p-4 shadow-lg">
+                  className="font-bold mt-4 bg-blue-500 text-white rounded p-2 shadow-lg">
                   Store NFT on the Filecoin network(optional)
                 </button>
               )}

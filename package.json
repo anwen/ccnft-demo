@@ -15,6 +15,7 @@
     "@heroicons/react": "^1.0.5",
     "@hookform/resolvers": "^2.8.5",
     "@openzeppelin/contracts": "^4.4.1",
+    "@popperjs/core": "^2.11.2",
     "@react-hookz/web": "^12.0.4",
     "@textile/eth-storage": "^1.0.0",
     "@tiptap/extension-bubble-menu": "^2.0.0-beta.54",
